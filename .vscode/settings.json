@@ -24,5 +24,11 @@
   "chat.todoListTool.writeOnly": false,
   "inlineChat.enableV2": true,
   "chat.useNestedAgentsMdFiles": true,
-  "agentMemory.autoSyncToFile": "memory-bank/project-memory.md"
+  "agentMemory.autoSyncToFile": "memory-bank/project-memory.md",
+  "mcpServers": {
+    "fetch": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"]
+    }
+  }
 }

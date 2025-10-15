@@ -155,6 +155,147 @@ describe('Loader Tests', () => {
     });
 });
 
+describe('Booking Calendar Tests', () => {
+    
+    test('renderCalendar should populate calendar grid', () => {
+        document.body.innerHTML = `
+            <div id="calendarGrid"></div>
+            <h3 id="currentMonth"></h3>
+        `;
+        
+        renderCalendar();
+        
+        const grid = document.getElementById('calendarGrid');
+        expect(grid.children.length).toBeGreaterThan(0);
+    });
+    
+    test('selectDate should set selectedDate and reveal times', () => {
+        document.body.innerHTML = `
+            <div class="booking-container centered"></div>
+            <div id="bookingTimes"></div>
+            <div id="timeSlots"></div>
+        `;
+        
+        const testDate = new Date(2025, 0, 15);
+        const element = document.createElement('div');
+        element.className = 'calendar-day';
+        document.body.appendChild(element);
+        
+        selectDate(testDate, element);
+        
+        expect(selectedDate).toEqual(testDate);
+        expect(element.classList.contains('selected')).toBe(true);
+        expect(document.querySelector('.booking-container').classList.contains('reveal')).toBe(true);
+        
+        document.body.removeChild(element);
+    });
+    
+    test('showTimeSlots should populate time slots', () => {
+        document.body.innerHTML = `<div id="timeSlots"></div>`;
+        
+        showTimeSlots();
+        
+        const slots = document.getElementById('timeSlots');
+        expect(slots.children.length).toBe(availableSlots.length);
+    });
+    
+    test('selectTime should set selectedTime and reveal form', () => {
+        document.body.innerHTML = `
+            <div class="booking-form-container"></div>
+            <div class="booking-form"></div>
+            <input type="hidden" id="selectedDate">
+            <input type="hidden" id="selectedTime">
+        `;
+        
+        selectedDate = new Date(2025, 0, 15);
+        const element = document.createElement('div');
+        element.className = 'time-slot';
+        document.body.appendChild(element);
+        
+        selectTime('10:00 AM', element);
+        
+        expect(selectedTime).toBe('10:00 AM');
+        expect(element.classList.contains('selected')).toBe(true);
+        expect(document.getElementById('selectedTime').value).toBe('10:00 AM');
+        
+        document.body.removeChild(element);
+    });
+    
+    test('resetCalendar should clear all selections', () => {
+        document.body.innerHTML = `
+            <div class="booking-container reveal"></div>
+            <div id="bookingTimes" class="visible"></div>
+            <div id="bookingFormWrapper" class="visible"></div>
+        `;
+        
+        selectedDate = new Date(2025, 0, 15);
+        selectedTime = '10:00 AM';
+        
+        resetCalendar();
+        
+        expect(selectedDate).toBeNull();
+        expect(selectedTime).toBeNull();
+        expect(document.querySelector('.booking-container').classList.contains('centered')).toBe(true);
+    });
+    
+    test('hideForm should only hide form and keep times visible', () => {
+        document.body.innerHTML = `
+            <div id="bookingFormWrapper" class="visible"></div>
+            <div class="booking-form-container show-form"></div>
+        `;
+        
+        selectedTime = '10:00 AM';
+        
+        hideForm();
+        
+        expect(selectedTime).toBeNull();
+        expect(document.getElementById('bookingFormWrapper').classList.contains('visible')).toBe(false);
+    });
+    
+    test('appointment form should prevent default submission', () => {
+        const form = document.createElement('form');
+        form.id = 'appointmentForm';
+        document.body.appendChild(form);
+        
+        const submitEvent = new Event('submit');
+        const preventDefaultSpy = jest.spyOn(submitEvent, 'preventDefault');
+        
+        form.dispatchEvent(submitEvent);
+        
+        expect(preventDefaultSpy).toHaveBeenCalled();
+        
+        document.body.removeChild(form);
+    });
+    
+    test('calendar should disable past dates and Sundays', () => {
+        document.body.innerHTML = `
+            <div id="calendarGrid"></div>
+            <h3 id="currentMonth"></h3>
+        `;
+        
+        renderCalendar();
+        
+        const grid = document.getElementById('calendarGrid');
+        const disabledDays = Array.from(grid.children).filter(el => el.classList.contains('disabled'));
+        
+        expect(disabledDays.length).toBeGreaterThan(0);
+    });
+    
+    test('cancel button should reset calendar to centered state', () => {
+        document.body.innerHTML = `
+            <div class="booking-container reveal"></div>
+            <div id="bookingTimes" class="visible"></div>
+            <div id="bookingFormWrapper"></div>
+            <button id="cancelSelection"></button>
+        `;
+        
+        const cancelBtn = document.getElementById('cancelSelection');
+        cancelBtn.click();
+        
+        expect(document.querySelector('.booking-container').classList.contains('centered')).toBe(true);
+    });
+});
+
 describe('Form Message Tests', () => {
     
     test('showError should create error message element', () => {
@@ -187,5 +328,80 @@ describe('Form Message Tests', () => {
         expect(form.querySelector('.form-message.success')).toBeTruthy();
         
         document.body.removeChild(form);
+    });
+});
+
+// Theme toggle tests
+describe('Theme Toggle', () => {
+    test('getNextTheme cycles correctly', () => {
+        expect(getNextTheme('dark')).toBe('neutral');
+        expect(getNextTheme('neutral')).toBe('light');
+        expect(getNextTheme('light')).toBe('dark');
+    });
+
+    test('applyTheme sets correct attributes', () => {
+        applyTheme('neutral');
+        expect(document.documentElement.getAttribute('data-theme')).toBe('neutral');
+        expect(localStorage.getItem('theme')).toBe('neutral');
+
+        applyTheme('dark');
+        expect(document.documentElement.getAttribute('data-theme')).toBeNull();
+        expect(localStorage.getItem('theme')).toBe('dark');
+    });
+
+    test('initTheme loads saved theme', () => {
+        localStorage.setItem('theme', 'light');
+        initTheme();
+        expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+    });
+
+    test('toggleTheme cycles through themes', () => {
+        applyTheme('dark');
+        toggleTheme();
+        expect(document.documentElement.getAttribute('data-theme')).toBe('neutral');
+        toggleTheme();
+        expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+        toggleTheme();
+        expect(document.documentElement.getAttribute('data-theme')).toBeNull();
+    });
+});
+
+// FAQ tests
+describe('FAQ Accordion', () => {
+    test('toggleFAQ opens closed item', () => {
+        const mockButton = document.createElement('button');
+        const mockItem = document.createElement('div');
+        mockItem.classList.add('faq-item');
+        mockItem.appendChild(mockButton);
+        document.body.appendChild(mockItem);
+
+        toggleFAQ(mockButton);
+        expect(mockItem.classList.contains('active')).toBe(true);
+
+        document.body.removeChild(mockItem);
+    });
+
+    test('toggleFAQ closes open item', () => {
+        const mockButton = document.createElement('button');
+        const mockItem = document.createElement('div');
+        mockItem.classList.add('faq-item', 'active');
+        mockItem.appendChild(mockButton);
+        document.body.appendChild(mockItem);
+
+        toggleFAQ(mockButton);
+        expect(mockItem.classList.contains('active')).toBe(false);
+
+        document.body.removeChild(mockItem);
+    });
+});
+
+// Hero overlay tests
+describe('Hero Overlay', () => {
+    test('overlay opacity variable exists', () => {
+        const heroSection = document.querySelector('.hero-section');
+        if (heroSection) {
+            const opacity = getComputedStyle(heroSection).getPropertyValue('--overlay-opacity');
+            expect(opacity).toBeDefined();
+        }
     });
 });

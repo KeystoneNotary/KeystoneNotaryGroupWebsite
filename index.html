@@ -14,6 +14,7 @@
     <meta name="twitter:description" content="Professional notary public services. Mobile notary available.">
     <title>Keystone Notary Group LLC - Professional Notary Services</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/ai-chat.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
@@ -24,15 +25,20 @@
     </div>
 
     <nav class="glass-nav">
-        <img src="assets/images/logo-silver-metallic.png" alt="Keystone Notary Group LLC Logo" class="nav-logo">
+        <img src="assets/images/logo-icon-gray.png" alt="Keystone Notary Group LLC" class="nav-logo">
+        <button class="theme-toggle" aria-label="Toggle theme">
+            <span class="theme-icon">🌙</span>
+        </button>
         <button class="hamburger" aria-label="Toggle menu">
             <span></span>
             <span></span>
             <span></span>
         </button>
         <ul class="nav-links">
+            <li><a href="#about">About</a></li>
             <li><a href="#services">Services</a></li>
             <li><a href="#credentials">Credentials</a></li>
+            <li><a href="#faq">FAQ</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
@@ -49,75 +55,166 @@
         </div>
     </section>
 
+    <section id="about" class="about-section">
+        <div class="about-content-centered">
+            <span class="section-label">Who We Are</span>
+            <h2>Precision. Integrity. Trust.</h2>
+            <p class="lead">We don't just notarize documents—we safeguard your most important legal transactions with unwavering professionalism.</p>
+            <p>As a licensed, bonded, and insured notary public, every signature we witness carries the weight of legal certainty. Whether you're closing a real estate transaction, executing a power of attorney, or authenticating business documents, we bring meticulous attention to detail and absolute compliance with state regulations.</p>
+            <p>Our mobile service brings this expertise directly to you—your office, your home, or any location that suits your schedule. Because legal matters don't wait, and neither should you.</p>
+        </div>
+    </section>
+
     <section id="services" class="services-section">
-        <h2>Our Services</h2>
-        <div class="services-grid">
-            <div class="service-card glass-card">
-                <div class="service-icon">📄</div>
-                <h3>Document Notarization</h3>
-                <p>Professional notarization of legal documents, contracts, and affidavits.</p>
-            </div>
-            <div class="service-card glass-card">
-                <div class="service-icon">🚗</div>
-                <h3>Mobile Notary</h3>
-                <p>Convenient on-site notary services at your location.</p>
-            </div>
-            <div class="service-card glass-card">
-                <div class="service-icon">✓</div>
-                <h3>Legal Authentication</h3>
-                <p>Certified authentication for legal and business documents.</p>
-            </div>
+        <span class="section-label">Services</span>
+        <h2>What We Notarize</h2>
+        
+        <div class="service-block">
+            <h3>General Notarization</h3>
+            <p>Acknowledgments, jurats, and oaths for legal documents. Real estate transactions, powers of attorney, affidavits, and business contracts.</p>
+            <span class="service-price">$15 per signature</span>
+        </div>
+
+        <div class="service-block">
+            <h3>Mobile Service</h3>
+            <p>We come to you. Your home, office, hospital, or any location. Available evenings and weekends.</p>
+            <span class="service-price">Travel fee applies</span>
+        </div>
+
+        <div class="service-block">
+            <h3>Loan Signings</h3>
+            <p>Certified signing agent for mortgage closings, refinances, and HELOCs. Experienced with all major title companies.</p>
+            <span class="service-price">Contact for quote</span>
         </div>
     </section>
 
     <section id="credentials" class="credentials-section">
-        <div class="parallax-element">
-            <img src="assets/images/metalfeatherplaque.png" alt="Certification Badge" class="credential-badge" loading="lazy">
-        </div>
-        <div class="credentials-content glass-card">
-            <h2>Certified & Trusted</h2>
-            <ul>
-                <li>Licensed Notary Public</li>
-                <li>Bonded & Insured</li>
-                <li>Years of Professional Experience</li>
-                <li>Compliant with State Regulations</li>
-            </ul>
+        <span class="section-label">Credentials</span>
+        <h2>Certified & Insured</h2>
+        <img src="assets/images/nna-badge-1.png" alt="NNA Certified Notary Signing Agent" class="cert-badge" loading="lazy">
+        <div class="credentials-list">
+            <p>Licensed Notary Public</p>
+            <p>NNA Certified Signing Agent</p>
+            <p>$100,000 E&O Insurance</p>
+            <p>Background Screened</p>
         </div>
     </section>
 
-    <section id="testimonials" class="testimonials-section">
-        <h2>What Our Clients Say</h2>
-        <div class="testimonials-grid">
-            <div class="testimonial-card glass-card">
-                <p class="testimonial-text">"Professional, efficient, and reliable. Made the notarization process seamless."</p>
-                <p class="testimonial-author">- Sarah M.</p>
+    <section id="booking" class="booking-section">
+        <span class="section-label">Booking</span>
+        <h2>Schedule Appointment</h2>
+        
+        <div class="booking-container">
+            <div class="booking-calendar">
+                <div class="calendar-header">
+                    <button class="calendar-nav" id="prevMonth" aria-label="Previous month">&larr;</button>
+                    <h3 id="currentMonth">January 2025</h3>
+                    <button class="calendar-nav" id="nextMonth" aria-label="Next month">&rarr;</button>
+                </div>
+                <div class="calendar-grid" id="calendarGrid"></div>
             </div>
-            <div class="testimonial-card glass-card">
-                <p class="testimonial-text">"Mobile service was incredibly convenient. Highly recommend for busy professionals."</p>
-                <p class="testimonial-author">- James T.</p>
+
+            <div class="booking-times" id="bookingTimes">
+                <h3>Select Time</h3>
+                <div class="time-slots" id="timeSlots"></div>
+                <button class="cancel-selection" id="cancelSelection">Cancel</button>
             </div>
-            <div class="testimonial-card glass-card">
-                <p class="testimonial-text">"Trustworthy and knowledgeable. Will definitely use their services again."</p>
-                <p class="testimonial-author">- Maria L.</p>
+        </div>
+        
+        <div class="booking-form-wrapper" id="bookingFormWrapper">
+            <div class="booking-form" id="bookingForm">
+                <h3>Your Details</h3>
+                <form id="appointmentForm">
+                    <input type="hidden" id="selectedDate" name="date">
+                    <input type="hidden" id="selectedTime" name="time">
+                    
+                    <input type="text" name="name" placeholder="Full Name *" required>
+                    <input type="tel" name="phone" placeholder="Phone Number *" required>
+                    <input type="email" name="email" placeholder="Email Address *" required>
+                    <input type="text" name="address" placeholder="Address *" required>
+                    <input type="text" name="documentType" placeholder="Document Type *" required>
+                    <textarea name="notes" placeholder="Additional details (optional)" rows="3"></textarea>
+                    
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="idAcknowledgment" required>
+                        <span>I understand that I must have a valid state or government issued ID at the time of notarization</span>
+                    </label>
+                    
+                    <!-- TODO: Add Google reCAPTCHA v3 integration -->
+                    
+                    <button type="submit" class="glass-button">Confirm Appointment</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq-section">
+        <span class="section-label">FAQ</span>
+        <h2>Common Questions</h2>
+        
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>What documents do I need to bring?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>You must bring a valid, government-issued photo ID such as a driver's license, passport, or state ID card. The ID must be current and not expired.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>How much does notarization cost?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Standard notarization is $15 per signature. Mobile service includes an additional travel fee based on distance. Contact us for a quote on loan signings.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Do you offer mobile notary services?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes, we come to your location—home, office, hospital, or anywhere convenient. Mobile service is available evenings and weekends.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Can you notarize documents in other languages?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>We can notarize documents in any language, but all signers must be able to communicate directly with the notary in English to confirm their understanding and willingness to sign.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>What is the difference between an acknowledgment and a jurat?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>An acknowledgment verifies the signer's identity and that they signed willingly. A jurat requires the signer to swear or affirm the document's contents are true, and they must sign in the notary's presence.</p>
+                </div>
             </div>
         </div>
     </section>
 
     <section id="contact" class="contact-section">
+        <span class="section-label">Contact</span>
         <h2>Get in Touch</h2>
-        <form class="contact-form glass-card" id="contactForm">
-            <input type="text" name="name" placeholder="Your Name" required>
-            <input type="email" name="email" placeholder="Your Email" required>
-            <input type="tel" name="phone" placeholder="Phone Number" required>
-            <textarea name="message" placeholder="How can we help you?" rows="5" required></textarea>
+        <p class="contact-intro">Have questions about our notary services? Send us a message and we'll respond within 24 hours.</p>
+        <form class="contact-form" id="contactForm">
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <textarea name="message" placeholder="Message" rows="6" required></textarea>
             <button type="submit" class="glass-button">Send Message</button>
         </form>
-        <div class="contact-info glass-card">
-            <h3>Contact Information</h3>
-            <p>📞 Phone: <a href="tel:+1234567890">(123) 456-7890</a></p>
-            <p>📧 Email: <a href="mailto:info@keystonenotary.com">info@keystonenotary.com</a></p>
-            <p>📍 Serving: [Your Service Area]</p>
-        </div>
     </section>
 
     <div class="scroll-progress"></div>
@@ -131,7 +228,34 @@
     </button>
 
     <footer>
-        <p>&copy; 2024 Keystone Notary Group LLC. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Keystone Notary Group LLC</h4>
+                <p>Licensed, bonded, and insured notary public serving Baltimore and surrounding counties.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Services</h4>
+                <a href="#services">General Notarization</a>
+                <a href="#services">Mobile Service</a>
+                <a href="#services">Loan Signings</a>
+            </div>
+            <div class="footer-column">
+                <h4>Company</h4>
+                <a href="#about">About</a>
+                <a href="#credentials">Credentials</a>
+                <a href="#faq">FAQ</a>
+            </div>
+            <div class="footer-column">
+                <h4>Contact</h4>
+                <a href="tel:+1234567890">(123) 456-7890</a>
+                <a href="mailto:info@keystonenotary.com">info@keystonenotary.com</a>
+                <p>Baltimore, MD</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Keystone Notary Group LLC. All rights reserved.</p>
+            <p>Licensed Notary Public | NNA Certified Signing Agent</p>
+        </div>
     </footer>
 
     <script type="application/ld+json">
@@ -155,5 +279,6 @@
     </script>
 
     <script src="js/main.js"></script>
+    <script src="js/ai-chat.js"></script>
 </body>
 </html>

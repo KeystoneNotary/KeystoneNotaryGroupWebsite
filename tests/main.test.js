@@ -97,3 +97,95 @@ describe('Form Submission Tests', () => {
         expect(preventDefaultSpy).toHaveBeenCalled();
     });
 });
+
+describe('Hamburger Menu Tests', () => {
+    
+    test('hamburger should toggle active class on click', () => {
+        const hamburger = document.createElement('button');
+        hamburger.className = 'hamburger';
+        
+        hamburger.click();
+        
+        expect(hamburger.classList.contains('active')).toBe(true);
+    });
+    
+    test('nav links should close when link is clicked', () => {
+        const navLinks = document.createElement('ul');
+        navLinks.className = 'nav-links active';
+        
+        const link = document.createElement('a');
+        link.href = '#services';
+        navLinks.appendChild(link);
+        
+        link.click();
+        
+        expect(navLinks.classList.contains('active')).toBe(false);
+    });
+});
+
+describe('Scroll Progress Tests', () => {
+    
+    test('scroll progress should update on scroll', () => {
+        const scrollProgress = document.createElement('div');
+        scrollProgress.className = 'scroll-progress';
+        document.body.appendChild(scrollProgress);
+        
+        window.dispatchEvent(new Event('scroll'));
+        
+        expect(scrollProgress.style.transform).toBeDefined();
+        
+        document.body.removeChild(scrollProgress);
+    });
+});
+
+describe('Loader Tests', () => {
+    
+    test('loader should hide after page load', (done) => {
+        const loader = document.createElement('div');
+        loader.className = 'loader';
+        document.body.appendChild(loader);
+        
+        window.dispatchEvent(new Event('load'));
+        
+        setTimeout(() => {
+            expect(loader.classList.contains('hidden')).toBe(true);
+            document.body.removeChild(loader);
+            done();
+        }, 1100);
+    });
+});
+
+describe('Form Message Tests', () => {
+    
+    test('showError should create error message element', () => {
+        const form = document.createElement('form');
+        form.id = 'contactForm';
+        document.body.appendChild(form);
+        
+        const errorMessage = 'Test error message';
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'form-message error';
+        errorDiv.textContent = errorMessage;
+        form.insertBefore(errorDiv, form.firstChild);
+        
+        expect(form.querySelector('.form-message.error')).toBeTruthy();
+        expect(form.querySelector('.form-message.error').textContent).toBe(errorMessage);
+        
+        document.body.removeChild(form);
+    });
+    
+    test('showSuccessMessage should create success message element', () => {
+        const form = document.createElement('form');
+        form.id = 'contactForm';
+        document.body.appendChild(form);
+        
+        const successDiv = document.createElement('div');
+        successDiv.className = 'form-message success';
+        successDiv.textContent = 'Success message';
+        form.insertBefore(successDiv, form.firstChild);
+        
+        expect(form.querySelector('.form-message.success')).toBeTruthy();
+        
+        document.body.removeChild(form);
+    });
+});

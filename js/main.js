@@ -1,5 +1,14 @@
 gsap.registerPlugin(ScrollTrigger);
 
+// Mobile viewport height fix
+function setVH() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+setVH();
+window.addEventListener('resize', setVH);
+
 // Loader
 window.addEventListener('load', () => {
     const loader = document.querySelector('.loader');
@@ -24,14 +33,28 @@ navLinks.querySelectorAll('a').forEach(link => {
     });
 });
 
-// Scroll progress
+// Scroll progress and back-to-top
 const scrollProgress = document.querySelector('.scroll-progress');
+const backToTop = document.querySelector('.back-to-top');
 
 window.addEventListener('scroll', () => {
     const scrollTop = window.pageYOffset;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     const scrollPercent = scrollTop / docHeight;
     scrollProgress.style.transform = `scaleX(${scrollPercent})`;
+    
+    if (scrollTop > 500) {
+        backToTop.classList.add('visible');
+    } else {
+        backToTop.classList.remove('visible');
+    }
+});
+
+backToTop.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
 });
 
 // Hero parallax
@@ -129,6 +152,20 @@ gsap.from('.credentials-content li', {
     stagger: 0.15,
     duration: 0.6,
     ease: 'power2.out'
+});
+
+// Testimonials animation
+gsap.from('.testimonial-card', {
+    scrollTrigger: {
+        trigger: '.testimonials-grid',
+        start: 'top 80%',
+        toggleActions: 'play reverse play reverse'
+    },
+    opacity: 0,
+    y: 80,
+    stagger: 0.2,
+    duration: 0.8,
+    ease: 'power3.out'
 });
 
 // Contact form animation

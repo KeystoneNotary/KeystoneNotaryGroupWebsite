@@ -7,10 +7,17 @@ Professional notary services website with dark glassmorphism design, parallax ef
 - Dark glass theme with frosted glass effects
 - Parallax video background on hero section
 - GSAP scroll-triggered animations (forward/reverse)
-- Mobile-first responsive design
-- Form validation with user feedback
+- Mobile-first responsive design with hamburger menu
+- Scroll progress indicator
+- Loading screen animation
+- Floating call-to-action button
+- Back-to-top button
+- Form validation with inline feedback
+- Testimonials section
+- Service icons with animations
 - Schema.org LocalBusiness markup for SEO
 - Accessibility compliant (WCAG)
+- Lazy loading for images
 
 ## Tech Stack
 

@@ -1,5 +1,22 @@
 # Keystone Notary Group LLC - Website Memory Bank
 
+## CRITICAL RULE - NEVER MODIFY UNRELATED CODE
+**NEVER ALTER ANY CODE UNRELATED TO THE CURRENT TASK WITHOUT EXPLICIT PERMISSION FROM THE USER. ONLY MODIFY EXACTLY WHAT IS REQUESTED. NO EXCEPTIONS.**
+
+## MANDATORY PRE-MODIFICATION PROTOCOL
+1. Identify exact scope of changes
+2. Verify all changes are directly related to user request
+3. Ask for permission if ANY doubt exists
+4. State exactly what will be modified before making changes
+5. Confirm nothing else will be touched
+
+## FORBIDDEN WITHOUT PERMISSION
+- Modifying working hero video section
+- Changing CSS for unrelated sections
+- Altering animations not in scope
+- Adding overlays or effects not requested
+- "Improving" code that wasn't asked for
+
 ## Project Overview
 - **Company**: Keystone Notary Group LLC
 - **Project Type**: Business Website

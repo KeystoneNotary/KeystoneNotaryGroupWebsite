@@ -1,4 +1,4 @@
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 // Theme toggle (dark → neutral → light)
 const themeIcons = {
@@ -105,9 +105,10 @@ window.addEventListener('scroll', () => {
 });
 
 backToTop.addEventListener('click', () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+    gsap.to(window, {
+        duration: 1.5,
+        scrollTo: 0,
+        ease: 'power3.inOut'
     });
 });
 
@@ -125,17 +126,7 @@ gsap.to('.parallax-bg', {
     scale: 1.2
 });
 
-gsap.to(heroSection, {
-    scrollTrigger: {
-        trigger: '.hero-section',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-        onUpdate: (self) => {
-            heroSection.style.setProperty('--overlay-opacity', 0.5 - (self.progress * 0.5));
-        }
-    }
-});
+
 
 // Hero content fade in
 gsap.from('.hero-logo', {
@@ -182,9 +173,9 @@ gsap.from('.about-content-centered', {
     ease: 'power3.out'
 });
 
-gsap.from('.section-label', {
+gsap.from('.about-section .section-label', {
     scrollTrigger: {
-        trigger: '.about-content',
+        trigger: '.about-content-centered',
         start: 'top 75%',
         toggleActions: 'play reverse play reverse'
     },
@@ -194,9 +185,9 @@ gsap.from('.section-label', {
     ease: 'power2.out'
 });
 
-gsap.from('.about-content h2', {
+gsap.from('.about-content-centered h2', {
     scrollTrigger: {
-        trigger: '.about-content',
+        trigger: '.about-content-centered',
         start: 'top 75%',
         toggleActions: 'play reverse play reverse'
     },
@@ -207,9 +198,9 @@ gsap.from('.about-content h2', {
     ease: 'power3.out'
 });
 
-gsap.from('.about-content p', {
+gsap.from('.about-content-centered p', {
     scrollTrigger: {
-        trigger: '.about-content',
+        trigger: '.about-content-centered',
         start: 'top 75%',
         toggleActions: 'play reverse play reverse'
     },
@@ -222,7 +213,7 @@ gsap.from('.about-content p', {
 });
 
 // Services section animation
-gsap.from('.service-block', {
+gsap.from('.service-card', {
     scrollTrigger: {
         trigger: '.services-section',
         start: 'top 70%',
@@ -230,12 +221,14 @@ gsap.from('.service-block', {
     },
     opacity: 0,
     y: 60,
-    stagger: 0.3,
+    stagger: 0.2,
     duration: 1,
     ease: 'power3.out'
 });
 
-// Credentials section animation
+
+
+// Credentials section animation with parallax
 gsap.from('.credentials-section h2', {
     scrollTrigger: {
         trigger: '.credentials-section',
@@ -247,6 +240,8 @@ gsap.from('.credentials-section h2', {
     duration: 0.8,
     ease: 'power3.out'
 });
+
+
 
 gsap.from('.cert-badge', {
     scrollTrigger: {
@@ -275,12 +270,14 @@ gsap.from('.credentials-list p', {
     ease: 'power2.out'
 });
 
+
+
 // Contact section animation
-gsap.from('.contact-form', {
+gsap.from('.contact-form-wrapper', {
     scrollTrigger: {
         trigger: '.contact-section',
         start: 'top 70%',
-        toggleActions: 'play none none none'
+        toggleActions: 'play reverse play reverse'
     },
     opacity: 0,
     y: 60,
@@ -288,18 +285,7 @@ gsap.from('.contact-form', {
     ease: 'power3.out'
 });
 
-gsap.from('.contact-info', {
-    scrollTrigger: {
-        trigger: '.contact-section',
-        start: 'top 70%',
-        toggleActions: 'play none none none'
-    },
-    opacity: 0,
-    y: 60,
-    duration: 1,
-    delay: 0.3,
-    ease: 'power3.out'
-});
+
 
 // Smooth scroll for navigation
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -307,13 +293,20 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
-            window.scrollTo({
-                top: target.offsetTop - 80,
-                behavior: 'smooth'
+            gsap.to(window, {
+                duration: 1.2,
+                scrollTo: target.offsetTop - 80,
+                ease: 'power3.inOut'
             });
         }
     });
 });
+
+
+
+
+
+
 
 // Floating CTA show/hide
 const floatingCta = document.querySelector('.floating-cta');

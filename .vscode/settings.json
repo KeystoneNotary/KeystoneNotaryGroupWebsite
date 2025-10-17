@@ -30,5 +30,6 @@
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-fetch"]
     }
-  }
+  },
+  "chatgpt.openOnStartup": true
 }

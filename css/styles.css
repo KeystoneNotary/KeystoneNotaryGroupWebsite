@@ -15,6 +15,23 @@
     --shadow-soft: rgba(0, 0, 0, 0.5);
     --shadow-hard: rgba(0, 0, 0, 0.8);
     --vh: 1vh;
+
+    /* Fluid typography scale */
+    --step-0: clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem);
+    --step-1: clamp(1.05rem, 0.98rem + 0.4vw, 1.3rem);
+    --step-2: clamp(1.2rem, 1.05rem + 0.6vw, 1.55rem);
+    --step-3: clamp(1.45rem, 1.25rem + 0.9vw, 2rem);
+    --step-4: clamp(1.85rem, 1.55rem + 1.2vw, 2.6rem);
+    --step-5: clamp(2.35rem, 1.9rem + 1.8vw, 3.4rem);
+    --step-6: clamp(3rem, 2.3rem + 2.6vw, 4.6rem);
+
+    /* Fluid spacing scale */
+    --space-xs: clamp(0.5rem, 0.45rem + 0.2vw, 0.75rem);
+    --space-sm: clamp(0.75rem, 0.65rem + 0.35vw, 1.1rem);
+    --space-md: clamp(1.1rem, 0.9rem + 0.7vw, 1.8rem);
+    --space-lg: clamp(1.6rem, 1.2rem + 1vw, 2.6rem);
+    --space-xl: clamp(2.2rem, 1.6rem + 1.6vw, 3.8rem);
+    --space-xxl: clamp(3rem, 2rem + 2.5vw, 5.5rem);
 }
 
 [data-theme="light"] {
@@ -287,7 +304,8 @@ body {
 
 .hero-section {
     position: relative;
-    height: 100vh;
+    min-height: 100vh;
+    padding: var(--space-xl) 6%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -320,42 +338,46 @@ body {
 .hero-content {
     text-align: center;
     z-index: 1;
+    max-width: 860px;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-md);
 }
 
 .hero-logo {
-    width: 200px;
-    margin-bottom: 2rem;
+    width: clamp(140px, 18vw, 220px);
+    margin-bottom: var(--space-lg);
     pointer-events: none;
 }
 
 .hero-content h1 {
-    font-size: 5rem;
-    margin-bottom: 1.5rem;
+    font-size: var(--step-6);
+    margin-bottom: var(--space-md);
     color: var(--accent-silver);
     font-weight: 100;
-    letter-spacing: -1px;
+    letter-spacing: clamp(-3px, -0.45vw, -1px);
     line-height: 1.1;
     text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
 }
 
 .hero-content p {
-    font-size: 1.2rem;
+    font-size: var(--step-2);
     color: var(--text-gray);
-    margin-bottom: 3rem;
+    margin-bottom: var(--space-xl);
     font-weight: 300;
-    letter-spacing: 4px;
+    letter-spacing: clamp(0.18rem, 0.05rem + 0.55vw, 0.4rem);
     text-transform: uppercase;
 }
 
 .glass-button {
     display: inline-block;
-    padding: 1.1rem 3rem;
+    padding: var(--space-sm) var(--space-xl);
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
     border: 1.5px solid rgba(184, 184, 184, 0.4);
     backdrop-filter: blur(20px) saturate(180%);
     color: var(--text-light);
     text-decoration: none;
-    border-radius: 50px;
+    border-radius: 999px;
     font-weight: 400;
     letter-spacing: 1px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -391,7 +413,7 @@ body {
 }
 
 .surface-section {
-    padding: 14rem 5% 12rem;
+    padding: var(--space-xxl) 5% calc(var(--space-xxl) - var(--space-lg));
     position: relative;
 }
 
@@ -419,32 +441,33 @@ body {
     margin: 0 auto;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
     opacity: 0.5;
+    margin-bottom: var(--space-xl);
 }
 
 .section-header {
     text-align: center;
     max-width: 820px;
-    margin: 0 auto 6rem;
+    margin: 0 auto var(--space-xxl);
 }
 
 .section-header h2 {
-    font-size: 4.2rem;
+    font-size: var(--step-5);
     font-weight: 100;
     color: var(--accent-silver);
     line-height: 1.05;
-    margin-bottom: 2.5rem;
+    margin-bottom: var(--space-lg);
     letter-spacing: -2px;
 }
 
 .section-subtitle {
-    font-size: 1.25rem;
+    font-size: var(--step-2);
     line-height: 1.8;
     color: var(--text-gray);
     margin: 0 auto;
 }
 
 .about-section {
-    padding: 14rem 5% 12rem;
+    padding: var(--space-xxl) 5% calc(var(--space-xxl) - var(--space-lg));
     position: relative;
 }
 
@@ -462,42 +485,44 @@ body {
     max-width: 900px;
     margin: 0 auto;
     text-align: center;
+    display: grid;
+    gap: var(--space-md);
 }
 
 .section-label {
     display: inline-block;
-    font-size: 1rem;
+    font-size: var(--step-0);
     color: var(--accent-chrome);
     text-transform: uppercase;
     letter-spacing: 3px;
     font-weight: 400;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-xs);
     border-bottom: 1px solid var(--glass-border);
 }
 
 .about-content-centered h2 {
-    font-size: 4.5rem;
+    font-size: var(--step-5);
     font-weight: 100;
     color: var(--accent-silver);
     line-height: 1.05;
-    margin-bottom: 3rem;
+    margin-bottom: var(--space-lg);
     letter-spacing: -2px;
 }
 
 .about-content-centered .lead {
-    font-size: 1.4rem;
+    font-size: var(--step-2);
     line-height: 1.8;
     color: var(--text-light);
-    margin-bottom: 2.5rem;
+    margin-bottom: var(--space-lg);
     font-weight: 300;
 }
 
 .about-content-centered p {
-    font-size: 1.1rem;
+    font-size: var(--step-1);
     line-height: 2;
     color: var(--text-gray);
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-md);
     font-weight: 300;
     letter-spacing: 0.2px;
 }
@@ -510,13 +535,13 @@ body {
 
 .services-section .section-header {
     text-align: left;
-    margin-bottom: 4rem;
+    margin-bottom: var(--space-xl);
 }
 
 .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2.5rem;
+    gap: var(--space-lg);
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -525,7 +550,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.5rem;
+    gap: var(--space-md);
     text-align: left;
 }
 
@@ -534,7 +559,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
+    gap: var(--space-md);
 }
 
 .service-icon {
@@ -562,35 +587,35 @@ body {
 }
 
 .service-badge {
-    font-size: 0.75rem;
+    font-size: var(--step-0);
     text-transform: uppercase;
     letter-spacing: 1.6px;
     color: var(--accent-amber);
     background: rgba(243, 183, 110, 0.12);
     border: 1px solid rgba(243, 183, 110, 0.35);
-    padding: 0.35rem 0.8rem;
+    padding: calc(var(--space-xs) * 0.6) var(--space-sm);
     border-radius: 999px;
 }
 
 .service-card h3 {
-    font-size: 1.9rem;
+    font-size: var(--step-3);
     color: var(--accent-silver);
     font-weight: 300;
     letter-spacing: 0.5px;
 }
 
 .service-lead {
-    font-size: 1.05rem;
+    font-size: var(--step-1);
     line-height: 1.8;
     color: var(--text-gray);
 }
 
 .service-highlights {
     display: grid;
-    gap: 0.6rem;
-    padding-left: 1.2rem;
+    gap: var(--space-sm);
+    padding-left: var(--space-md);
     color: var(--text-light);
-    font-size: 0.95rem;
+    font-size: var(--step-0);
     line-height: 1.7;
 }
 
@@ -601,8 +626,8 @@ body {
 .service-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
-    font-size: 0.85rem;
+    gap: var(--space-sm);
+    font-size: var(--step-0);
     text-transform: uppercase;
     letter-spacing: 1.6px;
     color: var(--accent-chrome);
@@ -610,7 +635,7 @@ body {
 
 .service-price {
     background: rgba(255, 255, 255, 0.05);
-    padding: 0.4rem 0.9rem;
+    padding: calc(var(--space-xs) * 0.7) var(--space-sm);
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.15);
 }
@@ -620,10 +645,10 @@ body {
 }
 
 .services-assurance {
-    margin-top: 4rem;
+    margin-top: var(--space-xl);
     text-align: center;
     color: var(--text-gray);
-    font-size: 1rem;
+    font-size: var(--step-0);
 }
 
 .glass-card {
@@ -631,7 +656,7 @@ body {
     border: 1px solid rgba(138, 138, 138, 0.25);
     backdrop-filter: blur(20px) saturate(180%);
     border-radius: 24px;
-    padding: 3rem;
+    padding: var(--space-xl);
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -672,12 +697,12 @@ body {
 
 .credentials-section .section-header {
     text-align: left;
-    margin-bottom: 4rem;
+    margin-bottom: var(--space-xl);
 }
 
 .credentials-grid {
     display: grid;
-    gap: 2.5rem;
+    gap: var(--space-lg);
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     align-items: stretch;
 }
@@ -685,7 +710,7 @@ body {
 .credential-badge-stack {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: var(--space-lg);
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -1348,18 +1373,65 @@ body {
     color: var(--accent-chrome);
 }
 
-@media (max-width: 1024px) {
-    .booking-container {
-        grid-template-columns: 1fr;
+@media (max-width: 1200px) {
+    .hero-section {
+        min-height: 90vh;
+        padding: var(--space-lg) 6%;
+    }
+
+    .hero-content {
+        gap: var(--space-sm);
+    }
+
+    .hero-content h1 {
+        font-size: var(--step-5);
+        letter-spacing: clamp(-2px, -0.35vw, -0.8px);
+    }
+
+    .hero-content p {
+        margin-bottom: var(--space-lg);
+        letter-spacing: clamp(0.12rem, 0.04rem + 0.4vw, 0.28rem);
+    }
+
+    .glass-button {
+        padding: var(--space-sm) var(--space-lg);
+    }
+
+    .surface-section,
+    .about-section {
+        padding: var(--space-xl) 6% var(--space-lg);
+    }
+
+    .section-header {
+        margin-bottom: var(--space-xl);
+    }
+
+    .section-header h2,
+    .about-content-centered h2 {
+        font-size: var(--step-4);
+    }
+
+    .section-subtitle,
+    .about-content-centered .lead {
+        font-size: var(--step-1);
     }
 
     .services-grid {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--space-md);
+    }
+
+    .glass-card {
+        padding: var(--space-lg);
+    }
+
+    .booking-container {
+        grid-template-columns: 1fr;
     }
 
     .footer-content {
         grid-template-columns: 1fr 1fr;
-        gap: 3rem;
+        gap: var(--space-xl);
     }
 }
 
@@ -1684,23 +1756,23 @@ body {
 .footer {
     background: linear-gradient(180deg, rgba(5, 5, 5, 0.95) 0%, #030303 100%);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 6rem 5% 3rem;
+    padding: var(--space-xxl) 5% var(--space-lg);
     position: relative;
 }
 
 .footer-content {
     display: grid;
     grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-    gap: 3rem;
+    gap: var(--space-xl);
     max-width: 1200px;
-    margin: 0 auto 3rem;
+    margin: 0 auto var(--space-xl);
     align-items: start;
 }
 
 .footer-brand {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: var(--space-md);
     color: var(--text-gray);
     line-height: 1.8;
 }
@@ -1714,7 +1786,7 @@ body {
 .footer-columns {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 2rem;
+    gap: var(--space-lg);
 }
 
 .footer-column h4 {
@@ -1723,7 +1795,7 @@ body {
     text-transform: uppercase;
     letter-spacing: 1.6px;
     color: var(--accent-silver);
-    margin-bottom: 1.2rem;
+    margin-bottom: var(--space-sm);
 }
 
 .footer-column ul {
@@ -1731,7 +1803,7 @@ body {
     padding: 0;
     margin: 0;
     display: grid;
-    gap: 0.6rem;
+    gap: var(--space-sm);
 }
 
 .footer-column li,
@@ -1748,10 +1820,10 @@ body {
 
 .footer-bottom {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 2rem;
+    padding-top: var(--space-lg);
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: var(--space-sm);
     text-align: center;
     max-width: 1200px;
     margin: 0 auto;
@@ -1760,39 +1832,46 @@ body {
     letter-spacing: 0.3px;
 }
 
-@media (max-width: 768px) {
-    .hamburger {
-        display: flex;
+@media (max-width: 900px) {
+    .hero-section {
+        min-height: 80vh;
+        padding: var(--space-lg) 8%;
     }
 
-    .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        height: 100vh;
-        width: 70%;
-        max-width: 300px;
-        background: rgba(12, 12, 12, 0.95);
-        backdrop-filter: blur(20px);
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 2rem;
-        transition: right 0.3s;
-        z-index: 1000;
+    .hero-logo {
+        width: clamp(120px, 24vw, 180px);
     }
 
-    .nav-links.active {
-        right: 0;
+    .hero-content {
+        gap: var(--space-sm);
     }
 
-    .nav-actions {
-        gap: 0.6rem;
+    .hero-content h1 {
+        font-size: var(--step-4);
     }
 
-    .theme-panel {
-        right: 1rem;
-        grid-template-columns: 1fr;
+    .hero-content p {
+        font-size: var(--step-1);
+        letter-spacing: clamp(0.1rem, 0.03rem + 0.4vw, 0.22rem);
+        margin-bottom: var(--space-lg);
+    }
+
+    .glass-button {
+        width: min(100%, 320px);
+        padding: var(--space-sm) var(--space-lg);
+    }
+
+    .section-header {
+        margin-bottom: var(--space-lg);
+    }
+
+    .section-subtitle,
+    .about-content-centered .lead {
+        font-size: var(--step-1);
+    }
+
+    .about-content-centered p {
+        font-size: var(--step-0);
     }
 
     .services-grid,
@@ -1801,6 +1880,10 @@ body {
     .contact-grid,
     .footer-content {
         grid-template-columns: 1fr;
+    }
+
+    .services-grid {
+        gap: var(--space-md);
     }
 
     .booking-shell {
@@ -1812,26 +1895,145 @@ body {
     }
 
     .booking-body {
-        gap: 1.5rem;
+        gap: var(--space-md);
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: min(80%, 320px);
+        background: rgba(12, 12, 12, 0.95);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: var(--space-lg);
+        transition: right 0.3s;
+        z-index: 1000;
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-actions {
+        gap: var(--space-sm);
+    }
+
+    .theme-panel {
+        right: 1rem;
+        grid-template-columns: 1fr;
     }
 
     .floating-cta {
-        bottom: 1.5rem;
-        right: 1.5rem;
-        padding: 0.7rem 1.1rem;
+        bottom: var(--space-lg);
+        right: var(--space-lg);
+        padding: var(--space-sm) var(--space-md);
     }
 
     .back-to-top {
         width: 45px;
         height: 45px;
         font-size: 1.2rem;
-        bottom: 1.5rem;
-        left: 1.5rem;
+        bottom: var(--space-lg);
+        left: var(--space-lg);
     }
 
     .footer-bottom {
         flex-direction: column;
-        gap: 1rem;
+        gap: var(--space-sm);
         text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-section {
+        min-height: 70vh;
+        padding: var(--space-lg) 8% var(--space-xl);
+    }
+
+    .hero-logo {
+        width: clamp(100px, 28vw, 150px);
+        margin-bottom: var(--space-md);
+    }
+
+    .hero-content {
+        gap: var(--space-sm);
+    }
+
+    .hero-content h1 {
+        font-size: var(--step-3);
+        letter-spacing: clamp(-1px, -0.18vw, -0.2px);
+    }
+
+    .hero-content p {
+        font-size: var(--step-0);
+        letter-spacing: clamp(0.08rem, 0.02rem + 0.25vw, 0.14rem);
+        margin-bottom: var(--space-md);
+    }
+
+    .glass-button {
+        width: 100%;
+        padding: var(--space-sm) var(--space-md);
+    }
+
+    .section-header {
+        margin-bottom: var(--space-md);
+        text-align: left;
+    }
+
+    .section-header h2,
+    .about-content-centered h2 {
+        font-size: var(--step-3);
+        letter-spacing: -1px;
+    }
+
+    .section-subtitle {
+        font-size: var(--step-0);
+    }
+
+    .section-label {
+        letter-spacing: 2px;
+    }
+
+    .surface-section,
+    .about-section {
+        padding: var(--space-xl) 8% var(--space-lg);
+    }
+
+    .services-grid {
+        gap: var(--space-sm);
+    }
+
+    .glass-card {
+        padding: var(--space-lg);
+    }
+
+    .footer {
+        padding: var(--space-xl) 7% var(--space-lg);
+    }
+
+    .floating-cta {
+        left: 50%;
+        right: auto;
+        bottom: var(--space-md);
+        width: calc(100% - 3rem);
+        justify-content: center;
+        transform: translate(-50%, 0);
+    }
+
+    .floating-cta:hover {
+        transform: translate(-50%, -4px);
+    }
+
+    .back-to-top {
+        left: var(--space-md);
+        bottom: var(--space-md);
     }
 }

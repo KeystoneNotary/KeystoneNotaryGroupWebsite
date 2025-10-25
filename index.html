@@ -25,41 +25,44 @@
     </div>
 
     <nav class="glass-nav">
-        <div class="nav-left">
-            <img src="assets/images/logo-icon-gray.png" alt="Keystone Notary Group LLC" class="nav-logo">
-        </div>
-        <ul class="nav-links" role="list">
-            <li><a href="#about" data-nav="about">About</a></li>
-            <li><a href="#services" data-nav="services">Services</a></li>
-            <li><a href="#credentials" data-nav="credentials">Credentials</a></li>
-            <li><a href="#booking" data-nav="booking">Booking</a></li>
-            <li><a href="#faq" data-nav="faq">FAQ</a></li>
-            <li><a href="#contact" data-nav="contact">Contact</a></li>
-        </ul>
-        <div class="nav-actions">
-            <button class="theme-toggle" type="button" aria-haspopup="true" aria-expanded="false">
-                <span class="theme-icon" aria-hidden="true">🌙</span>
-                <span class="theme-toggle-label">Theme</span>
-            </button>
-            <div class="theme-panel" role="menu" aria-label="Select theme">
-                <button class="theme-option" type="button" data-theme-option="dark" role="menuitem" aria-label="Activate dark theme">
-                    <span class="theme-swatch theme-swatch-dark" aria-hidden="true"></span>
-                    <span class="theme-option-label">Dark</span>
+        <div class="layout-container nav-inner">
+            <div class="nav-left">
+                <img src="assets/images/logo-icon-gray.png" alt="Keystone Notary Group LLC" class="nav-logo">
+            </div>
+            <ul class="nav-links" role="list">
+                <li><a href="#about" data-nav="about">About</a></li>
+                <li><a href="#services" data-nav="services">Services</a></li>
+                <li><a href="#credentials" data-nav="credentials">Credentials</a></li>
+                <li><a href="#booking" data-nav="booking">Booking</a></li>
+                <li><a href="#faq" data-nav="faq">FAQ</a></li>
+                <li><a href="#contact" data-nav="contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#booking" class="nav-cta">Schedule Appointment</a>
+                <button class="theme-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Toggle theme">
+                    <span class="theme-icon" aria-hidden="true">🌙</span>
+                    <span class="theme-toggle-label">Theme</span>
                 </button>
-                <button class="theme-option" type="button" data-theme-option="neutral" role="menuitem" aria-label="Activate steel theme">
-                    <span class="theme-swatch theme-swatch-neutral" aria-hidden="true"></span>
-                    <span class="theme-option-label">Steel</span>
-                </button>
-                <button class="theme-option" type="button" data-theme-option="light" role="menuitem" aria-label="Activate light theme">
-                    <span class="theme-swatch theme-swatch-light" aria-hidden="true"></span>
-                    <span class="theme-option-label">Light</span>
+                <div class="theme-panel" role="menu" aria-label="Select theme">
+                    <button class="theme-option" type="button" data-theme-option="dark" role="menuitem" aria-label="Activate dark theme">
+                        <span class="theme-swatch theme-swatch-dark" aria-hidden="true"></span>
+                        <span class="theme-option-label">Dark</span>
+                    </button>
+                    <button class="theme-option" type="button" data-theme-option="neutral" role="menuitem" aria-label="Activate steel theme">
+                        <span class="theme-swatch theme-swatch-neutral" aria-hidden="true"></span>
+                        <span class="theme-option-label">Steel</span>
+                    </button>
+                    <button class="theme-option" type="button" data-theme-option="light" role="menuitem" aria-label="Activate light theme">
+                        <span class="theme-swatch theme-swatch-light" aria-hidden="true"></span>
+                        <span class="theme-option-label">Light</span>
+                    </button>
+                </div>
+                <button class="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </button>
             </div>
-            <button class="hamburger" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
         </div>
     </nav>
 
@@ -517,42 +520,44 @@
     </section>
 
     <footer class="footer surface-section surface-elevated">
-        <div class="footer-content">
-            <div class="footer-brand">
-                <img src="assets/images/logo-icon-gray.png" alt="Keystone Notary Group LLC logo" class="footer-logo">
-                <p>Licensed, bonded, and insured notary public delivering concierge-level signing experiences across Maryland.</p>
+        <div class="layout-container footer-inner">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="assets/images/logo-icon-gray.png" alt="Keystone Notary Group LLC logo" class="footer-logo">
+                    <p>Licensed, bonded, and insured notary public delivering concierge-level signing experiences across Maryland.</p>
+                </div>
+                <div class="footer-columns">
+                    <div class="footer-column">
+                        <h4>Explore</h4>
+                        <ul>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#services">Services</a></li>
+                            <li><a href="#credentials">Credentials</a></li>
+                            <li><a href="#booking">Booking</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Contact</h4>
+                        <ul>
+                            <li><a href="tel:+1234567890">(123) 456-7890</a></li>
+                            <li><a href="mailto:info@keystonenotary.com">info@keystonenotary.com</a></li>
+                            <li>Baltimore, MD</li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Credentials</h4>
+                        <ul>
+                            <li>NNA Certified Signing Agent</li>
+                            <li>$100,000 E&amp;O Insurance</li>
+                            <li>Background Screened Annually</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="footer-columns">
-                <div class="footer-column">
-                    <h4>Explore</h4>
-                    <ul>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#credentials">Credentials</a></li>
-                        <li><a href="#booking">Booking</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Contact</h4>
-                    <ul>
-                        <li><a href="tel:+1234567890">(123) 456-7890</a></li>
-                        <li><a href="mailto:info@keystonenotary.com">info@keystonenotary.com</a></li>
-                        <li>Baltimore, MD</li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Credentials</h4>
-                    <ul>
-                        <li>NNA Certified Signing Agent</li>
-                        <li>$100,000 E&amp;O Insurance</li>
-                        <li>Background Screened Annually</li>
-                    </ul>
-                </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Keystone Notary Group LLC. All rights reserved.</p>
+                <p>Professional Notary Services • Mobile &amp; In-Office Appointments</p>
             </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Keystone Notary Group LLC. All rights reserved.</p>
-            <p>Professional Notary Services • Mobile &amp; In-Office Appointments</p>
         </div>
     </footer>
 

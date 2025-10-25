@@ -78,6 +78,12 @@ Modify GSAP animations in `js/main.js`:
 - Animation duration and easing
 - Stagger timing
 
+## Spacing & Layout System
+
+- Modular scale defined in `css/styles.css` (`--space-2xs` through `--space-4xl`) driven by a fluid base and 1.333 ratio.
+- Horizontal gutters rely on `--space-gutter` to stay responsive while aligned to the scale.
+- Reference usage guidance and examples in [`docs/spacing-map.md`](docs/spacing-map.md) and the live spacing key rendered near the site footer.
+
 ## Testing
 
 Run unit tests with your preferred test runner:

@@ -5,6 +5,14 @@ class AIChatAgent {
         this.isOpen = false;
         this.messages = [];
         this.apiEndpoint = '/api/chat'; // Backend endpoint
+        this.widget = null;
+        this.panel = null;
+        this.overlay = null;
+        this.toggleButton = null;
+        this.closeButton = null;
+        this.sendButton = null;
+        this.input = null;
+        this.messagesContainer = null;
         this.init();
     }
 
@@ -15,13 +23,17 @@ class AIChatAgent {
     }
 
     createChatWidget() {
+        const overlay = document.createElement('div');
+        overlay.className = 'ai-chat-overlay';
+        document.body.appendChild(overlay);
+
         const widget = document.createElement('div');
         widget.className = 'ai-chat-widget';
         widget.innerHTML = `
             <button class="ai-chat-toggle" aria-label="Open chat">
                 <span class="chat-icon">💬</span>
             </button>
-            <div class="ai-chat-panel">
+            <div class="ai-chat-panel" aria-hidden="true">
                 <div class="ai-chat-header">
                     <h3>Notary Assistant</h3>
                     <button class="ai-chat-close" aria-label="Close chat">×</button>
@@ -36,38 +48,88 @@ class AIChatAgent {
             </div>
         `;
         document.body.appendChild(widget);
+
+        this.widget = widget;
+        this.panel = widget.querySelector('.ai-chat-panel');
+        this.toggleButton = widget.querySelector('.ai-chat-toggle');
+        this.closeButton = widget.querySelector('.ai-chat-close');
+        this.messagesContainer = widget.querySelector('.ai-chat-messages');
+        this.sendButton = widget.querySelector('#aiChatSend');
+        this.input = widget.querySelector('#aiChatInput');
+        this.overlay = overlay;
+
+        if (this.toggleButton) {
+            this.toggleButton.setAttribute('aria-expanded', 'false');
+        }
+        if (this.panel) {
+            this.panel.setAttribute('aria-hidden', 'true');
+        }
+
+        if (this.overlay) {
+            this.overlay.addEventListener('click', () => this.toggleChat(false));
+        }
     }
 
     attachEventListeners() {
-        const toggle = document.querySelector('.ai-chat-toggle');
-        const close = document.querySelector('.ai-chat-close');
-        const send = document.getElementById('aiChatSend');
-        const input = document.getElementById('aiChatInput');
+        const toggle = this.toggleButton;
+        const close = this.closeButton;
+        const send = this.sendButton;
+        const input = this.input;
 
-        toggle.addEventListener('click', () => this.toggleChat());
-        close.addEventListener('click', () => this.toggleChat());
-        send.addEventListener('click', () => this.sendMessage());
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') this.sendMessage();
-        });
+        if (toggle) {
+            toggle.addEventListener('click', () => this.toggleChat());
+        }
+        if (close) {
+            close.addEventListener('click', () => this.toggleChat(false));
+        }
+        if (send) {
+            send.addEventListener('click', () => this.sendMessage());
+        }
+        if (input) {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') this.sendMessage();
+            });
+        }
     }
 
-    toggleChat() {
-        this.isOpen = !this.isOpen;
-        const panel = document.querySelector('.ai-chat-panel');
-        panel.classList.toggle('open', this.isOpen);
-        
+    toggleChat(forceState = null) {
+        const nextState = typeof forceState === 'boolean' ? forceState : !this.isOpen;
+
+        if (nextState === this.isOpen) {
+            return;
+        }
+
+        this.isOpen = nextState;
+
+        if (this.panel) {
+            this.panel.classList.toggle('open', this.isOpen);
+        }
+        if (this.overlay) {
+            this.overlay.classList.toggle('visible', this.isOpen);
+        }
+        if (this.toggleButton) {
+            this.toggleButton.setAttribute('aria-expanded', this.isOpen);
+            this.toggleButton.setAttribute('aria-label', this.isOpen ? 'Close chat' : 'Open chat');
+        }
+        if (this.panel) {
+            this.panel.setAttribute('aria-hidden', this.isOpen ? 'false' : 'true');
+        }
+
+        document.body.classList.toggle('ai-chat-open', this.isOpen);
+
         if (this.isOpen && this.messages.length === 0) {
             this.addMessage('assistant', 'Hello! I can help you with notary services and schedule appointments. What can I assist you with today?');
         }
     }
 
     async sendMessage() {
-        const input = document.getElementById('aiChatInput');
+        const input = this.input || document.getElementById('aiChatInput');
+        if (!input) return;
+
         const message = input.value.trim();
-        
+
         if (!message) return;
-        
+
         this.addMessage('user', message);
         input.value = '';
         
@@ -104,19 +166,25 @@ class AIChatAgent {
     }
 
     addMessage(role, content) {
-        const messagesContainer = document.getElementById('aiChatMessages');
+        this.messages.push({ role, content, timestamp: Date.now() });
+        this.saveChatHistory();
+
+        const messagesContainer = this.messagesContainer || document.getElementById('aiChatMessages');
+        if (!messagesContainer) {
+            return;
+        }
         const messageEl = document.createElement('div');
         messageEl.className = `ai-message ai-message-${role}`;
         messageEl.textContent = content;
         messagesContainer.appendChild(messageEl);
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        
-        this.messages.push({ role, content, timestamp: Date.now() });
-        this.saveChatHistory();
     }
 
     showTypingIndicator() {
-        const messagesContainer = document.getElementById('aiChatMessages');
+        const messagesContainer = this.messagesContainer || document.getElementById('aiChatMessages');
+        if (!messagesContainer) {
+            return;
+        }
         const indicator = document.createElement('div');
         indicator.className = 'ai-typing-indicator';
         indicator.innerHTML = '<span></span><span></span><span></span>';
@@ -133,9 +201,9 @@ class AIChatAgent {
     handleBookingFlow(data) {
         const bookingSection = document.getElementById('booking');
         if (bookingSection) {
-            this.toggleChat();
+            this.toggleChat(false);
             bookingSection.scrollIntoView({ behavior: 'smooth' });
-            
+
             if (data.date) {
                 // Pre-fill booking calendar with suggested date
                 console.log('Pre-filling booking with:', data);
@@ -152,7 +220,7 @@ class AIChatAgent {
         if (saved) {
             this.messages = JSON.parse(saved);
             this.messages.forEach(msg => {
-                const messagesContainer = document.getElementById('aiChatMessages');
+                const messagesContainer = this.messagesContainer || document.getElementById('aiChatMessages');
                 if (messagesContainer) {
                     const messageEl = document.createElement('div');
                     messageEl.className = `ai-message ai-message-${msg.role}`;
@@ -165,8 +233,24 @@ class AIChatAgent {
 }
 
 // Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => new AIChatAgent());
-} else {
-    new AIChatAgent();
+const initializeAIChatAgent = () => new AIChatAgent();
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = AIChatAgent;
+}
+
+if (typeof document !== 'undefined') {
+    const bootstrapAgent = () => {
+        if (!window.__aiChatAgentInstance) {
+            window.__aiChatAgentInstance = initializeAIChatAgent();
+        }
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bootstrapAgent);
+    } else {
+        bootstrapAgent();
+    }
+
+    window.initializeAIChatAgent = initializeAIChatAgent;
 }

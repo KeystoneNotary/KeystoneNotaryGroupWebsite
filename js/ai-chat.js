@@ -10,6 +10,8 @@ class AIChatAgent {
         this.overlay = null;
         this.toggleButton = null;
         this.closeButton = null;
+        this.sendButton = null;
+        this.input = null;
         this.messagesContainer = null;
         this.init();
     }
@@ -52,6 +54,8 @@ class AIChatAgent {
         this.toggleButton = widget.querySelector('.ai-chat-toggle');
         this.closeButton = widget.querySelector('.ai-chat-close');
         this.messagesContainer = widget.querySelector('.ai-chat-messages');
+        this.sendButton = widget.querySelector('#aiChatSend');
+        this.input = widget.querySelector('#aiChatInput');
         this.overlay = overlay;
 
         if (this.toggleButton) {
@@ -61,14 +65,16 @@ class AIChatAgent {
             this.panel.setAttribute('aria-hidden', 'true');
         }
 
-        this.overlay.addEventListener('click', () => this.toggleChat(false));
+        if (this.overlay) {
+            this.overlay.addEventListener('click', () => this.toggleChat(false));
+        }
     }
 
     attachEventListeners() {
         const toggle = this.toggleButton;
         const close = this.closeButton;
-        const send = document.getElementById('aiChatSend');
-        const input = document.getElementById('aiChatInput');
+        const send = this.sendButton;
+        const input = this.input;
 
         if (toggle) {
             toggle.addEventListener('click', () => this.toggleChat());
@@ -117,11 +123,13 @@ class AIChatAgent {
     }
 
     async sendMessage() {
-        const input = document.getElementById('aiChatInput');
+        const input = this.input || document.getElementById('aiChatInput');
+        if (!input) return;
+
         const message = input.value.trim();
-        
+
         if (!message) return;
-        
+
         this.addMessage('user', message);
         input.value = '';
         
@@ -158,19 +166,25 @@ class AIChatAgent {
     }
 
     addMessage(role, content) {
+        this.messages.push({ role, content, timestamp: Date.now() });
+        this.saveChatHistory();
+
         const messagesContainer = this.messagesContainer || document.getElementById('aiChatMessages');
+        if (!messagesContainer) {
+            return;
+        }
         const messageEl = document.createElement('div');
         messageEl.className = `ai-message ai-message-${role}`;
         messageEl.textContent = content;
         messagesContainer.appendChild(messageEl);
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        
-        this.messages.push({ role, content, timestamp: Date.now() });
-        this.saveChatHistory();
     }
 
     showTypingIndicator() {
         const messagesContainer = this.messagesContainer || document.getElementById('aiChatMessages');
+        if (!messagesContainer) {
+            return;
+        }
         const indicator = document.createElement('div');
         indicator.className = 'ai-typing-indicator';
         indicator.innerHTML = '<span></span><span></span><span></span>';
@@ -187,9 +201,9 @@ class AIChatAgent {
     handleBookingFlow(data) {
         const bookingSection = document.getElementById('booking');
         if (bookingSection) {
-            this.toggleChat();
+            this.toggleChat(false);
             bookingSection.scrollIntoView({ behavior: 'smooth' });
-            
+
             if (data.date) {
                 // Pre-fill booking calendar with suggested date
                 console.log('Pre-filling booking with:', data);
@@ -221,18 +235,14 @@ class AIChatAgent {
 // Initialize when DOM is ready
 const initializeAIChatAgent = () => new AIChatAgent();
 
-if (typeof window !== 'undefined') {
-    window.initializeAIChatAgent = initializeAIChatAgent;
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = AIChatAgent;
 }
 
 if (typeof document !== 'undefined') {
     const bootstrapAgent = () => {
-        if (typeof window !== 'undefined') {
-            if (!window.__aiChatAgentInstance) {
-                window.__aiChatAgentInstance = initializeAIChatAgent();
-            }
-        } else {
-            initializeAIChatAgent();
+        if (!window.__aiChatAgentInstance) {
+            window.__aiChatAgentInstance = initializeAIChatAgent();
         }
     };
 
@@ -241,8 +251,6 @@ if (typeof document !== 'undefined') {
     } else {
         bootstrapAgent();
     }
-}
 
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = AIChatAgent;
+    window.initializeAIChatAgent = initializeAIChatAgent;
 }

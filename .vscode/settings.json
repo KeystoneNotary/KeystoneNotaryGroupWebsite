@@ -1,5 +1,6 @@
 {
   "amazonQ.allowFeatureDevelopmentToRunCodeAndTests": {
+    
     "enabled": true
   },
   "remoteHub.richNavigation.enabled": true,

@@ -1,3 +1,8 @@
+/**
+ * Keystone Notary Group LLC - Main JavaScript
+ * Handles theme switching, animations, forms, and booking system
+ */
+
 const globalScope = typeof window !== 'undefined' ? window : globalThis;
 const gsapAvailable = typeof globalScope.gsap !== 'undefined' && typeof globalScope.ScrollTrigger !== 'undefined' && typeof globalScope.ScrollToPlugin !== 'undefined';
 
@@ -7,13 +12,26 @@ if (gsapAvailable) {
 
 const gsapInstance = gsapAvailable ? globalScope.gsap : null;
 
-// Theme selector with palette preview
+// Configuration constants
+const SCROLL_THRESHOLD = 500;
+const NAV_OFFSET = 80;
+const LOADER_DELAY = 1000;
+const ERROR_DURATION = 3000;
+const SUCCESS_DURATION = 5000;
+const GSAP_SCROLL_DURATION = 1.2;
+const GSAP_EASE = 'power3.inOut';
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const themeConfig = [
     { id: 'dark', icon: '🌙' },
     { id: 'neutral', icon: '🌗' },
     { id: 'light', icon: '☀️' }
 ];
 
+/**
+ * Apply theme to document and update UI
+ * @param {string} theme - Theme ID ('dark', 'neutral', or 'light')
+ */
 function applyTheme(theme) {
     if (theme === 'dark') {
         document.documentElement.removeAttribute('data-theme');
@@ -35,6 +53,9 @@ function applyTheme(theme) {
     localStorage.setItem('theme', theme);
 }
 
+/**
+ * Initialize theme from localStorage or default
+ */
 function initTheme() {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     applyTheme(savedTheme);
@@ -111,9 +132,11 @@ window.addEventListener('resize', setVH);
 // Loader
 window.addEventListener('load', () => {
     const loader = document.querySelector('.loader');
-    setTimeout(() => {
-        loader.classList.add('hidden');
-    }, 1000);
+    if (loader) {
+        setTimeout(() => {
+            loader.classList.add('hidden');
+        }, LOADER_DELAY);
+    }
 });
 
 // Hamburger menu
@@ -137,6 +160,7 @@ navLinkElements.forEach(link => {
     });
 });
 
+// Section observer for active navigation
 const sectionObserver = typeof IntersectionObserver !== 'undefined'
     ? new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -169,7 +193,7 @@ if (scrollProgress && backToTop) {
         const scrollPercent = docHeight > 0 ? scrollTop / docHeight : 0;
         scrollProgress.style.transform = `scaleX(${scrollPercent})`;
 
-        if (scrollTop > 500) {
+        if (scrollTop > SCROLL_THRESHOLD) {
             backToTop.classList.add('visible');
         } else {
             backToTop.classList.remove('visible');
@@ -181,7 +205,7 @@ if (scrollProgress && backToTop) {
             gsapInstance.to(window, {
                 duration: 1.5,
                 scrollTo: 0,
-                ease: 'power3.inOut'
+                ease: GSAP_EASE
             });
         } else {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -361,12 +385,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
         if (gsapInstance) {
             gsapInstance.to(window, {
-                duration: 1.2,
-                scrollTo: target.offsetTop - 80,
-                ease: 'power3.inOut'
+                duration: GSAP_SCROLL_DURATION,
+                scrollTo: target.offsetTop - NAV_OFFSET,
+                ease: GSAP_EASE
             });
         } else {
-            window.scrollTo({ top: Math.max(target.offsetTop - 80, 0), behavior: 'smooth' });
+            window.scrollTo({ top: Math.max(target.offsetTop - NAV_OFFSET, 0), behavior: 'smooth' });
         }
     });
 });
@@ -410,15 +434,19 @@ if (contactForm) {
     });
 }
 
+/**
+ * Validate contact form data
+ * @param {Object} data - Form data object
+ * @param {HTMLElement} formElement - Form element for error display
+ * @returns {boolean} - Validation result
+ */
 function validateContactForm(data, formElement = document.getElementById('contactForm')) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
     if (!data.name || data.name.trim().length < 2) {
         showError('Please enter a valid name', formElement);
         return false;
     }
 
-    if (!emailRegex.test(data.email)) {
+    if (!EMAIL_REGEX.test(data.email)) {
         showError('Please enter a valid email address', formElement);
         return false;
     }
@@ -435,9 +463,18 @@ function showError(message, formElement = contactForm) {
     const errorDiv = document.createElement('div');
     errorDiv.className = 'form-message error';
     errorDiv.textContent = message;
-    if (formElement) {
-        formElement.insertBefore(errorDiv, formElement.firstChild);
-        setTimeout(() => errorDiv.remove(), 3000);
+    errorDiv.setAttribute('role', 'alert');
+    
+    const messagesContainer = formElement ? formElement.querySelector('[aria-live]') : null;
+    const targetContainer = messagesContainer || formElement;
+    
+    if (targetContainer) {
+        if (messagesContainer) {
+            messagesContainer.appendChild(errorDiv);
+        } else {
+            targetContainer.insertBefore(errorDiv, targetContainer.firstChild);
+        }
+        setTimeout(() => errorDiv.remove(), ERROR_DURATION);
     }
 }
 
@@ -445,9 +482,18 @@ function showSuccessMessage(formElement = contactForm) {
     const successDiv = document.createElement('div');
     successDiv.className = 'form-message success';
     successDiv.textContent = 'Thank you! Your message has been sent. We will contact you shortly.';
-    if (formElement) {
-        formElement.insertBefore(successDiv, formElement.firstChild);
-        setTimeout(() => successDiv.remove(), 5000);
+    successDiv.setAttribute('role', 'status');
+    
+    const messagesContainer = formElement ? formElement.querySelector('[aria-live]') : null;
+    const targetContainer = messagesContainer || formElement;
+    
+    if (targetContainer) {
+        if (messagesContainer) {
+            messagesContainer.appendChild(successDiv);
+        } else {
+            targetContainer.insertBefore(successDiv, targetContainer.firstChild);
+        }
+        setTimeout(() => successDiv.remove(), SUCCESS_DURATION);
     }
 }
 
@@ -456,6 +502,7 @@ let currentDate = new Date();
 let selectedDate = null;
 let selectedTime = null;
 
+// Calendar configuration
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const availableSlots = ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM'];

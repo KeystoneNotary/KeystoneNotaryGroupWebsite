@@ -118,7 +118,7 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 1.1rem 0;
+    padding: var(--space-sm) 0;
     background: linear-gradient(90deg, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.65));
     backdrop-filter: blur(24px) saturate(180%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -140,7 +140,7 @@ body {
 }
 
 .nav-logo {
-    height: 44px;
+    height: 48px;
     width: auto;
     filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.45));
 }
@@ -397,17 +397,19 @@ body {
 .hamburger {
     display: none;
     flex-direction: column;
-    gap: 5px;
+    gap: var(--space-2xs);
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: var(--space-sm);
+    min-width: 48px;
+    min-height: 48px;
     z-index: 1001;
 }
 
 .hamburger span {
-    width: 25px;
-    height: 2px;
+    width: 26px;
+    height: 3px;
     background: var(--text-light);
     transition: all 0.3s;
 }
@@ -1096,8 +1098,8 @@ body {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid var(--glass-border);
     color: var(--text-light);
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1446,8 +1448,8 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     border: 1px solid rgba(255, 255, 255, 0.15);
     background: rgba(255, 255, 255, 0.06);
@@ -1826,7 +1828,9 @@ body {
     position: fixed;
     bottom: var(--space-xl);
     right: var(--space-xl);
-    padding: var(--space-sm) var(--space-md);
+    padding: var(--space-md) var(--space-lg);
+    min-width: 48px;
+    min-height: 48px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
     border: 1.5px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(24px) saturate(180%);
@@ -1863,8 +1867,8 @@ body {
     position: fixed;
     bottom: var(--space-xl);
     left: var(--space-xl);
-    width: 50px;
-    height: 50px;
+    width: 52px;
+    height: 52px;
     background: linear-gradient(135deg, var(--glass-bg), rgba(232, 232, 232, 0.05));
     border: 2px solid var(--accent-silver);
     backdrop-filter: blur(20px) saturate(180%);
@@ -2181,4 +2185,29 @@ body {
         left: var(--space-md);
         bottom: var(--space-md);
     }
+}
+
+
+/* Skip to content link for accessibility */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    background: var(--accent-silver);
+    color: var(--bg-dark);
+    padding: var(--space-sm) var(--space-md);
+    text-decoration: none;
+    font-weight: 600;
+    z-index: 10001;
+    border-radius: 0 0 8px 0;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Form message containers for aria-live regions */
+#contactFormMessages,
+#appointmentFormMessages {
+    min-height: 0;
 }

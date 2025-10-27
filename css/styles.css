@@ -695,7 +695,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--space-md);
+    gap: var(--space-sm);
     text-align: left;
 }
 
@@ -708,19 +708,19 @@ body {
 }
 
 .service-icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 18px;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
     display: grid;
     place-items: center;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04));
     border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 12px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .service-icon svg {
-    width: 34px;
-    height: 34px;
+    width: 28px;
+    height: 28px;
 }
 
 .icon-stroke {
@@ -732,22 +732,22 @@ body {
 }
 
 .service-badge {
-    font-size: var(--step-0);
+    font-size: 0.7rem;
     text-transform: uppercase;
-    letter-spacing: 1.6px;
+    letter-spacing: 1.2px;
+    font-weight: 600;
     color: var(--accent-amber);
     background: rgba(243, 183, 110, 0.12);
     border: 1px solid rgba(243, 183, 110, 0.35);
-    padding: var(--space-2xs) var(--space-sm);
+    padding: 4px 12px;
     border-radius: 999px;
 }
 
 .service-card h3 {
-    font-size: var(--step-3);
+    font-size: var(--step-2);
     color: var(--accent-silver);
-    font-weight: 400;
-    letter-spacing: 0.3px;
-    margin-bottom: var(--space-sm);
+    font-weight: 500;
+    letter-spacing: 0.2px;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
@@ -802,19 +802,18 @@ body {
 }
 
 .glass-card {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(24px) saturate(180%);
-    border-radius: 28px;
-    padding: var(--space-3xl);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 20px;
+    padding: var(--space-xl);
+    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
     box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.6),
-        0 8px 24px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+        0 8px 32px rgba(0, 0, 0, 0.5),
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 [data-theme="neutral"] .glass-card {
@@ -838,14 +837,13 @@ body {
 }
 
 .glass-card:hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
-    border-color: rgba(255, 255, 255, 0.3);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04));
+    border-color: rgba(255, 255, 255, 0.25);
     box-shadow: 
-        0 32px 80px rgba(0, 0, 0, 0.7),
-        0 16px 32px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.15);
-    transform: translateY(-12px);
+        0 16px 48px rgba(0, 0, 0, 0.6),
+        0 4px 16px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transform: translateY(-4px);
 }
 
 
@@ -875,9 +873,9 @@ body {
 }
 
 .cert-badge {
-    height: 130px;
+    height: 100px;
     width: auto;
-    filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.45));
+    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4));
 }
 
 .credential-metrics {
@@ -893,21 +891,21 @@ body {
     gap: 0.2rem;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 16px;
-    padding: var(--space-md);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: var(--space-sm);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .metric-value {
-    font-size: 1.7rem;
-    font-weight: 600;
-    letter-spacing: 1px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
     color: var(--accent-silver);
 }
 
 .metric-label {
-    font-size: 0.75rem;
-    letter-spacing: 1.6px;
+    font-size: 0.7rem;
+    letter-spacing: 1.2px;
     text-transform: uppercase;
     color: var(--accent-chrome);
 }
@@ -939,16 +937,16 @@ body {
 }
 
 .timeline-step h3 {
-    font-size: 1.3rem;
+    font-size: 1.05rem;
     color: var(--accent-silver);
-    margin-bottom: 0.4rem;
-    font-weight: 400;
-    letter-spacing: 0.5px;
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
 }
 
 .timeline-step p {
-    font-size: 0.95rem;
-    line-height: 1.7;
+    font-size: 0.875rem;
+    line-height: 1.6;
     color: var(--text-gray);
 }
 
@@ -981,9 +979,9 @@ body {
 .booking-guidance {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2xl);
+    gap: var(--space-lg);
     position: sticky;
-    top: 120px;
+    top: 100px;
 }
 
 .booking-header {
@@ -1031,17 +1029,18 @@ body {
     display: flex;
     flex-direction: column;
     gap: var(--space-sm);
-    padding: var(--space-lg);
-    border-radius: 20px;
+    padding: var(--space-md);
+    border-radius: 16px;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .booking-summary h3 {
-    font-size: 1.2rem;
-    font-weight: 400;
+    font-size: 0.95rem;
+    font-weight: 600;
     color: var(--accent-silver);
-    letter-spacing: 0.4px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
 }
 
 .summary-placeholder {
@@ -1105,9 +1104,9 @@ body {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
     border: 1px solid rgba(138, 138, 138, 0.25);
     backdrop-filter: blur(20px) saturate(180%);
-    border-radius: 24px;
-    padding: var(--space-3xl);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(138, 138, 138, 0.15);
+    border-radius: 20px;
+    padding: var(--space-xl);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(138, 138, 138, 0.1);
 }
 
 .booking-calendar {
@@ -1118,28 +1117,28 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--space-3xl);
-    padding-bottom: var(--space-lg);
-    border-bottom: 1px solid var(--glass-border);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .calendar-header h3 {
-    font-size: 1.3rem;
-    font-weight: 200;
+    font-size: 1.05rem;
+    font-weight: 500;
     color: var(--accent-silver);
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
 }
 
 .calendar-nav {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     color: var(--text-light);
-    width: 44px;
-    height: 44px;
+    width: 36px;
+    height: 36px;
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 1rem;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1154,7 +1153,7 @@ body {
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: var(--space-xs);
+    gap: 6px;
 }
 
 .calendar-day {
@@ -1162,14 +1161,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
-    font-size: 0.95rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
     color: var(--text-light);
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(138, 138, 138, 0.2);
-    font-weight: 300;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+    font-weight: 400;
     position: relative;
+    min-height: 40px;
 }
 
 .calendar-day:hover:not(.disabled):not(.day-label) {
@@ -1197,13 +1198,15 @@ body {
 }
 
 .calendar-day.day-label {
-    font-weight: 400;
+    font-weight: 600;
     color: var(--accent-chrome);
     cursor: default;
     font-size: 0.7rem;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: var(--space-2xs);
+    letter-spacing: 1px;
+    background: transparent;
+    border: none;
+    margin-bottom: 4px;
 }
 
 .booking-form-wrapper {
@@ -1245,11 +1248,11 @@ body {
 
 .booking-times h3,
 .booking-form h3 {
-    font-size: 1.3rem;
-    font-weight: 200;
+    font-size: 1.05rem;
+    font-weight: 500;
     color: var(--accent-silver);
-    margin-bottom: var(--space-lg);
-    letter-spacing: 0.5px;
+    margin-bottom: var(--space-md);
+    letter-spacing: 0.3px;
 }
 
 .booking-times-header {
@@ -1267,8 +1270,9 @@ body {
 }
 
 .calendar-footnote {
-    margin-top: var(--space-xl);
+    margin-top: var(--space-md);
     text-align: center;
+    font-size: 0.8rem;
 }
 
 .cancel-selection {
@@ -1295,37 +1299,38 @@ body {
 .time-slots {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-xs);
+    gap: 8px;
 }
 
 .time-slot {
-    padding: var(--space-sm);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-    border: 1px solid rgba(138, 138, 138, 0.25);
-    border-radius: 12px;
+    padding: var(--space-xs) var(--space-sm);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
     color: var(--text-light);
-    font-weight: 300;
+    font-weight: 500;
     letter-spacing: 0.3px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(138, 138, 138, 0.12);
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .time-slot:hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+    background: rgba(255, 255, 255, 0.08);
     border-color: var(--accent-chrome);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transform: translateY(-1px);
 }
 
 .time-slot.selected {
     background: linear-gradient(135deg, var(--accent-silver), var(--accent-chrome));
     color: var(--bg-dark);
     border-color: var(--accent-silver);
-    font-weight: 400;
-    box-shadow: 0 4px 16px rgba(232, 232, 232, 0.3);
+    font-weight: 600;
 }
 
 [data-theme="light"] .time-slot.selected {
@@ -1359,18 +1364,17 @@ body {
 .booking-form select,
 .booking-form textarea {
     width: 100%;
-    padding: var(--space-sm) var(--space-md);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
-    border: 1px solid rgba(138, 138, 138, 0.25);
-    border-radius: 12px;
+    padding: var(--space-xs) var(--space-sm);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
     color: var(--text-light);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-family: inherit;
-    font-weight: 300;
-    letter-spacing: 0.3px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(138, 138, 138, 0.12);
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    transition: all 0.2s ease;
+    min-height: 42px;
 }
 
 .booking-form select {
@@ -1451,12 +1455,12 @@ body {
 
 .faq-question {
     width: 100%;
-    padding: var(--space-2xl) var(--space-2xl);
+    padding: var(--space-lg) var(--space-xl);
     background: none;
     border: none;
     color: var(--text-light);
-    font-size: 1.1rem;
-    font-weight: 400;
+    font-size: 1rem;
+    font-weight: 500;
     text-align: left;
     display: flex;
     justify-content: space-between;
@@ -1513,7 +1517,7 @@ body {
 
 .faq-item.active .faq-answer {
     max-height: 500px;
-    padding: 0 var(--space-xl) var(--space-2xl);
+    padding: 0 var(--space-xl) var(--space-lg);
     opacity: 1;
 }
 
@@ -1626,18 +1630,17 @@ body {
 .contact-form input,
 .contact-form textarea {
     width: 100%;
-    padding: var(--space-sm) var(--space-md);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
-    border: 1px solid rgba(138, 138, 138, 0.25);
-    border-radius: 12px;
+    padding: var(--space-xs) var(--space-sm);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
     color: var(--text-light);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-family: inherit;
-    font-weight: 300;
-    letter-spacing: 0.3px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(138, 138, 138, 0.12);
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    transition: all 0.2s ease;
+    min-height: 42px;
 }
 
 .contact-form textarea {

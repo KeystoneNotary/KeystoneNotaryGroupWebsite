@@ -261,7 +261,7 @@ if (gsapInstance) {
         scrollTrigger: {
             trigger: '.about-section',
             start: 'top 70%',
-            toggleActions: 'play reverse play reverse'
+            toggleActions: 'play none none none'
         },
         opacity: 0,
         y: 60,
@@ -273,7 +273,7 @@ if (gsapInstance) {
         scrollTrigger: {
             trigger: '.about-content-centered',
             start: 'top 75%',
-            toggleActions: 'play reverse play reverse'
+            toggleActions: 'play none none none'
         },
         opacity: 0,
         y: 20,
@@ -285,7 +285,7 @@ if (gsapInstance) {
         scrollTrigger: {
             trigger: '.about-content-centered',
             start: 'top 75%',
-            toggleActions: 'play reverse play reverse'
+            toggleActions: 'play none none none'
         },
         opacity: 0,
         y: 30,
@@ -298,7 +298,7 @@ if (gsapInstance) {
         scrollTrigger: {
             trigger: '.about-content-centered',
             start: 'top 75%',
-            toggleActions: 'play reverse play reverse'
+            toggleActions: 'play none none none'
         },
         opacity: 0,
         y: 20,
@@ -312,7 +312,7 @@ if (gsapInstance) {
         scrollTrigger: {
             trigger: '.services-section',
             start: 'top 70%',
-            toggleActions: 'play reverse play reverse'
+            toggleActions: 'play none none none'
         },
         opacity: 0,
         y: 60,
@@ -325,7 +325,7 @@ if (gsapInstance) {
         scrollTrigger: {
             trigger: '.credentials-section',
             start: 'top 70%',
-            toggleActions: 'play reverse play reverse'
+            toggleActions: 'play none none none'
         },
         opacity: 0,
         y: 40,
@@ -337,7 +337,7 @@ if (gsapInstance) {
         scrollTrigger: {
             trigger: '.credentials-section',
             start: 'top 70%',
-            toggleActions: 'play reverse play reverse'
+            toggleActions: 'play none none none'
         },
         opacity: 0,
         scale: 0.8,
@@ -350,7 +350,7 @@ if (gsapInstance) {
         scrollTrigger: {
             trigger: '.credentials-section',
             start: 'top 70%',
-            toggleActions: 'play reverse play reverse'
+            toggleActions: 'play none none none'
         },
         opacity: 0,
         y: 20,
@@ -364,7 +364,7 @@ if (gsapInstance) {
         scrollTrigger: {
             trigger: '.contact-section',
             start: 'top 70%',
-            toggleActions: 'play reverse play reverse'
+            toggleActions: 'play none none none'
         },
         opacity: 0,
         y: 60,
@@ -409,7 +409,7 @@ if (gsapInstance && floatingCta) {
         scrollTrigger: {
             trigger: '.services-section',
             start: 'top center',
-            toggleActions: 'play reverse play reverse'
+            toggleActions: 'play none none none'
         },
         scale: 0,
         duration: 0.5,

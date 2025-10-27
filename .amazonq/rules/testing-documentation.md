@@ -1,1 +1,17 @@
-# Testing & Documentation Standards\n\n## CRITICAL RULE - NEVER MODIFY UNRELATED CODE\n**NEVER ALTER ANY CODE UNRELATED TO THE CURRENT TASK WITHOUT EXPLICIT PERMISSION FROM THE USER. ONLY MODIFY EXACTLY WHAT IS REQUESTED. NO EXCEPTIONS.**\n\n## Testing Requirements\n- Every new feature must have robust unit tests\n- Test coverage for all JavaScript functions\n- Form validation testing\n- Cross-browser compatibility testing\n- Mobile responsiveness testing\n- Performance testing (Core Web Vitals)\n\n## Documentation Standards\n- All documentation must be kept updated at all times\n- README files for project setup\n- Code comments only for complex business logic\n- API documentation for any integrations\n- Deployment and maintenance procedures\n- Change logs for version tracking\n\n## Quality Assurance\n- Code reviews before deployment\n- Automated testing where possible\n- Manual testing for user workflows\n- Accessibility compliance verification\n- Security vulnerability scanning
+# Testing & Documentation Standards
+
+---
+
+## Documentation Principles
+
+- **Documentation-Driven Development:** For new projects, write the complete technical documentation first. Then, generate the code that perfectly matches that documentation.
+- **Standards:** All documentation must be kept updated at all times. This includes README files, API documentation, and `change_log.md` for version tracking.
+- **`memory/` Maintenance:** All project decisions, changes, and context **must** be logged in the `memory/` directory files (`context.md`, `design_decisions.md`, etc.) as they happen.
+
+---
+
+## Testing Principles
+
+- **Test-Driven Development (TDD):** For new features, **write the tests first**. Your test suite must include unit tests, integration tests, and edge cases. Only after the tests are written should you implement the feature code to make all tests pass.
+- **Requirements:** Every new feature must have robust unit tests. This includes form validation, cross-browser compatibility, and mobile responsiveness testing.
+- **Quality Assurance:** Must perform code reviews, automated testing, manual user workflow testing, and accessibility compliance verification.

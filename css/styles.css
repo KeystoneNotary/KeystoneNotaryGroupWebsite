@@ -2211,3 +2211,7 @@ body {
 #appointmentFormMessages {
     min-height: 0;
 }
+
+section {
+    border: 1px solid red !important;
+}

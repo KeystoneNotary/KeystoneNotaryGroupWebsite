@@ -323,5 +323,38 @@ For future decisions, use this format:
 
 ---
 
+---
+
+## SYSTEM ARCHITECTURE DECISIONS
+
+### 16. Continuous Memory Update Protocol
+**Decision:** Implement real-time memory updates instead of session-end updates  
+**Date:** Current Session  
+**Context:** User identified that memory should function like a real brain, storing information when learned
+**Rationale:**
+- Prevents information loss during sessions
+- Improves continuity between interactions
+- Enables better context awareness
+- Mimics natural brain function
+
+**Implementation:**
+- Update `memory/context.md` after significant interactions
+- Log conversations in real-time
+- Track decisions as they're made
+- Progressive change logging
+- Memory-first protocol
+
+**Trade-offs:**
+- More frequent file writes
+- Slightly more complex workflow
+- Better continuity and context retention
+
+**Success Criteria:**
+- No more "where did we leave off" confusion
+- Seamless session continuity
+- Real-time project state awareness
+
+---
+
 **Last Updated:** Current Session  
 **Next Review:** After Phase 1 completion

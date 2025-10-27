@@ -1,0 +1,35 @@
+{
+  "amazonQ.allowFeatureDevelopmentToRunCodeAndTests": {
+    "enabled": true
+  },
+  "remoteHub.richNavigation.enabled": true,
+  "amazonQ.telemetry": false,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "diffEditor.codeLens": true,
+  "files.autoSave": "afterDelay",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.autoIndentOnPaste": true,
+  "chat.delegateToCodingAgentInSecondaryMenu": true,
+  "chat.editing.autoAcceptDelay": 30,
+  "chat.emptyState.history.enabled": true,
+  "chat.mcp.assisted.nuget.enabled": true,
+  "chat.mcp.discovery.enabled": {
+    "claude-desktop": true,
+    "cursor-workspace": true,
+    "cursor-global": true,
+    "windsurf": true
+  },
+  "chat.todoListTool.writeOnly": false,
+  "inlineChat.enableV2": true,
+  "chat.useNestedAgentsMdFiles": true,
+  "agentMemory.autoSyncToFile": "memory-bank/project-memory.md",
+  "mcpServers": {
+    "fetch": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"]
+    }
+  },
+  "chatgpt.openOnStartup": true
+}

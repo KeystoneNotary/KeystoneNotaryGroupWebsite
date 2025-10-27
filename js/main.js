@@ -1,16 +1,7 @@
 /**
  * Keystone Notary Group LLC - Main JavaScript
- * Handles theme switching, animations, forms, and booking system
+ * Handles theme switching, forms, and booking system
  */
-
-const globalScope = typeof window !== 'undefined' ? window : globalThis;
-const gsapAvailable = typeof globalScope.gsap !== 'undefined' && typeof globalScope.ScrollTrigger !== 'undefined' && typeof globalScope.ScrollToPlugin !== 'undefined';
-
-if (gsapAvailable) {
-    globalScope.gsap.registerPlugin(globalScope.ScrollTrigger, globalScope.ScrollToPlugin);
-}
-
-const gsapInstance = gsapAvailable ? globalScope.gsap : null;
 
 // Configuration constants
 const SCROLL_THRESHOLD = 500;
@@ -18,8 +9,7 @@ const NAV_OFFSET = 80;
 const LOADER_DELAY = 1000;
 const ERROR_DURATION = 3000;
 const SUCCESS_DURATION = 5000;
-const GSAP_SCROLL_DURATION = 1.2;
-const GSAP_EASE = 'power3.inOut';
+
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const themeConfig = [
@@ -201,178 +191,11 @@ if (scrollProgress && backToTop) {
     });
 
     backToTop.addEventListener('click', () => {
-        if (gsapInstance) {
-            gsapInstance.to(window, {
-                duration: 1.5,
-                scrollTo: 0,
-                ease: GSAP_EASE
-            });
-        } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 }
 
-// Hero parallax with overlay fade and section reveals
-if (gsapInstance) {
-    gsapInstance.to('.parallax-bg', {
-        scrollTrigger: {
-            trigger: '.hero-section',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true
-        },
-        y: 300,
-        scale: 1.2
-    });
 
-    gsapInstance.from('.hero-logo', {
-        opacity: 0,
-        y: -50,
-        duration: 1.5,
-        ease: 'power3.out'
-    });
-
-    gsapInstance.from('.hero-content h1', {
-        opacity: 0,
-        y: 30,
-        duration: 1,
-        delay: 0.3,
-        ease: 'power3.out'
-    });
-
-    gsapInstance.from('.hero-content p', {
-        opacity: 0,
-        y: 20,
-        duration: 0.9,
-        delay: 0.5,
-        ease: 'power3.out'
-    });
-
-    gsapInstance.from('.cta-button', {
-        opacity: 0,
-        y: 30,
-        duration: 1,
-        delay: 0.7,
-        ease: 'power3.out'
-    });
-
-    gsapInstance.from('.about-content-centered', {
-        scrollTrigger: {
-            trigger: '.about-section',
-            start: 'top 70%',
-            toggleActions: 'play none none none'
-        },
-        opacity: 0,
-        y: 60,
-        duration: 1,
-        ease: 'power3.out'
-    });
-
-    gsapInstance.from('.about-section .section-label', {
-        scrollTrigger: {
-            trigger: '.about-content-centered',
-            start: 'top 75%',
-            toggleActions: 'play none none none'
-        },
-        opacity: 0,
-        y: 20,
-        duration: 0.6,
-        ease: 'power2.out'
-    });
-
-    gsapInstance.from('.about-content-centered h2', {
-        scrollTrigger: {
-            trigger: '.about-content-centered',
-            start: 'top 75%',
-            toggleActions: 'play none none none'
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        delay: 0.2,
-        ease: 'power3.out'
-    });
-
-    gsapInstance.from('.about-content-centered p', {
-        scrollTrigger: {
-            trigger: '.about-content-centered',
-            start: 'top 75%',
-            toggleActions: 'play none none none'
-        },
-        opacity: 0,
-        y: 20,
-        stagger: 0.15,
-        duration: 0.6,
-        delay: 0.4,
-        ease: 'power2.out'
-    });
-
-    gsapInstance.from('.service-card', {
-        scrollTrigger: {
-            trigger: '.services-section',
-            start: 'top 70%',
-            toggleActions: 'play none none none'
-        },
-        opacity: 0,
-        y: 60,
-        stagger: 0.2,
-        duration: 1,
-        ease: 'power3.out'
-    });
-
-    gsapInstance.from('.credentials-section h2', {
-        scrollTrigger: {
-            trigger: '.credentials-section',
-            start: 'top 70%',
-            toggleActions: 'play none none none'
-        },
-        opacity: 0,
-        y: 40,
-        duration: 0.8,
-        ease: 'power3.out'
-    });
-
-    gsapInstance.from('.cert-badge', {
-        scrollTrigger: {
-            trigger: '.credentials-section',
-            start: 'top 70%',
-            toggleActions: 'play none none none'
-        },
-        opacity: 0,
-        scale: 0.8,
-        duration: 1,
-        delay: 0.3,
-        ease: 'power3.out'
-    });
-
-    gsapInstance.from('.credential-list li', {
-        scrollTrigger: {
-            trigger: '.credentials-section',
-            start: 'top 70%',
-            toggleActions: 'play none none none'
-        },
-        opacity: 0,
-        y: 20,
-        stagger: 0.1,
-        duration: 0.6,
-        delay: 0.6,
-        ease: 'power2.out'
-    });
-
-    gsapInstance.from('.contact-card', {
-        scrollTrigger: {
-            trigger: '.contact-section',
-            start: 'top 70%',
-            toggleActions: 'play none none none'
-        },
-        opacity: 0,
-        y: 60,
-        stagger: 0.15,
-        duration: 1,
-        ease: 'power3.out'
-    });
-}
 
 
 
@@ -383,15 +206,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         const target = document.querySelector(this.getAttribute('href'));
         if (!target) return;
 
-        if (gsapInstance) {
-            gsapInstance.to(window, {
-                duration: GSAP_SCROLL_DURATION,
-                scrollTo: target.offsetTop - NAV_OFFSET,
-                ease: GSAP_EASE
-            });
-        } else {
-            window.scrollTo({ top: Math.max(target.offsetTop - NAV_OFFSET, 0), behavior: 'smooth' });
-        }
+        window.scrollTo({ top: Math.max(target.offsetTop - NAV_OFFSET, 0), behavior: 'smooth' });
     });
 });
 
@@ -401,21 +216,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 
 
-// Floating CTA show/hide
-const floatingCta = document.querySelector('.floating-cta');
 
-if (gsapInstance && floatingCta) {
-    gsapInstance.from(floatingCta, {
-        scrollTrigger: {
-            trigger: '.services-section',
-            start: 'top center',
-            toggleActions: 'play none none none'
-        },
-        scale: 0,
-        duration: 0.5,
-        ease: 'back.out'
-    });
-}
 
 // Form validation and submission
 const contactForm = document.getElementById('contactForm');

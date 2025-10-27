@@ -681,158 +681,100 @@ body {
 .services-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    max-width: 1400px;
+    gap: 0;
+    max-width: 1200px;
     margin: 0 auto;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-    padding: 2px;
-    border-radius: 2px;
 }
 
 .service-card {
-    padding: var(--space-3xl) var(--space-2xl);
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
-    backdrop-filter: blur(20px);
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s ease;
+    padding: var(--space-4xl) var(--space-2xl);
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.service-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-.service-card:hover::before {
-    opacity: 1;
-}
-
-.service-card:hover {
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+.service-card:last-child {
+    border-right: none;
 }
 
 .service-card-header {
-    margin-bottom: var(--space-xl);
-    text-align: center;
+    display: none;
 }
 
 .service-icon {
-    width: 56px;
-    height: 56px;
-    margin: 0 auto var(--space-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 50%;
-}
-
-.service-icon svg {
-    width: 28px;
-    height: 28px;
-}
-
-.icon-stroke {
-    fill: none;
-    stroke: var(--accent-silver);
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    display: none;
 }
 
 .service-badge {
-    display: inline-block;
-    font-size: 0.65rem;
+    display: block;
+    font-size: 0.7rem;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    font-weight: 700;
-    color: var(--accent-amber);
-    padding: 0;
-    background: none;
-    border: none;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: var(--accent-chrome);
+    margin-bottom: var(--space-md);
 }
 
 .service-card h3 {
-    font-size: var(--step-2);
+    font-size: var(--step-3);
     color: var(--accent-silver);
-    font-weight: 300;
-    margin-bottom: var(--space-lg);
+    font-weight: 200;
+    margin-bottom: var(--space-xl);
     letter-spacing: -0.5px;
+    line-height: 1.2;
 }
 
 .service-lead {
-    font-size: 0.95rem;
-    line-height: 1.7;
+    font-size: 1rem;
+    line-height: 1.8;
     color: var(--text-gray);
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-2xl);
     font-weight: 300;
 }
 
 .service-highlights {
     list-style: none;
     padding: 0;
-    margin-bottom: var(--space-xl);
-    text-align: left;
+    margin-bottom: var(--space-2xl);
 }
 
 .service-highlights li {
-    font-size: 0.875rem;
-    line-height: 1.8;
+    font-size: 0.9rem;
+    line-height: 2;
     color: var(--text-gray);
-    padding-left: var(--space-md);
-    position: relative;
-    margin-bottom: var(--space-sm);
     font-weight: 300;
-}
-
-.service-highlights li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.7em;
-    width: 4px;
-    height: 1px;
-    background: var(--accent-silver);
+    margin-bottom: 0;
 }
 
 .service-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding-top: var(--space-lg);
+    padding-top: var(--space-xl);
     border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .service-price {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 300;
     color: var(--text-light);
     letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: var(--space-xs);
 }
 
 .service-turnaround {
     font-size: 0.75rem;
     color: var(--accent-chrome);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     font-weight: 600;
+    display: block;
 }
 
 .services-assurance {
     margin-top: var(--space-4xl);
     text-align: center;
     color: var(--text-gray);
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 300;
-    max-width: 800px;
+    line-height: 1.8;
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -882,125 +824,100 @@ body {
 
 
 .credentials-section {
-    text-align: left;
-}
-
-.credentials-section .section-header {
-    text-align: left;
-    margin-bottom: var(--space-2xl);
+    text-align: center;
 }
 
 .credentials-grid {
-    display: grid;
-    gap: var(--space-xl);
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    align-items: start;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .credential-badge-stack {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-lg);
-    align-items: center;
-    justify-content: flex-start;
-    text-align: center;
-    height: auto;
+    margin-bottom: var(--space-4xl);
 }
 
 .cert-badge {
-    height: 100px;
+    height: 80px;
     width: auto;
-    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4));
+    opacity: 0.9;
+    margin-bottom: var(--space-2xl);
 }
 
 .credential-metrics {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
-    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: var(--space-4xl);
+    margin-bottom: var(--space-4xl);
 }
 
 .metric {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
-    padding: var(--space-sm);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    text-align: center;
 }
 
 .metric-value {
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    font-size: 2.5rem;
+    font-weight: 200;
+    letter-spacing: -1px;
     color: var(--accent-silver);
+    display: block;
+    margin-bottom: var(--space-xs);
 }
 
 .metric-label {
-    font-size: 0.7rem;
-    letter-spacing: 1.2px;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--accent-chrome);
+    font-weight: 600;
 }
 
 .credential-proof {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xl);
-    height: auto;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
 .credential-timeline {
-    display: grid;
-    gap: var(--space-lg);
+    margin-bottom: var(--space-3xl);
 }
 
 .timeline-step {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: var(--space-md);
-    align-items: start;
+    margin-bottom: var(--space-2xl);
 }
 
 .timeline-dot {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 2px solid var(--accent-amber);
-    box-shadow: 0 0 12px rgba(243, 183, 110, 0.35);
+    display: none;
 }
 
 .timeline-step h3 {
-    font-size: 1.05rem;
+    font-size: var(--step-2);
     color: var(--accent-silver);
-    margin-bottom: 0.3rem;
-    font-weight: 500;
-    letter-spacing: 0.3px;
+    margin-bottom: var(--space-md);
+    font-weight: 300;
+    letter-spacing: -0.3px;
 }
 
 .timeline-step p {
-    font-size: 0.875rem;
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.8;
     color: var(--text-gray);
+    font-weight: 300;
 }
 
 .credential-list {
-    display: grid;
-    gap: var(--space-xs);
-    padding-left: var(--space-md);
-    color: var(--text-light);
-    font-size: 0.95rem;
-    line-height: 1.7;
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-2xl);
 }
 
-.credential-list li::marker {
-    color: var(--accent-amber);
+.credential-list li {
+    font-size: 0.95rem;
+    line-height: 2;
+    color: var(--text-gray);
+    font-weight: 300;
 }
 
 .booking-section {
-    text-align: left;
+    text-align: center;
 }
 
 .booking-shell {
@@ -1451,11 +1368,7 @@ body {
 }
 
 .faq-section {
-    text-align: left;
-}
-
-.faq-section .section-header {
-    text-align: left;
+    text-align: center;
 }
 
 .faq-container {
@@ -1615,12 +1528,7 @@ body {
 }
 
 .contact-section {
-    text-align: left;
-}
-
-.contact-section .section-header {
-    text-align: left;
-    margin-bottom: var(--space-3xl);
+    text-align: center;
 }
 
 .contact-grid {

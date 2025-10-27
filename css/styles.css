@@ -685,122 +685,131 @@ body {
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--space-xl);
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
     max-width: 1200px;
     margin: 0 auto;
-    align-items: start;
 }
 
 .service-card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
-    text-align: left;
-    height: auto;
+    padding: var(--space-xl);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.service-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
 .service-card-header {
-    width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    gap: var(--space-md);
+    margin-bottom: var(--space-md);
 }
 
 .service-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
-    display: grid;
-    place-items: center;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04));
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.3);
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .service-icon svg {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
 }
 
 .icon-stroke {
     fill: none;
     stroke: var(--accent-silver);
-    stroke-width: 2.4;
+    stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
 }
 
 .service-badge {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     text-transform: uppercase;
-    letter-spacing: 1.2px;
+    letter-spacing: 1px;
     font-weight: 600;
     color: var(--accent-amber);
-    background: rgba(243, 183, 110, 0.12);
-    border: 1px solid rgba(243, 183, 110, 0.35);
-    padding: 4px 12px;
-    border-radius: 999px;
+    background: rgba(243, 183, 110, 0.1);
+    border: 1px solid rgba(243, 183, 110, 0.3);
+    padding: 4px 10px;
+    border-radius: 6px;
 }
 
 .service-card h3 {
-    font-size: var(--step-2);
+    font-size: 1.25rem;
     color: var(--accent-silver);
     font-weight: 500;
-    letter-spacing: 0.2px;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    margin-bottom: var(--space-sm);
 }
 
 .service-lead {
-    font-size: var(--step-1);
-    line-height: 1.7;
-    color: var(--text-light);
-    font-weight: 300;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-gray);
     margin-bottom: var(--space-md);
 }
 
 .service-highlights {
-    display: grid;
-    gap: var(--space-xs);
-    padding-left: var(--space-lg);
-    color: var(--text-gray);
-    font-size: var(--step-0);
-    line-height: 1.6;
-    margin-bottom: var(--space-lg);
+    list-style: none;
+    padding: 0;
+    margin-bottom: var(--space-md);
 }
 
-.service-highlights li::marker {
+.service-highlights li {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--text-gray);
+    padding-left: var(--space-md);
+    position: relative;
+    margin-bottom: var(--space-xs);
+}
+
+.service-highlights li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
     color: var(--accent-amber);
 }
 
 .service-meta {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-sm);
-    font-size: var(--step-0);
-    text-transform: uppercase;
-    letter-spacing: 1.6px;
-    color: var(--accent-chrome);
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .service-price {
-    background: rgba(255, 255, 255, 0.05);
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--accent-silver);
 }
 
 .service-turnaround {
-    color: var(--accent-silver);
+    font-size: 0.8rem;
+    color: var(--accent-chrome);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .services-assurance {
     margin-top: var(--space-2xl);
     text-align: center;
     color: var(--text-gray);
-    font-size: var(--step-0);
+    font-size: 0.95rem;
 }
 
 .glass-card {
@@ -970,113 +979,66 @@ body {
 }
 
 .booking-shell {
-    display: grid;
-    grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
-    gap: var(--space-3xl);
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
-    align-items: start;
 }
 
 .booking-guidance {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-lg);
-    position: sticky;
-    top: 100px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: var(--space-xl);
+    margin-bottom: var(--space-xl);
 }
 
 .booking-header {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
 }
 
 .booking-steps {
     list-style: none;
     display: flex;
-    gap: var(--space-xs);
+    gap: var(--space-sm);
     padding: 0;
-    margin: 0;
+    margin: 0 0 var(--space-md) 0;
 }
 
 .booking-steps .step {
     flex: 1;
     text-align: center;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 1.6px;
-    padding: var(--space-2xs) var(--space-xs);
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    letter-spacing: 1px;
+    font-weight: 600;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: 6px;
     background: rgba(255, 255, 255, 0.04);
     color: var(--accent-chrome);
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .booking-steps .step.active {
     color: var(--bg-dark);
-    background: linear-gradient(135deg, var(--accent-silver), var(--accent-chrome));
-    border-color: transparent;
-    box-shadow: 0 10px 24px rgba(232, 232, 232, 0.25);
+    background: var(--accent-silver);
 }
 
 .booking-hint {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--text-gray);
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
 .booking-summary {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    padding: var(--space-md);
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.booking-summary h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--accent-silver);
-    letter-spacing: 0.3px;
-    text-transform: uppercase;
-}
-
-.summary-placeholder {
-    font-size: 0.9rem;
-    color: var(--text-gray);
-}
-
-.summary-placeholder.hidden {
     display: none;
 }
 
-.summary-list {
-    display: grid;
-    gap: var(--space-xs);
-}
-
-.summary-item {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1.4px;
-    color: var(--accent-chrome);
-}
-
-.summary-item dd {
-    margin: 0;
-    color: var(--accent-silver);
-}
-
 .booking-assurances {
-    font-size: 0.9rem;
-    line-height: 1.7;
+    font-size: 0.875rem;
+    line-height: 1.6;
     color: var(--text-gray);
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: var(--space-md);
 }
 
 .booking-assurances a {
@@ -1090,73 +1052,61 @@ body {
 
 .booking-body {
     display: grid;
-    gap: var(--space-xl);
+    gap: var(--space-lg);
 }
 
 .booking-container {
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: var(--space-xl);
-    align-items: start;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
 }
 
 .booking-calendar,
 .booking-times,
 .booking-form {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-    border: 1px solid rgba(138, 138, 138, 0.25);
-    backdrop-filter: blur(20px) saturate(180%);
-    border-radius: 20px;
-    padding: var(--space-xl);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(138, 138, 138, 0.1);
-}
-
-.booking-calendar {
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    max-width: 480px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: var(--space-lg);
 }
 
 .calendar-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--space-lg);
-    padding-bottom: var(--space-sm);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: var(--space-md);
 }
 
 .calendar-header h3 {
-    font-size: 1.05rem;
-    font-weight: 500;
+    font-size: 1rem;
+    font-weight: 600;
     color: var(--accent-silver);
-    letter-spacing: 0.3px;
 }
 
 .calendar-nav {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--text-light);
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .calendar-nav:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--accent-silver);
-    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
+    gap: 4px;
 }
 
 .calendar-day {
@@ -1164,52 +1114,43 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: 6px;
     font-size: 0.875rem;
     color: var(--text-light);
     cursor: pointer;
     transition: all 0.2s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.02);
-    font-weight: 400;
-    position: relative;
-    min-height: 40px;
+    background: rgba(255, 255, 255, 0.03);
+    font-weight: 500;
 }
 
 .calendar-day:hover:not(.disabled):not(.day-label) {
     background: rgba(255, 255, 255, 0.08);
-    border-color: var(--glass-border);
-    transform: scale(1.05);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .calendar-day.selected {
-    background: linear-gradient(135deg, var(--accent-silver), var(--accent-chrome));
+    background: var(--accent-silver);
     color: var(--bg-dark);
-    font-weight: 400;
-    box-shadow: 0 4px 12px rgba(232, 232, 232, 0.3);
+    font-weight: 600;
 }
 
 [data-theme="light"] .calendar-day.selected {
-    background: linear-gradient(135deg, #4a4a4a, #3a3a3a);
+    background: #4a4a4a;
     color: #ffffff;
 }
 
 .calendar-day.disabled {
-    opacity: 0.2;
+    opacity: 0.3;
     cursor: not-allowed;
 }
 
 .calendar-day.day-label {
-    font-weight: 600;
+    font-weight: 700;
     color: var(--accent-chrome);
     cursor: default;
     font-size: 0.7rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     background: transparent;
-    border: none;
-    margin-bottom: 4px;
 }
 
 .booking-form-wrapper {
@@ -1232,17 +1173,14 @@ body {
     opacity: 0;
     max-height: 0;
     overflow: hidden;
-    transform: translateX(40px);
-    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.3s ease, max-height 0.3s ease;
     pointer-events: none;
-    width: 280px;
 }
 
 .booking-times.visible {
     opacity: 1;
-    transform: translateX(0);
     pointer-events: auto;
-    max-height: 1200px;
+    max-height: 800px;
 }
 
 .booking-form {
@@ -1252,99 +1190,85 @@ body {
 
 .booking-times h3,
 .booking-form h3 {
-    font-size: 1.05rem;
-    font-weight: 500;
+    font-size: 1rem;
+    font-weight: 600;
     color: var(--accent-silver);
     margin-bottom: var(--space-md);
-    letter-spacing: 0.3px;
 }
 
 .booking-times-header {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-md);
 }
 
-.times-hint,
-.calendar-footnote {
-    font-size: 0.85rem;
+.times-hint {
+    font-size: 0.8rem;
     color: var(--text-gray);
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
 .calendar-footnote {
     margin-top: var(--space-md);
     text-align: center;
     font-size: 0.8rem;
+    color: var(--text-gray);
+    line-height: 1.5;
 }
 
 .cancel-selection {
-    background: none;
-    border: 1px solid var(--glass-border);
-    color: var(--accent-chrome);
-    padding: var(--space-xs) var(--space-lg);
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-gray);
+    padding: var(--space-sm);
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 300;
-    letter-spacing: 0.5px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-top: var(--space-lg);
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    margin-top: var(--space-md);
     width: 100%;
 }
 
 .cancel-selection:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: var(--accent-chrome);
+    background: rgba(255, 255, 255, 0.06);
     color: var(--text-light);
 }
 
 .time-slots {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    grid-template-columns: 1fr;
+    gap: 6px;
 }
 
 .time-slot {
-    padding: var(--space-xs) var(--space-sm);
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 8px;
+    padding: var(--space-sm);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
     text-align: center;
     cursor: pointer;
     transition: all 0.2s ease;
     font-size: 0.875rem;
     color: var(--text-light);
     font-weight: 500;
-    letter-spacing: 0.3px;
-    min-height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .time-slot:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--accent-chrome);
-    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.06);
 }
 
 .time-slot.selected {
-    background: linear-gradient(135deg, var(--accent-silver), var(--accent-chrome));
+    background: var(--accent-silver);
     color: var(--bg-dark);
-    border-color: var(--accent-silver);
     font-weight: 600;
 }
 
 [data-theme="light"] .time-slot.selected {
-    background: linear-gradient(135deg, #4a4a4a, #3a3a3a);
+    background: #4a4a4a;
     color: #ffffff;
-    border-color: #3a3a3a;
 }
 
 .time-slot.unavailable {
-    opacity: 0.2;
+    opacity: 0.3;
     cursor: not-allowed;
 }
 

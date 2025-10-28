@@ -1,6 +1,5 @@
-const main = require('../js/main.js');
-
-const {
+import { describe, test, beforeEach, afterEach, expect, vi } from 'vitest';
+import {
     applyTheme,
     initTheme,
     bindThemeControls,
@@ -16,7 +15,7 @@ const {
     showTimeSlots,
     selectDate,
     renderCalendar
-} = main;
+} from '../src/js/main.js';
 
 describe('Theme controls', () => {
     beforeEach(() => {
@@ -99,7 +98,7 @@ describe('Contact form helpers', () => {
 
 describe('Booking workflow', () => {
     beforeEach(() => {
-        jest.useFakeTimers();
+        vi.useFakeTimers();
         document.body.innerHTML = `
             <div class="booking-steps"><span class="step"></span><span class="step"></span><span class="step"></span></div>
             <p id="bookingHint"></p>
@@ -117,8 +116,8 @@ describe('Booking workflow', () => {
     });
 
     afterEach(() => {
-        jest.runOnlyPendingTimers();
-        jest.useRealTimers();
+        vi.runOnlyPendingTimers();
+        vi.useRealTimers();
     });
 
     test('renderCalendar populates grid and month label', () => {
@@ -134,7 +133,7 @@ describe('Booking workflow', () => {
         document.body.appendChild(dayEl);
 
         selectDate(new Date(2099, 0, 15), dayEl);
-        jest.runAllTimers();
+        vi.runAllTimers();
 
         expect(dayEl.classList.contains('selected')).toBe(true);
         expect(document.querySelectorAll('.booking-steps .step')[1].classList.contains('active')).toBe(true);
@@ -154,7 +153,7 @@ describe('Booking workflow', () => {
         selectDate(fakeDate, document.createElement('div'));
 
         selectTime('10:00 AM', slotEl);
-        jest.runAllTimers();
+        vi.runAllTimers();
 
         expect(document.getElementById('selectedTime').value).toBe('10:00 AM');
         expect(document.getElementById('bookingFormWrapper').classList.contains('visible')).toBe(true);

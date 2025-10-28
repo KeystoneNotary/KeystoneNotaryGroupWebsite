@@ -579,25 +579,22 @@ function toggleFAQ(button) {
 document.querySelectorAll('.faq-question').forEach(button => {
     button.addEventListener('click', () => toggleFAQ(button));
 });
-
-if (typeof module !== 'undefined') {
-    module.exports = {
-        applyTheme,
-        initTheme,
-        bindThemeControls,
-        toggleThemePanel,
-        closeThemePanel,
-        validateContactForm,
-        showError,
-        showSuccessMessage,
-        setActiveBookingStep,
-        updateBookingSummary,
-        formatSelectedDate,
-        resetCalendar,
-        hideForm,
-        selectTime,
-        showTimeSlots,
-        selectDate,
-        renderCalendar
-    };
-}
+export {
+    applyTheme,
+    initTheme,
+    bindThemeControls,
+    toggleThemePanel,
+    closeThemePanel,
+    validateContactForm,
+    showError,
+    showSuccessMessage,
+    setActiveBookingStep,
+    updateBookingSummary,
+    formatSelectedDate,
+    resetCalendar,
+    hideForm,
+    selectTime,
+    showTimeSlots,
+    selectDate,
+    renderCalendar
+};

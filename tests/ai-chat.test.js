@@ -1,23 +1,11 @@
-const AIChatAgent = require('../js/ai-chat.js');
-
-const ensureDomEnvironment = () => {
-    if (typeof window === 'undefined' || typeof document === 'undefined') {
-        const { JSDOM } = require('jsdom');
-        const dom = new JSDOM('<!doctype html><html><body></body></html>', { url: 'http://localhost' });
-        global.window = dom.window;
-        global.document = dom.window.document;
-        global.localStorage = dom.window.localStorage;
-    }
-};
+import { describe, test, beforeEach, afterEach, expect } from 'vitest';
+import AIChatAgent from '../src/js/ai-chat.js';
 
 describe('AIChatAgent responsive behaviors', () => {
     let agent;
 
     beforeEach(() => {
-        ensureDomEnvironment();
-        if (window.localStorage) {
-            window.localStorage.clear();
-        }
+        window.localStorage?.clear();
         if (window.__aiChatAgentInstance) {
             delete window.__aiChatAgentInstance;
         }
@@ -32,6 +20,7 @@ describe('AIChatAgent responsive behaviors', () => {
         if (window.__aiChatAgentInstance) {
             delete window.__aiChatAgentInstance;
         }
+        document.querySelectorAll('.ai-chat-overlay, .ai-chat-widget').forEach(el => el.remove());
     });
 
     test('toggleChat manages body scroll locking', () => {

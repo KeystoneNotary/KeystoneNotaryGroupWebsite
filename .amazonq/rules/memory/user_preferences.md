@@ -30,6 +30,12 @@
 - **Retain potentially relevant future information**
 - **Purge only truly worthless expired data**
 
+## CRITICAL SECTION RULES
+- **Hero & About sections = OFF LIMITS without explicit permission**
+- **Exception: Minor non-visual fixes only (typos, broken links, accessibility)**
+- **Any visual/layout changes to Hero or About require explicit approval first**
+- **NEVER modify these sections when asked to "fix other sections"**
+
 ---
 
 **Last Updated:** Current Session  

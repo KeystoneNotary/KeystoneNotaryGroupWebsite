@@ -235,10 +235,6 @@ class AIChatAgent {
 // Initialize when DOM is ready
 const initializeAIChatAgent = () => new AIChatAgent();
 
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = AIChatAgent;
-}
-
 if (typeof document !== 'undefined') {
     const bootstrapAgent = () => {
         if (!window.__aiChatAgentInstance) {
@@ -254,3 +250,6 @@ if (typeof document !== 'undefined') {
 
     window.initializeAIChatAgent = initializeAIChatAgent;
 }
+
+export { AIChatAgent, initializeAIChatAgent };
+export default AIChatAgent;

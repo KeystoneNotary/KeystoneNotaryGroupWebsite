@@ -1,0 +1,125 @@
+{
+  "$schema": "./schemas/mcp-config-schema.json",
+  "version": "2.0.0",
+  "metadata": {
+    "description": "Enhanced MCP server configuration with security best practices",
+    "lastUpdated": "2025-10-28T10:28:56Z",
+    "author": "System Administrator"
+  },
+  "environments": {
+    "development": {
+      "servers": {
+        "huggingface": {
+          "enabled": true,
+          "url": "${HUGGINGFACE_MCP_URL}",
+          "timeout": 30000,
+          "retryAttempts": 3,
+          "retryDelay": 1000,
+          "headers": {
+            "Authorization": "Bearer ${HUGGINGFACE_API_TOKEN}",
+            "Content-Type": "application/json",
+            "User-Agent": "MCP-Client/2.0.0"
+          },
+          "features": {
+            "rateLimiting": true,
+            "caching": true,
+            "compression": true,
+            "logging": {
+              "level": "debug",
+              "enabled": true
+            }
+          },
+          "validation": {
+            "requireAuth": true,
+            "allowedMethods": ["GET", "POST"],
+            "maxResponseSize": "10MB"
+          }
+        },
+        "additional-servers": {
+          "enabled": false,
+          "description": "Template for additional MCP servers"
+        }
+      },
+      "security": {
+        "tokenRotation": {
+          "enabled": true,
+          "rotationInterval": "30d",
+          "preWarningDays": 7
+        },
+        "encryption": {
+          "enabled": true,
+          "algorithm": "AES-256-GCM"
+        },
+        "validation": {
+          "strictSchema": true,
+          "validateOnLoad": true
+        }
+      },
+      "monitoring": {
+        "healthChecks": {
+          "enabled": true,
+          "interval": 300000,
+          "timeout": 5000
+        },
+        "metrics": {
+          "enabled": true,
+          "collectionInterval": 60000
+        },
+        "alerts": {
+          "enabled": true,
+          "channels": ["log"]
+        }
+      }
+    },
+    "production": {
+      "extends": "development",
+      "overrides": {
+        "servers": {
+          "huggingface": {
+            "timeout": 45000,
+            "retryAttempts": 5,
+            "headers": {
+              "User-Agent": "MCP-Client-Prod/2.0.0"
+            },
+            "features": {
+              "logging": {
+                "level": "info",
+                "enabled": true
+              }
+            }
+          }
+        },
+        "security": {
+          "tokenRotation": {
+            "rotationInterval": "7d",
+            "preWarningDays": 3
+          }
+        },
+        "monitoring": {
+          "healthChecks": {
+            "interval": 60000
+          },
+          "alerts": {
+            "channels": ["log", "email"],
+            "emailConfig": {
+              "recipients": ["admin@example.com"],
+              "smtpServer": "${SMTP_SERVER}"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaults": {
+    "environment": "development",
+    "server": {
+      "timeout": 30000,
+      "retryAttempts": 3,
+      "features": {
+        "rateLimiting": true,
+        "caching": true,
+        "compression": true
+      }
+    }
+  }
+}

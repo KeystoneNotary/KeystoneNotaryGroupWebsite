@@ -1,0 +1,32 @@
+{
+  "servers": {
+    "huggingface": {
+      "url": "https://huggingface.co/mcp",
+      "timeout": 30000,
+      "retryAttempts": 3,
+      "headers": {
+        "Authorization": "Bearer ${HUGGINGFACE_API_TOKEN}",
+        "Content-Type": "application/json"
+      },
+      "features": {
+        "rateLimiting": true,
+        "caching": true,
+        "logging": {
+          "level": "info",
+          "enabled": true
+        }
+      }
+    }
+  },
+  "security": {
+    "tokenRotation": {
+      "enabled": true,
+      "rotationInterval": "30d"
+    }
+  },
+  "metadata": {
+    "version": "1.1.0",
+    "description": "Improved MCP configuration with security enhancements",
+    "lastUpdated": "2025-10-28T11:53:42Z"
+  }
+}

@@ -43,5 +43,13 @@
   "chatgpt.runCodexInWindowsSubsystemForLinux": true,
   "remote.WSL.debug": true,
   "livePreview.customExternalBrowser": "Chrome",
-  "npm-intellisense.scanDevDependencies": true
+  "npm-intellisense.scanDevDependencies": true,
+  "workbench.commandPalette.preserveInput": true,
+  "workbench.quickOpen.preserveInput": true,
+  "search.quickAccess.preserveInput": true,
+  "workbench.editor.defaultBinaryEditor": "default",
+  "editor.overtypeOnPaste": true,
+  "editor.pasteAs.enabled": true,
+  "editor.pasteAs.preferences": ["text.plain"],
+  "editor.pasteAs.default": "text.plain"
 }

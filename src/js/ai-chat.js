@@ -5,88 +5,35 @@ class AIChatAgent {
         this.isOpen = false;
         this.messages = [];
         this.apiEndpoint = '/api/chat'; // Backend endpoint
-        this.widget = null;
-        this.panel = null;
-        this.overlay = null;
-        this.toggleButton = null;
-        this.closeButton = null;
-        this.sendButton = null;
-        this.input = null;
-        this.messagesContainer = null;
-        this.init();
-    }
+        
+        this.widget = document.querySelector('.ai-chat-widget');
+        this.panel = document.querySelector('.ai-chat-panel');
+        this.overlay = document.querySelector('.ai-chat-overlay');
+        this.toggleButton = document.querySelector('.ai-chat-toggle');
+        this.closeButton = document.querySelector('.ai-chat-close');
+        this.sendButton = document.getElementById('aiChatSend');
+        this.input = document.getElementById('aiChatInput');
+        this.messagesContainer = document.getElementById('aiChatMessages');
 
-    init() {
-        this.createChatWidget();
         this.loadChatHistory();
         this.attachEventListeners();
     }
 
-    createChatWidget() {
-        const overlay = document.createElement('div');
-        overlay.className = 'ai-chat-overlay';
-        document.body.appendChild(overlay);
-
-        const widget = document.createElement('div');
-        widget.className = 'ai-chat-widget';
-        widget.innerHTML = `
-            <button class="ai-chat-toggle" aria-label="Open chat">
-                <span class="chat-icon">💬</span>
-            </button>
-            <div class="ai-chat-panel" aria-hidden="true">
-                <div class="ai-chat-header">
-                    <h3>Notary Assistant</h3>
-                    <button class="ai-chat-close" aria-label="Close chat">×</button>
-                </div>
-                <div class="ai-chat-messages" id="aiChatMessages"></div>
-                <div class="ai-chat-input-wrapper">
-                    <input type="text" class="ai-chat-input" placeholder="Ask about our services..." id="aiChatInput">
-                    <button class="ai-chat-send" id="aiChatSend">
-                        <span>→</span>
-                    </button>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(widget);
-
-        this.widget = widget;
-        this.panel = widget.querySelector('.ai-chat-panel');
-        this.toggleButton = widget.querySelector('.ai-chat-toggle');
-        this.closeButton = widget.querySelector('.ai-chat-close');
-        this.messagesContainer = widget.querySelector('.ai-chat-messages');
-        this.sendButton = widget.querySelector('#aiChatSend');
-        this.input = widget.querySelector('#aiChatInput');
-        this.overlay = overlay;
-
+    attachEventListeners() {
         if (this.toggleButton) {
-            this.toggleButton.setAttribute('aria-expanded', 'false');
+            this.toggleButton.addEventListener('click', () => this.toggleChat());
         }
-        if (this.panel) {
-            this.panel.setAttribute('aria-hidden', 'true');
+        if (this.closeButton) {
+            this.closeButton.addEventListener('click', () => this.toggleChat(false));
         }
-
         if (this.overlay) {
             this.overlay.addEventListener('click', () => this.toggleChat(false));
         }
-    }
-
-    attachEventListeners() {
-        const toggle = this.toggleButton;
-        const close = this.closeButton;
-        const send = this.sendButton;
-        const input = this.input;
-
-        if (toggle) {
-            toggle.addEventListener('click', () => this.toggleChat());
+        if (this.sendButton) {
+            this.sendButton.addEventListener('click', () => this.sendMessage());
         }
-        if (close) {
-            close.addEventListener('click', () => this.toggleChat(false));
-        }
-        if (send) {
-            send.addEventListener('click', () => this.sendMessage());
-        }
-        if (input) {
-            input.addEventListener('keypress', (e) => {
+        if (this.input) {
+            this.input.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') this.sendMessage();
             });
         }
@@ -123,15 +70,14 @@ class AIChatAgent {
     }
 
     async sendMessage() {
-        const input = this.input || document.getElementById('aiChatInput');
-        if (!input) return;
+        if (!this.input) return;
 
-        const message = input.value.trim();
+        const message = this.input.value.trim();
 
         if (!message) return;
 
         this.addMessage('user', message);
-        input.value = '';
+        this.input.value = '';
         
         this.showTypingIndicator();
         
@@ -169,28 +115,26 @@ class AIChatAgent {
         this.messages.push({ role, content, timestamp: Date.now() });
         this.saveChatHistory();
 
-        const messagesContainer = this.messagesContainer || document.getElementById('aiChatMessages');
-        if (!messagesContainer) {
+        if (!this.messagesContainer) {
             return;
         }
         const messageEl = document.createElement('div');
         messageEl.className = `ai-message ai-message-${role}`;
         messageEl.textContent = content;
-        messagesContainer.appendChild(messageEl);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        this.messagesContainer.appendChild(messageEl);
+        this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
     }
 
     showTypingIndicator() {
-        const messagesContainer = this.messagesContainer || document.getElementById('aiChatMessages');
-        if (!messagesContainer) {
+        if (!this.messagesContainer) {
             return;
         }
         const indicator = document.createElement('div');
         indicator.className = 'ai-typing-indicator';
         indicator.innerHTML = '<span></span><span></span><span></span>';
         indicator.id = 'typingIndicator';
-        messagesContainer.appendChild(indicator);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        this.messagesContainer.appendChild(indicator);
+        this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
     }
 
     hideTypingIndicator() {
@@ -220,12 +164,11 @@ class AIChatAgent {
         if (saved) {
             this.messages = JSON.parse(saved);
             this.messages.forEach(msg => {
-                const messagesContainer = this.messagesContainer || document.getElementById('aiChatMessages');
-                if (messagesContainer) {
+                if (this.messagesContainer) {
                     const messageEl = document.createElement('div');
                     messageEl.className = `ai-message ai-message-${msg.role}`;
                     messageEl.textContent = msg.content;
-                    messagesContainer.appendChild(messageEl);
+                    this.messagesContainer.appendChild(messageEl);
                 }
             });
         }
@@ -233,22 +176,18 @@ class AIChatAgent {
 }
 
 // Initialize when DOM is ready
-const initializeAIChatAgent = () => new AIChatAgent();
+const initializeAIChatAgent = () => {
+    if (!window.__aiChatAgentInstance) {
+        window.__aiChatAgentInstance = new AIChatAgent();
+    }
+};
 
 if (typeof document !== 'undefined') {
-    const bootstrapAgent = () => {
-        if (!window.__aiChatAgentInstance) {
-            window.__aiChatAgentInstance = initializeAIChatAgent();
-        }
-    };
-
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', bootstrapAgent);
+        document.addEventListener('DOMContentLoaded', initializeAIChatAgent);
     } else {
-        bootstrapAgent();
+        initializeAIChatAgent();
     }
-
-    window.initializeAIChatAgent = initializeAIChatAgent;
 }
 
 export { AIChatAgent, initializeAIChatAgent };

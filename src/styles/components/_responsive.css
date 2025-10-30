@@ -1,0 +1,470 @@
+@media (max-width: 992px) {
+  .nav-inner {
+    gap: 1.5rem;
+  }
+
+  .nav-links {
+    gap: 1.5rem;
+  }
+
+  .nav-actions {
+    gap: 0.75rem;
+  }
+
+  .nav-cta {
+    display: inline-flex;
+  }
+
+  .theme-toggle {
+    padding: 0.45rem 0.65rem;
+  }
+
+  .theme-toggle-label {
+    display: none;
+  }
+
+  .footer-content {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footer-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-inner {
+    grid-template-columns: auto auto;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: min(80%, 320px);
+    background: rgba(12, 12, 12, 0.95);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-lg);
+    transition: right 0.3s;
+    z-index: 1000;
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-actions {
+    gap: var(--space-sm);
+  }
+
+  .nav-cta {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .theme-panel {
+    right: 1rem;
+    grid-template-columns: 1fr;
+  }
+  
+  .credentials-badge {
+    width: 80px;
+    margin: var(--space-md) 0;
+  }
+
+  .credentials-statements {
+    gap: var(--space-md);
+  }
+
+  .credential-primary {
+    font-size: var(--step-3);
+  }
+
+  .credential-secondary {
+    font-size: var(--step-1);
+  }
+
+  .credentials-meta {
+    font-size: 0.75rem;
+  }
+
+  .credential-cta {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .hero-content {
+    gap: var(--space-sm);
+  }
+
+  .hero-content h1 {
+    font-size: var(--step-5);
+    letter-spacing: clamp(-2px, -0.35vw, -0.8px);
+  }
+
+  .hero-content p {
+    margin-bottom: var(--space-lg);
+    letter-spacing: clamp(0.12rem, 0.04rem + 0.4vw, 0.28rem);
+  }
+
+  .glass-button {
+    padding: var(--space-sm) var(--space-lg);
+  }
+
+  .section-inner {
+    gap: var(--space-3xl);
+  }
+
+  .section-header h2,
+  .about-content-centered h2 {
+    font-size: var(--step-4);
+  }
+
+  .section-subtitle,
+  .about-content-centered .lead {
+    font-size: var(--step-1);
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-card--primary {
+    grid-column: 1;
+    padding: var(--space-2xl) var(--space-xl);
+  }
+
+  .service-stack {
+    grid-column: 1;
+    gap: var(--space-xl);
+  }
+
+  .credentials-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+  }
+
+  .credential-card--badge {
+    align-items: center;
+    text-align: center;
+  }
+
+  .credential-steps::before {
+    left: calc(var(--space-xl) + 0.8rem);
+  }
+
+  .credential-compliance {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-lg);
+  }
+
+  .booking-container {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-logo {
+    width: clamp(120px, 24vw, 180px);
+  }
+
+  .hero-content {
+    gap: var(--space-sm);
+  }
+
+  .hero-content h1 {
+    font-size: var(--step-4);
+  }
+
+  .hero-content p {
+    font-size: var(--step-1);
+    letter-spacing: clamp(0.1rem, 0.03rem + 0.4vw, 0.22rem);
+    margin-bottom: var(--space-lg);
+  }
+
+  .glass-button {
+    width: min(100%, 320px);
+    padding: var(--space-sm) var(--space-lg);
+  }
+
+  .section-inner {
+    gap: var(--space-2xl);
+  }
+
+  .section-subtitle,
+  .about-content-centered .lead {
+    font-size: var(--step-1);
+  }
+
+  .about-content-centered p {
+    font-size: var(--step-0);
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .service-stack {
+    gap: var(--space-xl);
+  }
+
+  .service-card {
+    padding: var(--space-xl) var(--space-lg);
+  }
+
+  .service-card--primary {
+    padding: var(--space-2xl) var(--space-lg);
+  }
+
+  .service-cta {
+    width: 100%;
+  }
+
+  .service-trust {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .credential-steps::before {
+    left: calc(var(--space-xl) + 0.6rem);
+  }
+
+  .credential-step {
+    padding: var(--space-xl) var(--space-lg) var(--space-xl)
+      calc(var(--space-xl) * 2);
+  }
+
+  .credential-compliance {
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .credential-compliance-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .credentials-grid,
+  .booking-container,
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .credential-metrics {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .booking-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-guidance {
+    position: static;
+  }
+
+  .booking-body {
+    gap: var(--space-md);
+  }
+
+  .floating-cta {
+    bottom: var(--space-lg);
+    right: var(--space-lg);
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .back-to-top {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+    bottom: var(--space-lg);
+    left: var(--space-lg);
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: var(--space-sm);
+    text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-section {
+    min-height: clamp(26rem, 68vh, 40rem);
+    padding: var(--hero-padding-block) var(--space-gutter);
+  }
+
+  .hero-logo {
+    width: clamp(100px, 28vw, 150px);
+    margin-bottom: var(--space-md);
+  }
+
+  .hero-content {
+    gap: var(--space-sm);
+  }
+
+  .hero-content h1 {
+    font-size: var(--step-3);
+    letter-spacing: clamp(-1px, -0.18vw, -0.2px);
+  }
+
+  .hero-content p {
+    font-size: var(--step-0);
+    letter-spacing: clamp(0.08rem, 0.02rem + 0.25vw, 0.14rem);
+    margin-bottom: var(--space-md);
+  }
+
+  .glass-button {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .section-header {
+    margin-bottom: 0;
+    text-align: left;
+  }
+
+  .section-inner {
+    gap: var(--space-xl);
+  }
+
+  .section-header h2,
+  .about-content-centered h2 {
+    font-size: var(--step-3);
+    letter-spacing: -1px;
+  }
+
+  .section-subtitle {
+    font-size: var(--step-0);
+  }
+
+  .section-label {
+    letter-spacing: 2px;
+  }
+
+  .surface-section,
+  .about-section {
+    padding: var(--section-padding-block) var(--space-gutter);
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .service-stack {
+    gap: var(--space-lg);
+  }
+
+  .service-card {
+    padding: var(--space-xl) var(--space-md);
+  }
+
+  .service-card--primary {
+    padding: var(--space-2xl) var(--space-md);
+  }
+
+  .service-card-content {
+    gap: var(--space-md);
+  }
+
+  .service-cta {
+    width: 100%;
+    padding: var(--space-sm) var(--space-lg);
+  }
+
+  .service-trust {
+    gap: var(--space-sm);
+  }
+
+  .credential-steps::before {
+    display: none;
+  }
+
+  .credential-step {
+    padding: var(--space-lg);
+    gap: var(--space-sm);
+  }
+
+  .credential-step-index {
+    position: static;
+    margin-bottom: var(--space-sm);
+  }
+
+  .credential-step-body {
+    gap: var(--space-sm);
+  }
+
+  .credential-logo-row {
+    justify-content: center;
+  }
+
+  .credential-compliance {
+    align-items: stretch;
+    gap: var(--space-md);
+  }
+
+  .credential-compliance-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .services-assurance {
+    padding: var(--space-lg);
+    font-size: 1rem;
+  }
+
+  .glass-card {
+    padding: var(--space-lg);
+  }
+
+  .footer {
+    padding: var(--space-2xl) 0 var(--space-xl);
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .floating-cta {
+    left: 50%;
+    right: auto;
+    bottom: var(--space-md);
+    width: calc(100% - var(--space-3xl));
+    justify-content: center;
+    transform: translate(-50%, 0);
+  }
+
+  .floating-cta:hover {
+    transform: translate(-50%, -4px);
+  }
+
+  .back-to-top {
+    left: var(--space-md);
+    bottom: var(--space-md);
+  }
+}

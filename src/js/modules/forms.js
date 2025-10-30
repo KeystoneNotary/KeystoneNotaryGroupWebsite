@@ -1,4 +1,4 @@
-import { EMAIL_REGEX, ERROR_DURATION, SUCCESS_DURATION } from '../config.js';
+import { EMAIL_REGEX, ERROR_DURATION, SUCCESS_DURATION } from '../constants.js';
 
 function showError(message, formElement) {
     const errorDiv = document.createElement('div');
@@ -81,3 +81,6 @@ function initContactForm() {
 export function initForms() {
     initContactForm();
 }
+
+// Export for testing
+export { validateContactForm, showError, showSuccessMessage };

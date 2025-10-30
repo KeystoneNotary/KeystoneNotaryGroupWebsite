@@ -48,3 +48,28 @@
 ---
 
 **Last Updated:** Current Session
+
+---
+
+## UPGRADE: Dependencies & Code Quality (Current Session)
+
+### Dependency Upgrades ✅
+- Vite: 5.1.4 → 6.0.3 (latest stable)
+- Vitest: 1.3.1 → 2.1.8 (latest stable)
+- jsdom: 24.0.0 → 25.0.1 (latest stable)
+- GSAP: Added to package.json (3.12.5) - proper dependency management
+
+### Code Quality Tools Added ✅
+- ESLint 9.17.0 with flat config format
+- Prettier 3.4.2 for consistent formatting
+- New scripts: `npm run lint`, `npm run format`
+
+### Configuration Consolidation ✅
+- Merged config.js → constants.js (single source of truth)
+- Deleted duplicate config.js file
+- Updated all module imports to use constants.js
+
+### Build Improvements ✅
+- Modern Vite config with ESM path resolution
+- Added GSAP code splitting in rollup config
+- Added coverage reporting to vitest config

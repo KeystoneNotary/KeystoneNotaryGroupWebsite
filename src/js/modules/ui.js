@@ -1,4 +1,4 @@
-import { LOADER_DELAY, SCROLL_THRESHOLD } from '../config.js';
+import { LOADER_DELAY, SCROLL_THRESHOLD } from '../constants.js';
 
 function initMobileViewportHeight() {
     function setVH() {

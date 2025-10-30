@@ -1,4 +1,4 @@
-import { NAV_OFFSET } from '../config.js';
+import { NAV_OFFSET } from '../constants.js';
 
 function initHamburgerMenu() {
     const hamburger = document.querySelector('.hamburger');

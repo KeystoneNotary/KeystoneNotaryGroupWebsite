@@ -1,4 +1,4 @@
-import { themeConfig } from '../config.js';
+import { themeConfig } from '../constants.js';
 
 /**
  * Apply theme to document and update UI
@@ -81,3 +81,6 @@ export function initTheme() {
     applyTheme(savedTheme);
     bindThemeControls();
 }
+
+// Export for testing
+export { applyTheme, bindThemeControls };

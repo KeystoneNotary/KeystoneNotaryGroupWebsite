@@ -1,16 +1,16 @@
-import { monthNames, dayNames, availableSlots } from '../config.js';
+import { monthNames, dayNames, availableSlots } from '../constants.js';
 
-let currentDate = new Date();
+const currentDate = new Date();
 let selectedDate = null;
 let selectedTime = null;
 
-function setActiveBookingStep(index) {
+export function setActiveBookingStep(index) {
     document.querySelectorAll('.booking-steps .step').forEach((step, stepIndex) => {
         step.classList.toggle('active', stepIndex === index);
     });
 }
 
-function updateBookingSummary(dateText, timeText) {
+export function updateBookingSummary(dateText, timeText) {
     const summaryDateEl = document.getElementById('summaryDate');
     const summaryTimeEl = document.getElementById('summaryTime');
     const summaryPlaceholder = document.querySelector('.summary-placeholder');
@@ -28,7 +28,7 @@ function updateBookingSummary(dateText, timeText) {
     }
 }
 
-function formatSelectedDate(date) {
+export function formatSelectedDate(date) {
     if (!date) return '';
     return date.toLocaleDateString(undefined, {
         weekday: 'short',
@@ -37,7 +37,7 @@ function formatSelectedDate(date) {
     });
 }
 
-function resetCalendar() {
+export function resetCalendar() {
     const bookingTimes = document.getElementById('bookingTimes');
     const bookingFormWrapper = document.getElementById('bookingFormWrapper');
     const bookingHint = document.getElementById('bookingHint');
@@ -60,7 +60,7 @@ function resetCalendar() {
     }
 }
 
-function hideForm() {
+export function hideForm() {
     const bookingFormWrapper = document.getElementById('bookingFormWrapper');
     const bookingHint = document.getElementById('bookingHint');
 
@@ -77,7 +77,7 @@ function hideForm() {
     }
 }
 
-function selectTime(time, element) {
+export function selectTime(time, element) {
     selectedTime = time;
 
     document.querySelectorAll('.time-slot').forEach(el => el.classList.remove('selected'));
@@ -108,7 +108,7 @@ function selectTime(time, element) {
     }
 }
 
-function showTimeSlots() {
+export function showTimeSlots() {
     const slotsContainer = document.getElementById('timeSlots');
 
     if (!slotsContainer) return;
@@ -124,7 +124,7 @@ function showTimeSlots() {
     });
 }
 
-function selectDate(date, element) {
+export function selectDate(date, element) {
     selectedDate = date;
 
     const bookingHint = document.getElementById('bookingHint');
@@ -150,7 +150,7 @@ function selectDate(date, element) {
     }
 }
 
-function renderCalendar() {
+export function renderCalendar() {
     const grid = document.getElementById('calendarGrid');
     const monthLabel = document.getElementById('currentMonth');
 
@@ -207,7 +207,7 @@ function initAppointmentForm() {
 
             console.log('Booking submitted:', bookingData);
 
-            alert(`Appointment requested for ${bookingData.date} at ${bookingData.time}. We\'ll confirm via email shortly.`);
+            alert(`Appointment requested for ${bookingData.date} at ${bookingData.time}. We'll confirm via email shortly.`);
 
             e.target.reset();
             resetCalendar();

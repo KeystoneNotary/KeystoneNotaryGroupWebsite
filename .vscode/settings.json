@@ -51,5 +51,6 @@
   "editor.overtypeOnPaste": true,
   "editor.pasteAs.enabled": true,
   "editor.pasteAs.preferences": ["text.plain"],
-  "editor.pasteAs.default": "text.plain"
+  "editor.pasteAs.default": "text.plain",
+  "codium.codeCompletion.enable": true
 }

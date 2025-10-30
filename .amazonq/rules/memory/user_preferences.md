@@ -35,6 +35,7 @@
 - **Exception: Minor non-visual fixes only (typos, broken links, accessibility)**
 - **Any visual/layout changes to Hero or About require explicit approval first**
 - **NEVER modify these sections when asked to "fix other sections"**
+- **Clarification: HTML/CSS/UI code CAN be modified for all other sections**
 
 ---
 

@@ -5,20 +5,18 @@ import { initForms } from './modules/forms.js';
 import { initCalendar } from './modules/calendar.js';
 
 function main() {
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            initTheme();
-            initNavigation();
-            initUI();
-            initForms();
-            initCalendar();
-        });
-    } else {
+    const initializeApp = () => {
         initTheme();
         initNavigation();
         initUI();
         initForms();
         initCalendar();
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    } else {
+        initializeApp();
     }
 }
 

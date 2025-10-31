@@ -1,0 +1,91 @@
+:root {
+  --bg-dark: #000000;
+  --bg-darker: #0a0a0a;
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-glow: rgba(255, 255, 255, 0.05);
+  --text-light: #ffffff;
+  --text-gray: #a8a8a8;
+  --accent-silver: #e8e8e8;
+  --accent-chrome: #b8b8b8;
+  --accent-gunmetal: #8a8a8a;
+  --accent-amber: #f3b76e;
+  --accent-ice: rgba(255, 255, 255, 0.14);
+  --accent-void: rgba(0, 0, 0, 0.6);
+  --shadow-soft: rgba(0, 0, 0, 0.5);
+  --shadow-hard: rgba(0, 0, 0, 0.8);
+  --vh: 1vh;
+  --service-card-radius: 20px;
+  --service-card-border: rgba(255, 255, 255, 0.15);
+  --service-card-depth: 0 24px 48px rgba(0, 0, 0, 0.55);
+  --service-cta-shadow: 0 12px 24px rgba(0, 0, 0, 0.45);
+
+  /* Fluid typography scale */
+  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --step-1: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem);
+  --step-2: clamp(1.375rem, 1.25rem + 0.65vw, 1.75rem);
+  --step-3: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
+  --step-4: clamp(2.25rem, 1.85rem + 1.5vw, 3rem);
+  --step-5: clamp(2.875rem, 2.25rem + 2.25vw, 4rem);
+  --step-6: clamp(3.75rem, 2.875rem + 3vw, 5.5rem);
+
+  /* Modular spacing scale */
+  --space-base: clamp(0.9rem, 0.7rem + 0.5vw, 1.4rem);
+  --space-ratio: 1.333;
+  --space-sm: var(--space-base);
+  --space-md: calc(var(--space-sm) * var(--space-ratio));
+  --space-lg: calc(var(--space-md) * var(--space-ratio));
+  --space-xl: calc(var(--space-lg) * var(--space-ratio));
+  --space-2xl: calc(var(--space-xl) * var(--space-ratio));
+  --space-3xl: calc(var(--space-2xl) * var(--space-ratio));
+  --space-4xl: calc(var(--space-3xl) * var(--space-ratio));
+  --space-xs: calc(var(--space-sm) / var(--space-ratio));
+  --space-2xs: calc(var(--space-xs) / var(--space-ratio));
+  --space-gutter: clamp(var(--space-xl), 5vw, var(--space-3xl));
+  --layout-max-width: 1200px;
+  --hero-padding-block: clamp(3rem, 9vw, 6.5rem);
+  --section-padding-block: clamp(5rem, 12vw, 8rem);
+  --section-gap: clamp(2.5rem, 6vw, 4rem);
+}
+
+[data-theme="light"] {
+  --bg-dark: #f5f5f5;
+  --bg-darker: #e8e8e8;
+  --glass-bg: rgba(0, 0, 0, 0.03);
+  --glass-border: rgba(0, 0, 0, 0.25);
+  --glass-glow: rgba(0, 0, 0, 0.05);
+  --text-light: #0f0f0f;
+  --text-gray: #1a1a1a;
+  --accent-silver: #0a0a0a;
+  --accent-chrome: #1a1a1a;
+  --accent-gunmetal: #2a2a2a;
+  --accent-amber: #d68f3a;
+  --accent-ice: rgba(0, 0, 0, 0.08);
+  --accent-void: rgba(0, 0, 0, 0.2);
+  --shadow-soft: rgba(0, 0, 0, 0.1);
+  --shadow-hard: rgba(0, 0, 0, 0.2);
+  --service-card-border: rgba(0, 0, 0, 0.18);
+  --service-card-depth: 0 24px 40px rgba(0, 0, 0, 0.25);
+  --service-cta-shadow: 0 12px 20px rgba(60, 60, 60, 0.25);
+}
+
+[data-theme="neutral"] {
+  --bg-dark: #505050;
+  --bg-darker: #3a3a3a;
+  --glass-bg: rgba(0, 0, 0, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.35);
+  --glass-glow: rgba(255, 255, 255, 0.15);
+  --text-light: #ffffff;
+  --text-gray: #f0f0f0;
+  --accent-silver: #ffffff;
+  --accent-chrome: #f5f5f5;
+  --accent-gunmetal: #d0d0d0;
+  --accent-amber: #f9c981;
+  --accent-ice: rgba(255, 255, 255, 0.2);
+  --accent-void: rgba(0, 0, 0, 0.4);
+  --shadow-soft: rgba(0, 0, 0, 0.5);
+  --shadow-hard: rgba(0, 0, 0, 0.8);
+  --service-card-border: rgba(255, 255, 255, 0.25);
+  --service-card-depth: 0 24px 48px rgba(0, 0, 0, 0.6);
+  --service-cta-shadow: 0 14px 26px rgba(0, 0, 0, 0.5);
+}

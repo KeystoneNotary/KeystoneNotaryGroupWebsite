@@ -1,0 +1,10 @@
+{
+  "servers": {
+    "huggingface": {
+      "url": "https://huggingface.co/mcp",
+      "headers": {
+        "Authorization": "Bearer ${HUGGINGFACE_API_TOKEN}"
+      }
+    }
+  }
+}

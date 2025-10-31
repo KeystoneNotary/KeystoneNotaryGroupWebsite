@@ -356,5 +356,85 @@ For future decisions, use this format:
 
 ---
 
+---
+
+## UPGRADE DECISIONS (Current Session)
+
+### 17. Dependency Version Strategy
+**Decision:** Upgrade all dependencies to latest stable versions  
+**Date:** Current Session  
+**Rationale:**
+- Vite 6.0.3: Performance improvements, better HMR, security fixes
+- Vitest 2.1.8: Improved test runner, better coverage reporting
+- jsdom 25.0.1: Latest DOM implementation, bug fixes
+- GSAP in package.json: Proper version locking vs CDN
+
+**Trade-offs:**
+- Potential breaking changes (mitigated by testing)
+- Need to run npm install
+- Better long-term maintainability
+
+---
+
+### 18. Configuration Consolidation
+**Decision:** Merge config.js into constants.js  
+**Date:** Current Session  
+**Rationale:**
+- Duplicate configuration files create maintenance burden
+- Single source of truth prevents inconsistencies
+- Easier to locate configuration values
+
+**Implementation:**
+- Kept constants.js (better name for configuration)
+- Updated all imports across 5 modules
+- Deleted config.js
+
+**Trade-offs:**
+- One-time refactor effort
+- Cleaner codebase
+- Reduced confusion
+
+---
+
+### 19. Code Quality Tooling
+**Decision:** Add ESLint 9 + Prettier  
+**Date:** Current Session  
+**Rationale:**
+- No linting = inconsistent code style risk
+- ESLint 9 uses modern flat config format
+- Prettier ensures consistent formatting
+- Industry standard practice
+
+**Configuration:**
+- ESLint: Recommended rules, browser + node globals
+- Prettier: Single quotes, 100 char width, no trailing commas
+
+**Trade-offs:**
+- Adds dev dependencies
+- Enforces code standards
+- Catches bugs early
+
+---
+
+### 20. Vite Config Modernization
+**Decision:** Use ESM path resolution, add code splitting  
+**Date:** Current Session  
+**Rationale:**
+- `process.cwd()` unreliable in ESM modules
+- `import.meta.url` + `fileURLToPath` is modern standard
+- GSAP code splitting reduces initial bundle size
+
+**Implementation:**
+```js
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+```
+
+**Trade-offs:**
+- Slightly more verbose
+- More reliable path resolution
+- Better production builds
+
+---
+
 **Last Updated:** Current Session  
-**Next Review:** After Phase 1 completion
+**Next Review:** After dependency testing

@@ -1,0 +1,8 @@
+{
+  "huggingface": {
+    "url": "${env:HUGGINGFACE_MCP_URL}",
+    "headers": {
+      "Authorization": "Bearer ${env:HUGGINGFACE_API_TOKEN}"
+    }
+  }
+}

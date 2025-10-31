@@ -1,8 +1,0 @@
-{
-  "huggingface": {
-    "url": "https://huggingface.co/mcp",
-    "headers": {
-      "Authorization": "Bearer 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"
-    }
-  }
-}

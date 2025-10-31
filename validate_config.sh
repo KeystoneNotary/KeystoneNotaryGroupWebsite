@@ -4,6 +4,7 @@
 # This script validates the enhanced MCP configuration
 
 set -e
+source .env
 
 echo "🔍 MCP Configuration Validation Script"
 echo "======================================"
@@ -97,7 +98,7 @@ test_connectivity() {
 echo
 echo "Step 1: Checking file existence..."
 files_ok=true
-check_file_exists "cline_mcp_settings_improved.json" || files_ok=false
+check_file_exists "mcp_config.json" || files_ok=false
 check_file_exists "schemas/mcp-config-schema.json" || files_ok=false
 check_file_exists "MCP_CONFIG_DOCUMENTATION.md" || files_ok=false
 check_file_exists "MIGRATION_GUIDE.md" || files_ok=false
@@ -105,7 +106,7 @@ check_file_exists "MIGRATION_GUIDE.md" || files_ok=false
 echo
 echo "Step 2: Validating JSON files..."
 if [ "$files_ok" = true ]; then
-    validate_json "cline_mcp_settings_improved.json" || echo "Configuration JSON validation failed"
+    validate_json "mcp_config.json" || echo "Configuration JSON validation failed"
     validate_json "schemas/mcp-config-schema.json" || echo "Schema JSON validation failed"
 else
     echo -e "${RED}❌ Skipping JSON validation due to missing files${NC}"
@@ -114,7 +115,7 @@ fi
 echo
 echo "Step 3: Validating configuration schema..."
 if [ "$files_ok" = true ]; then
-    validate_schema "cline_mcp_settings_improved.json" "schemas/mcp-config-schema.json"
+    validate_schema "mcp_config.json" "schemas/mcp-config-schema.json"
 else
     echo -e "${RED}❌ Skipping schema validation due to missing files${NC}"
 fi

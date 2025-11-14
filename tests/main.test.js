@@ -32,6 +32,7 @@ const setDocumentReadyState = (state) => {
 describe('src/main.js bootstrap', () => {
   beforeEach(() => {
     listeners.clear();
+    vi.clearAllMocks();
     readyStateGetter = vi.spyOn(document, 'readyState', 'get');
     setDocumentReadyState('loading');
 

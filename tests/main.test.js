@@ -49,6 +49,7 @@ describe('src/main.js bootstrap', () => {
 
   afterEach(() => {
     listeners.clear();
+    vi.clearAllMocks();
     vi.resetModules();
     readyStateGetter?.mockRestore();
     readyStateGetter = undefined;

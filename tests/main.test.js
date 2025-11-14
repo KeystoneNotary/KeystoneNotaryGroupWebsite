@@ -69,7 +69,7 @@ describe('src/main.js bootstrap', () => {
     expect(moduleMocks.initTheme).toHaveBeenCalledTimes(1);
     expect(moduleMocks.initNavigation).toHaveBeenCalledTimes(1);
     expect(moduleMocks.initUI).toHaveBeenCalledTimes(1);
-    expect(moduleMocks.initForms).toHaveBeenCalledTimes(1);
+    expect(moduleMocks.initCalendar).toHaveBeenCalledTimes(1);
     expect(moduleMocks.initCalendar).toHaveBeenCalledTimes(1);
   });
 

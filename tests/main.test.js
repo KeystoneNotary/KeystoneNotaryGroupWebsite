@@ -75,7 +75,6 @@ describe('src/main.js bootstrap', () => {
   it('initializes core modules immediately when DOM is already ready', async () => {
     setDocumentReadyState('complete');
 
-    vi.resetModules();
     await import('../src/main.js');
 
     expect(listeners.has('DOMContentLoaded')).toBe(false);

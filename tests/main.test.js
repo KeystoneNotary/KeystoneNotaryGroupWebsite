@@ -19,19 +19,20 @@ vi.mock('../src/js/ai-chat.js', () => ({}));
 
 const listeners = new Map();
 
+let readyStateGetter;
+
 const setDocumentReadyState = (state) => {
-  Object.defineProperty(document, 'readyState', {
-    configurable: true,
-    get: () => state,
-  });
+  if (!readyStateGetter) {
+    throw new Error('readyStateGetter is not initialized');
+  }
+
+  readyStateGetter.mockReturnValue(state);
 };
 
 describe('src/main.js bootstrap', () => {
   beforeEach(() => {
     listeners.clear();
-    vi.resetModules();
-    vi.clearAllMocks();
-
+    readyStateGetter = vi.spyOn(document, 'readyState', 'get');
     setDocumentReadyState('loading');
 
     vi.spyOn(document, 'addEventListener').mockImplementation((event, callback) => {
@@ -47,20 +48,14 @@ describe('src/main.js bootstrap', () => {
   });
 
   afterEach(() => {
-    listeners.forEach((callback, event) => {
-      if (typeof callback === 'function') {
-        document.removeEventListener(event, callback);
-      }
-    });
     listeners.clear();
-
-    delete document.readyState;
-
-    vi.restoreAllMocks();
     vi.resetModules();
+    readyStateGetter?.mockRestore();
+    readyStateGetter = undefined;
   });
 
   it('initializes core modules once DOM is ready', async () => {
+    vi.resetModules();
     await import('../src/main.js');
 
     const domContentLoaded = listeners.get('DOMContentLoaded');
@@ -72,8 +67,20 @@ describe('src/main.js bootstrap', () => {
     expect(moduleMocks.initNavigation).toHaveBeenCalledTimes(1);
     expect(moduleMocks.initUI).toHaveBeenCalledTimes(1);
     expect(moduleMocks.initForms).toHaveBeenCalledTimes(1);
+    expect(moduleMocks.initCalendar).toHaveBeenCalledTimes(1);
+  });
 
-    document.removeEventListener('DOMContentLoaded', domContentLoaded);
+  it('initializes core modules immediately when DOM is already ready', async () => {
     setDocumentReadyState('complete');
+
+    vi.resetModules();
+    await import('../src/main.js');
+
+    expect(listeners.has('DOMContentLoaded')).toBe(false);
+    expect(moduleMocks.initTheme).toHaveBeenCalledTimes(1);
+    expect(moduleMocks.initNavigation).toHaveBeenCalledTimes(1);
+    expect(moduleMocks.initUI).toHaveBeenCalledTimes(1);
+    expect(moduleMocks.initForms).toHaveBeenCalledTimes(1);
+    expect(moduleMocks.initCalendar).toHaveBeenCalledTimes(1);
   });
 });

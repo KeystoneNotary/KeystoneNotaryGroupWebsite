@@ -57,7 +57,7 @@ describe('src/main.js bootstrap', () => {
   });
 
   it('initializes core modules once DOM is ready', async () => {
-    vi.resetModules();
+  it('initializes core modules once DOM is ready', async () => {
     await import('../src/main.js');
 
     const domContentLoaded = listeners.get('DOMContentLoaded');

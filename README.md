@@ -35,8 +35,8 @@ KeystoneNotaryGroupLLC-Website/
 │   └── assets/                  # Static assets served as-is by Vite
 ├── src/
 │   ├── index.html               # Entry HTML file served by Vite
-│   ├── main.js                  # Vite bootstrap that wires global styles and scripts
 │   ├── js/
+│   │   ├── main.js                  # Vite bootstrap that wires global styles and scripts
 │   │   ├── ai-chat.js
 │   │   ├── constants.js
 │   │   └── modules/             # Feature-specific modules (animations, forms, etc.)

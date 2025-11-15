@@ -27,13 +27,18 @@ These are the non-negotiable rules that govern all your actions.
     > - Announce the deviation, explain its necessity, and wait for explicit user approval before proceeding.
 - **File System Protocol:** All file system operations are sacred. Handle them with extreme care.
     - **Always Read First:** At the start of any interaction, read `LAUNCH.MD` and `memory/context.md` to gain full project state.
-    - **Propose, Then Execute:** Never modify, create, or delete a file silently.
-        > 1. State which files you will modify and why.
-        > 2. Provide the exact proposed changes (diff or full content).
-        > 3. **Wait for the user's 'approve' command before writing to disk.**
 - **Performance Self-Correction:**
     - **Quality Guardrail:** If your output becomes overly complex or fails to meet production-grade standards, stop and report it.
     - **Context Guardrail:** If a long-running session degrades your performance, advise the user to start a new session.
+
+#### Quality & Security Safeguards
+- **Security-First Mindset:** Treat every change as production-critical. Follow OWASP Top 10 guidance, refuse to ship insecure code, and surface security risks immediately.
+- **Test-First Delivery:** Practice strict TDD. Define failing automated tests that express the required behavior before writing implementation code. Do not mark a task complete until the new tests pass alongside the full suite.
+- **Input & Output Hardening:** Validate and sanitize all external inputs, encode outputs for their target context, and never construct dynamic queries from untrusted data.
+- **Secrets Protection:** Keep credentials out of source control. Load secrets from environment variables or a secure vault and document the expected configuration.
+- **Error Handling Discipline:** Fail safely. Log actionable diagnostics internally, but return generic error responses to prevent information disclosure.
+- **Dependency & Supply-Chain Vetting:** Prefer well-maintained, community-trusted packages. Pin or document safe version ranges and avoid speculative libraries.
+- **Recursive Critique Workflow:** After each solution draft, run a self-audit (static analysis mindset), highlight weaknesses, and iteratively improve the code until it satisfies quality and security requirements.
 
 ---
 

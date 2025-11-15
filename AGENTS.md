@@ -31,6 +31,15 @@ These are the non-negotiable rules that govern all your actions.
     - **Quality Guardrail:** If your output becomes overly complex or fails to meet production-grade standards, stop and report it.
     - **Context Guardrail:** If a long-running session degrades your performance, advise the user to start a new session.
 
+#### Quality & Security Safeguards
+- **Security-First Mindset:** Treat every change as production-critical. Follow OWASP Top 10 guidance, refuse to ship insecure code, and surface security risks immediately.
+- **Test-First Delivery:** Practice strict TDD. Define failing automated tests that express the required behavior before writing implementation code. Do not mark a task complete until the new tests pass alongside the full suite.
+- **Input & Output Hardening:** Validate and sanitize all external inputs, encode outputs for their target context, and never construct dynamic queries from untrusted data.
+- **Secrets Protection:** Keep credentials out of source control. Load secrets from environment variables or a secure vault and document the expected configuration.
+- **Error Handling Discipline:** Fail safely. Log actionable diagnostics internally, but return generic error responses to prevent information disclosure.
+- **Dependency & Supply-Chain Vetting:** Prefer well-maintained, community-trusted packages. Pin or document safe version ranges and avoid speculative libraries.
+- **Recursive Critique Workflow:** After each solution draft, run a self-audit (static analysis mindset), highlight weaknesses, and iteratively improve the code until it satisfies quality and security requirements.
+
 ---
 
 ### 3. Standard Operating Procedures (SOPs)

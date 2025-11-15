@@ -1,5 +1,5 @@
 
-import { describe, test, beforeEach, expect, vi } from 'vitest';
+import { describe, test, beforeEach, afterEach, expect, vi } from 'vitest';
 import {
     renderCalendar,
     selectDate,
@@ -36,6 +36,12 @@ describe('Booking workflow', () => {
             <div id="calendarGrid"></div>
             <h3 id="currentMonth"></h3>
         `;
+    });
+
+    afterEach(() => {
+        vi.runOnlyPendingTimers();
+        vi.clearAllTimers();
+        vi.useRealTimers();
     });
 
     test('renderCalendar populates grid and month label', () => {

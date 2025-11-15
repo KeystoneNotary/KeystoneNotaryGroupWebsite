@@ -1,5 +1,5 @@
 
-import { describe, test, beforeEach, expect, vi } from 'vitest';
+import { describe, test, beforeEach, afterEach, expect, vi } from 'vitest';
 import { validateContactForm, showError, showSuccessMessage } from '../../src/js/modules/forms.js';
 
 // Mock constants used by the forms module
@@ -13,6 +13,12 @@ describe('Contact form helpers', () => {
     beforeEach(() => {
         vi.useFakeTimers();
         document.body.innerHTML = '<form id="contactForm"><div aria-live="polite"></div></form>';
+    });
+
+    afterEach(() => {
+        vi.runOnlyPendingTimers();
+        vi.clearAllTimers();
+        vi.useRealTimers();
     });
 
     test('validateContactForm accepts valid payload', () => {

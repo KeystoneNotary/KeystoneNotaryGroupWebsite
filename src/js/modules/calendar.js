@@ -41,6 +41,8 @@ export function resetCalendar() {
     const bookingTimes = document.getElementById('bookingTimes');
     const bookingFormWrapper = document.getElementById('bookingFormWrapper');
     const bookingHint = document.getElementById('bookingHint');
+    const selectedDateInput = document.getElementById('selectedDate');
+    const selectedTimeInput = document.getElementById('selectedTime');
 
     if (bookingTimes) {
         bookingTimes.classList.remove('visible');
@@ -53,6 +55,12 @@ export function resetCalendar() {
     document.querySelectorAll('.time-slot').forEach(el => el.classList.remove('selected'));
     selectedDate = null;
     selectedTime = null;
+    if (selectedDateInput) {
+        selectedDateInput.value = '';
+    }
+    if (selectedTimeInput) {
+        selectedTimeInput.value = '';
+    }
     setActiveBookingStep(0);
     updateBookingSummary('', '');
     if (bookingHint) {

@@ -99,6 +99,10 @@ describe('Booking workflow', () => {
         document.getElementById('summaryTime').textContent = '10:00 AM';
         document.querySelector('.summary-placeholder').classList.add('hidden');
         document.querySelectorAll('.booking-steps .step')[1].classList.add('active');
+        const dateInput = document.getElementById('selectedDate');
+        const timeInput = document.getElementById('selectedTime');
+        dateInput.value = '01/10/2099';
+        timeInput.value = '10:00 AM';
 
         resetCalendar();
 
@@ -106,6 +110,8 @@ describe('Booking workflow', () => {
         expect(document.getElementById('bookingFormWrapper').classList.contains('visible')).toBe(false);
         expect(document.querySelector('.summary-placeholder').classList.contains('hidden')).toBe(false);
         expect(document.querySelectorAll('.booking-steps .step')[0].classList.contains('active')).toBe(true);
+        expect(dateInput.value).toBe('');
+        expect(timeInput.value).toBe('');
     });
 });
 

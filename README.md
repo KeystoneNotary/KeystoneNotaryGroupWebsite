@@ -34,15 +34,16 @@ KeystoneNotaryGroupLLC-Website/
 ├── public/
 │   └── assets/                  # Static assets served as-is by Vite
 ├── src/
-│   ├── index.html               # Entry HTML file served by Vite
+│   ├── index.html               # HTML template consumed by Vite during dev/build
+│   ├── main.js                  # Vite entry point that imports global styles and scripts
 │   ├── js/
-│   │   ├── main.js                  # Vite bootstrap that wires global styles and scripts
+│   │   ├── main.js              # Bootstraps UI modules once the DOM is ready
 │   │   ├── ai-chat.js
 │   │   ├── constants.js
 │   │   └── modules/             # Feature-specific modules (animations, forms, etc.)
 │   ├── partials/                # Layout and section HTML fragments
 │   └── styles/
-│       ├── main.css             # Root stylesheet imported by main.js
+│       ├── main.css             # Root stylesheet imported by src/main.js
 │       ├── ai-chat.css
 │       └── components/          # Component-scoped style sheets
 ├── tests/
@@ -96,7 +97,7 @@ Modify GSAP animations in `src/js/main.js` and supporting modules in `src/js/mod
 
 ## Spacing & Layout System
 
-- Modular scale defined in `css/styles.css` (`--space-2xs` through `--space-4xl`) driven by a fluid base and 1.333 ratio.
+- Modular scale defined in `src/styles/main.css` (`--space-2xs` through `--space-4xl`) driven by a fluid base and 1.333 ratio.
 - Horizontal gutters rely on `--space-gutter` to stay responsive while aligned to the scale.
 - Reference usage guidance and examples in [`docs/spacing-map.md`](docs/spacing-map.md) and the live spacing key rendered near the site footer.
 

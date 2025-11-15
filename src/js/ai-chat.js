@@ -1,11 +1,24 @@
 // AI Chat Agent - Ready for Google Gemini API integration
 
+import MemoryBank from './modules/memory/memory-bank.js';
+
+const clampValue = (value, min, max) => Math.min(Math.max(value, min), max);
+
 class AIChatAgent {
     constructor() {
         this.isOpen = false;
-        this.messages = [];
         this.apiEndpoint = '/api/chat'; // Backend endpoint
-        
+
+        this.memoryBank = new MemoryBank({
+            storageKey: 'codex.memory.chat',
+            maxEntries: 150,
+            defaultTtlMs: 1000 * 60 * 60 * 24 * 21, // 21 days
+            staleAfterMs: 1000 * 60 * 60 * 24 * 5, // Maintain a rolling window for lower-importance chat
+            minImportanceForRetention: 0.35
+        });
+
+        this.messages = [];
+
         this.widget = document.querySelector('.ai-chat-widget');
         this.panel = document.querySelector('.ai-chat-panel');
         this.overlay = document.querySelector('.ai-chat-overlay');
@@ -112,7 +125,10 @@ class AIChatAgent {
     }
 
     addMessage(role, content) {
-        this.messages.push({ role, content, timestamp: Date.now() });
+        const timestamp = Date.now();
+        const message = { role, content, timestamp };
+        this.messages.push(message);
+        this.persistMessage(message);
         this.saveChatHistory();
 
         if (!this.messagesContainer) {
@@ -156,22 +172,95 @@ class AIChatAgent {
     }
 
     saveChatHistory() {
-        localStorage.setItem('aiChatHistory', JSON.stringify(this.messages));
+        this.memoryBank.maintain();
     }
 
     loadChatHistory() {
-        const saved = localStorage.getItem('aiChatHistory');
-        if (saved) {
-            this.messages = JSON.parse(saved);
-            this.messages.forEach(msg => {
-                if (this.messagesContainer) {
-                    const messageEl = document.createElement('div');
-                    messageEl.className = `ai-message ai-message-${msg.role}`;
-                    messageEl.textContent = msg.content;
-                    this.messagesContainer.appendChild(messageEl);
-                }
+        const stored = this.memoryBank.getMemories({
+            category: 'chat',
+            sortBy: 'createdAt',
+            includeExpired: false
+        });
+
+        this.messages = stored.map((entry) => ({
+            role: entry.metadata.role || entry.tags[0] || 'assistant',
+            content: entry.content,
+            timestamp: entry.metadata.timestamp ?? entry.createdAt
+        }));
+
+        this.messages.forEach((msg) => {
+            if (!this.messagesContainer) {
+                return;
+            }
+            const messageEl = document.createElement('div');
+            messageEl.className = `ai-message ai-message-${msg.role}`;
+            messageEl.textContent = msg.content;
+            this.messagesContainer.appendChild(messageEl);
+        });
+    }
+
+    persistMessage(message) {
+        try {
+            this.memoryBank.addMemory({
+                content: message.content,
+                category: 'chat',
+                tags: [message.role],
+                importance: this.estimateMessageImportance(message.content, message.role),
+                ttlMs: this.getMessageTtl(message.role, message.content),
+                metadata: {
+                    role: message.role,
+                    timestamp: message.timestamp
+                },
+                createdAt: message.timestamp
             });
+        } catch (error) {
+            console.error('AIChatAgent: Failed to persist chat memory', error);
         }
+    }
+
+    estimateMessageImportance(content, role) {
+        let score = role === 'user' ? 0.55 : 0.45;
+
+        if (typeof content === 'string') {
+            if (content.length > 160) {
+                score += 0.1;
+            } else if (content.length > 40) {
+                score += 0.05;
+            }
+
+            if (/appointment|schedule|apostille|mobile|travel|witness|loan|closing/i.test(content)) {
+                score += 0.2;
+            }
+
+            if (/call|phone|email|contact|website/i.test(content)) {
+                score += 0.1;
+            }
+
+            if (role === 'user' && /\?|need|help|urgent/i.test(content)) {
+                score += 0.05;
+            }
+
+            if (role === 'assistant' && /summary|recap|next steps|follow up/i.test(content)) {
+                score += 0.05;
+            }
+        }
+
+        return clampValue(score, 0.2, 1);
+    }
+
+    getMessageTtl(role, content) {
+        const day = 1000 * 60 * 60 * 24;
+        let baseTtl = role === 'user' ? day * 28 : day * 21;
+
+        if (typeof content === 'string' && /appointment|schedule|document|travel|closing/i.test(content)) {
+            baseTtl += day * 14;
+        }
+
+        if (role === 'assistant' && /summary|recap|notes/i.test(content)) {
+            baseTtl += day * 7;
+        }
+
+        return baseTtl;
     }
 }
 

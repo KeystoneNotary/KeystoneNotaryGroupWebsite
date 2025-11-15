@@ -122,7 +122,8 @@ class AIChatAgent {
             if (response.action === 'booking') {
                 this.handleBookingFlow(response.data);
             }
-        } catch (_error) {
+        } catch (error) {
+            console.error('AIChatAgent: Failed to send message', error);
             this.hideTypingIndicator();
             this.addMessage('assistant', "I apologize, but I'm having trouble connecting. Please try again or call us at (267) 309-9000.");
         }

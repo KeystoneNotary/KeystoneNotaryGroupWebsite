@@ -38,13 +38,17 @@ const createDefaultState = () => cloneState(DEFAULT_STATE);
 
 const detectLocalStorage = () => {
     try {
-        if (typeof globalThis !== 'undefined' && isPlainObject(globalThis)) {
-            const { localStorage } = globalThis;
-            if (localStorage && typeof localStorage.getItem === 'function' && typeof localStorage.setItem === 'function') {
+        if (typeof globalThis === 'object' && globalThis !== null) {
+            const storageCandidate = Reflect.get(globalThis, 'localStorage');
+            if (
+                storageCandidate &&
+                typeof storageCandidate.getItem === 'function' &&
+                typeof storageCandidate.setItem === 'function'
+            ) {
                 const probeKey = '__codex_memory_probe__';
-                localStorage.setItem(probeKey, '1');
-                localStorage.removeItem(probeKey);
-                return localStorage;
+                storageCandidate.setItem(probeKey, '1');
+                storageCandidate.removeItem(probeKey);
+                return storageCandidate;
             }
         }
     } catch (error) {

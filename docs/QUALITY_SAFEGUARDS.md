@@ -60,7 +60,7 @@ This playbook operationalizes the safety mandate for the Keystone Notary Group L
 ## 7. Continuous Improvement
 - Schedule quarterly security reviews to reassess threats, dependencies, and coverage.
 - Integrate automated dependency update tooling (Dependabot/Renovate) with mandatory test passes.
-- Track test coverage trends; investigate drops below the agreed threshold (≥85%).
+- Track test coverage trends; investigate drops below the agreed threshold (target: ≥85%, configurable per project context).
 - Periodically rehearse incident response: simulate a vulnerability disclosure and document remediation steps.
 
 ---

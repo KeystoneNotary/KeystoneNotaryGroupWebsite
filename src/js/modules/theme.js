@@ -17,29 +17,16 @@ function applyTheme(theme) {
         themeIcon.textContent = config ? config.icon : '🌙';
     }
 
-    document.querySelectorAll('.theme-option').forEach(option => {
+    const themeOptions = document.querySelectorAll('.theme-option');
+    themeOptions.forEach(option => {
         const optionTheme = option.getAttribute('data-theme-option');
-        option.classList.toggle('active', optionTheme === theme);
+        const isActive = optionTheme === theme;
+        option.classList.toggle('active', isActive);
+        option.setAttribute('aria-checked', String(isActive));
+        option.setAttribute('tabindex', isActive ? '0' : '-1');
     });
 
     localStorage.setItem('theme', theme);
-}
-
-function toggleThemePanel() {
-    const panel = document.querySelector('.theme-panel');
-    const toggle = document.querySelector('.theme-toggle');
-    if (!panel || !toggle) return;
-
-    const isOpen = panel.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', String(isOpen));
-}
-
-function closeThemePanel() {
-    const panel = document.querySelector('.theme-panel');
-    const toggle = document.querySelector('.theme-toggle');
-    if (!panel || !toggle) return;
-    panel.classList.remove('open');
-    toggle.setAttribute('aria-expanded', 'false');
 }
 
 function bindThemeControls() {
@@ -47,28 +34,99 @@ function bindThemeControls() {
     const panel = document.querySelector('.theme-panel');
     if (!toggle || !panel) return;
 
-    toggle.addEventListener('click', (event) => {
-        event.stopPropagation();
-        toggleThemePanel();
+    const options = Array.from(panel.querySelectorAll('.theme-option'));
+
+    options.forEach((option, index) => {
+        option.dataset.index = String(index);
+        if (!option.hasAttribute('tabindex')) {
+            option.setAttribute('tabindex', index === 0 ? '0' : '-1');
+        }
     });
 
-    panel.querySelectorAll('.theme-option').forEach(option => {
+    const focusOption = (index) => {
+        const option = options[index];
+        if (option) {
+            option.focus();
+        }
+    };
+
+    const getActiveIndex = () => {
+        return options.findIndex(option => option.getAttribute('aria-checked') === 'true' || option.classList.contains('active'));
+    };
+
+    const openPanel = () => {
+        panel.classList.add('open');
+        toggle.setAttribute('aria-expanded', 'true');
+        const activeIndex = getActiveIndex();
+        const targetIndex = activeIndex >= 0 ? activeIndex : 0;
+        requestAnimationFrame(() => focusOption(targetIndex));
+    };
+
+    const closePanel = ({ restoreFocus = true } = {}) => {
+        panel.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        if (restoreFocus) {
+            toggle.focus();
+        }
+    };
+
+    toggle.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (panel.classList.contains('open')) {
+            closePanel({ restoreFocus: false });
+        } else {
+            openPanel();
+        }
+    });
+
+    options.forEach(option => {
         option.addEventListener('click', () => {
             const theme = option.getAttribute('data-theme-option');
             applyTheme(theme);
-            closeThemePanel();
+            closePanel();
+        });
+
+        option.addEventListener('keydown', (event) => {
+            const currentIndex = parseInt(option.dataset.index || '0', 10);
+            if (Number.isNaN(currentIndex)) {
+                return;
+            }
+
+            if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+                event.preventDefault();
+                const nextIndex = (currentIndex + 1) % options.length;
+                focusOption(nextIndex);
+            } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+                event.preventDefault();
+                const prevIndex = (currentIndex - 1 + options.length) % options.length;
+                focusOption(prevIndex);
+            } else if (event.key === 'Home') {
+                event.preventDefault();
+                focusOption(0);
+            } else if (event.key === 'End') {
+                event.preventDefault();
+                focusOption(options.length - 1);
+            } else if (event.key === 'Escape') {
+                event.preventDefault();
+                closePanel();
+            } else if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                const theme = option.getAttribute('data-theme-option');
+                applyTheme(theme);
+                closePanel();
+            }
         });
     });
 
     document.addEventListener('click', (event) => {
-        if (!panel.contains(event.target) && !toggle.contains(event.target)) {
-            closeThemePanel();
+        if (panel.classList.contains('open') && !panel.contains(event.target) && !toggle.contains(event.target)) {
+            closePanel({ restoreFocus: false });
         }
     });
 
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-            closeThemePanel();
+        if (event.key === 'Escape' && panel.classList.contains('open')) {
+            closePanel();
         }
     });
 }

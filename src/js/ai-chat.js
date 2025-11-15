@@ -47,9 +47,22 @@ class AIChatAgent {
         this.sendButton = document.getElementById('aiChatSend');
         this.input = document.getElementById('aiChatInput');
         this.messagesContainer = document.getElementById('aiChatMessages');
+        this.status = document.getElementById('aiChatStatus');
 
         this.loadChatHistory();
         this.attachEventListeners();
+    }
+
+    updateStatus(message, type = 'info') {
+        if (!this.status) {
+            return;
+        }
+        this.status.textContent = message;
+        if (message) {
+            this.status.dataset.state = type;
+        } else {
+            delete this.status.dataset.state;
+        }
     }
 
     attachEventListeners() {
@@ -67,7 +80,10 @@ class AIChatAgent {
         }
         if (this.input) {
             this.input.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') this.sendMessage();
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.sendMessage();
+                }
             });
         }
     }
@@ -109,16 +125,19 @@ class AIChatAgent {
 
         if (!message) return;
 
+        this.setSendingState(true);
         this.addMessage('user', message);
         this.input.value = '';
-        
+
         this.showTypingIndicator();
-        
+        this.updateStatus('Connecting to assistant…');
+
         try {
             const response = await this.callAI(message);
             this.hideTypingIndicator();
             this.addMessage('assistant', response.message);
-            
+            this.updateStatus('');
+
             if (response.action === 'booking') {
                 this.handleBookingFlow(response.data);
             }
@@ -126,7 +145,9 @@ class AIChatAgent {
             console.error('AIChatAgent: Failed to send message', error);
             this.hideTypingIndicator();
             this.addMessage('assistant', "I apologize, but I'm having trouble connecting. Please try again or call us at (267) 309-9000.");
+            this.updateStatus('Unable to reach our assistant. Please try again in a moment.', 'error');
         }
+        this.setSendingState(false);
     }
 
     async callAI(message) {
@@ -143,6 +164,20 @@ class AIChatAgent {
         
         if (!response.ok) throw new Error('API call failed');
         return await response.json();
+    }
+
+    setSendingState(isSending) {
+        if (this.sendButton) {
+            this.sendButton.disabled = isSending;
+        }
+        if (this.input) {
+            if (isSending) {
+                this.input.setAttribute('aria-busy', 'true');
+            } else {
+                this.input.removeAttribute('aria-busy');
+            }
+            this.input.disabled = isSending;
+        }
     }
 
     addMessage(role, content) {

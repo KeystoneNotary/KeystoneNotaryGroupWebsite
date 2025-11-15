@@ -12,9 +12,18 @@
         <p class="contact-intro">We respond within one business day—or sooner for urgent appointments.</p>
         <form class="contact-form" id="contactForm">
           <div id="contactFormMessages" aria-live="polite" aria-atomic="true"></div>
-          <input type="text" name="name" placeholder="Name *" required>
-          <input type="email" name="email" placeholder="Email *" required>
-          <textarea name="message" placeholder="How can we help? *" rows="5" required></textarea>
+          <label class="form-field">
+            <span class="sr-only">Your Name *</span>
+            <input type="text" name="name" placeholder="Name *" autocomplete="name" required>
+          </label>
+          <label class="form-field">
+            <span class="sr-only">Email *</span>
+            <input type="email" name="email" placeholder="Email *" autocomplete="email" required>
+          </label>
+          <label class="form-field">
+            <span class="sr-only">How can we help? *</span>
+            <textarea name="message" placeholder="How can we help? *" rows="5" required></textarea>
+          </label>
           <button type="submit" class="glass-button">Send Message</button>
         </form>
         <p class="microcopy">By submitting, you agree to receive scheduling communications from Keystone Notary Group LLC.</p>

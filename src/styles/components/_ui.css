@@ -221,7 +221,7 @@
 
 .floating-cta {
   position: fixed;
-  bottom: var(--space-xl);
+  bottom: calc(var(--space-xl) + 72px);
   right: var(--space-xl);
   padding: var(--space-md) var(--space-lg);
   min-width: 48px;
@@ -243,6 +243,10 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-decoration: none;
   color: var(--text-light);
+}
+
+body.ai-chat-open .floating-cta {
+  transform: translateY(-12px);
 }
 
 .floating-cta svg {

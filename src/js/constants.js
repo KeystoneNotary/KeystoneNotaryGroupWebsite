@@ -9,8 +9,8 @@ export const NAV_OFFSET = 80;
 
 // Animation durations (milliseconds)
 export const LOADER_DELAY = 1000;
-export const ERROR_DURATION = 3000;
-export const SUCCESS_DURATION = 5000;
+export const ERROR_DURATION = 8000;
+export const SUCCESS_DURATION = 12000;
 
 // Theme configuration
 export const themeConfig = [

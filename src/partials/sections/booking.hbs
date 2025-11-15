@@ -38,23 +38,23 @@
 
       <div class="booking-body">
         <div class="booking-container">
-          <div class="booking-calendar glass-card">
+          <div class="booking-calendar glass-card" aria-labelledby="currentMonth">
             <div class="calendar-header">
-              <button class="calendar-nav" id="prevMonth" aria-label="Previous month">&larr;</button>
+              <button class="calendar-nav" id="prevMonth" type="button" aria-label="Previous month">&larr;</button>
               <h3 id="currentMonth">January 2025</h3>
-              <button class="calendar-nav" id="nextMonth" aria-label="Next month">&rarr;</button>
+              <button class="calendar-nav" id="nextMonth" type="button" aria-label="Next month">&rarr;</button>
             </div>
-            <div class="calendar-grid" id="calendarGrid"></div>
-            <p class="calendar-footnote">Sundays are reserved for emergency appointments only. Contact us directly for assistance.</p>
+            <div class="calendar-grid" id="calendarGrid" role="grid" aria-describedby="calendarInstructions"></div>
+            <p class="calendar-footnote" id="calendarInstructions">Sundays are reserved for emergency appointments only. Contact us directly for assistance.</p>
           </div>
 
           <div class="booking-times glass-card" id="bookingTimes">
             <div class="booking-times-header">
               <h3>Select Time</h3>
-              <p class="times-hint">All slots include a 15-minute buffer for verification and documentation.</p>
+              <p class="times-hint" id="timeSlotHint">All slots include a 15-minute buffer for verification and documentation.</p>
             </div>
-            <div class="time-slots" id="timeSlots"></div>
-            <button class="cancel-selection" id="cancelSelection">Start over</button>
+            <div class="time-slots" id="timeSlots" role="listbox" aria-describedby="timeSlotHint"></div>
+            <button class="cancel-selection" id="cancelSelection" type="button">Start over</button>
           </div>
         </div>
 
@@ -67,14 +67,35 @@
               <input type="hidden" id="selectedTime" name="time">
 
               <div class="form-grid">
-                <input type="text" name="name" placeholder="Full Name *" required>
-                <input type="tel" name="phone" placeholder="Phone Number *" required>
-                <input type="email" name="email" placeholder="Email Address *" required>
-                <input type="text" name="address" placeholder="Appointment Address *" required>
-                <input type="text" name="documentType" placeholder="Document Type *" required>
-                <input type="text" name="serviceFocus" placeholder="Service focus (e.g., refinance, POA)" required>
+                <label class="form-field">
+                  <span class="sr-only">Full Name *</span>
+                  <input type="text" name="name" placeholder="Full Name *" autocomplete="name" required>
+                </label>
+                <label class="form-field">
+                  <span class="sr-only">Phone Number *</span>
+                  <input type="tel" name="phone" placeholder="Phone Number *" inputmode="tel" autocomplete="tel" required>
+                </label>
+                <label class="form-field">
+                  <span class="sr-only">Email Address *</span>
+                  <input type="email" name="email" placeholder="Email Address *" autocomplete="email" required>
+                </label>
+                <label class="form-field">
+                  <span class="sr-only">Appointment Address *</span>
+                  <input type="text" name="address" placeholder="Appointment Address *" autocomplete="street-address" required>
+                </label>
+                <label class="form-field">
+                  <span class="sr-only">Document Type *</span>
+                  <input type="text" name="documentType" placeholder="Document Type *" autocomplete="off" required>
+                </label>
+                <label class="form-field">
+                  <span class="sr-only">Service focus *</span>
+                  <input type="text" name="serviceFocus" placeholder="Service focus (e.g., refinance, POA)" autocomplete="off" required>
+                </label>
               </div>
-              <textarea name="notes" placeholder="Additional details (optional)" rows="3"></textarea>
+              <label class="form-field">
+                <span class="sr-only">Additional details (optional)</span>
+                <textarea name="notes" placeholder="Additional details (optional)" rows="3" autocomplete="off"></textarea>
+              </label>
 
               <label class="checkbox-label">
                 <input type="checkbox" name="idAcknowledgment" required>

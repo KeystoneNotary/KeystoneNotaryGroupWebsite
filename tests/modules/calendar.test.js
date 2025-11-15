@@ -52,7 +52,8 @@ describe('Booking workflow', () => {
 
     test('selectDate highlights day and reveals time slots', () => {
         renderCalendar();
-        const dayEl = document.createElement('div');
+        const dayEl = document.createElement('button');
+        dayEl.type = 'button';
         dayEl.className = 'calendar-day';
         document.body.appendChild(dayEl);
 
@@ -60,21 +61,28 @@ describe('Booking workflow', () => {
         vi.runAllTimers();
 
         expect(dayEl.classList.contains('selected')).toBe(true);
+        expect(dayEl.getAttribute('aria-pressed')).toBe('true');
         expect(document.querySelectorAll('.booking-steps .step')[1].classList.contains('active')).toBe(true);
         expect(document.getElementById('bookingTimes').classList.contains('visible')).toBe(true);
     });
 
     test('showTimeSlots populates available slots', () => {
         showTimeSlots();
-        expect(document.getElementById('timeSlots').children.length).toBeGreaterThan(0);
+        const slots = document.getElementById('timeSlots').children;
+        expect(slots.length).toBeGreaterThan(0);
+        expect(slots[0].tagName).toBe('BUTTON');
     });
 
     test('selectTime stores hidden inputs and shows form wrapper', () => {
-        const slotEl = document.createElement('div');
+        const slotEl = document.createElement('button');
+        slotEl.type = 'button';
         slotEl.className = 'time-slot';
         document.getElementById('timeSlots').appendChild(slotEl);
         const fakeDate = new Date(2099, 0, 20);
-        selectDate(fakeDate, document.createElement('div'));
+        const fakeDay = document.createElement('button');
+        fakeDay.className = 'calendar-day';
+        document.body.appendChild(fakeDay);
+        selectDate(fakeDate, fakeDay);
 
         selectTime('10:00 AM', slotEl);
         vi.runAllTimers();
@@ -82,6 +90,7 @@ describe('Booking workflow', () => {
         expect(document.getElementById('selectedTime').value).toBe('10:00 AM');
         expect(document.getElementById('bookingFormWrapper').classList.contains('visible')).toBe(true);
         expect(document.querySelectorAll('.booking-steps .step')[2].classList.contains('active')).toBe(true);
+        expect(slotEl.getAttribute('aria-selected')).toBe('true');
     });
 
     test('hideForm clears time selection and summary', () => {

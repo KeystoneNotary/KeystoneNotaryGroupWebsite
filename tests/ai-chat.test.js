@@ -3,16 +3,20 @@ import { AIChatAgent } from '../src/js/ai-chat.js';
 
 const setupAIChatDOM = () => {
     document.body.innerHTML = `
+        <div class="ai-chat-overlay"></div>
         <div class="ai-chat-widget">
             <button class="ai-chat-toggle" aria-expanded="false" aria-label="Open chat"></button>
-        </div>
-        <div class="ai-chat-overlay"></div>
-        <div class="ai-chat-panel" aria-hidden="true">
-            <button class="ai-chat-close"></button>
-            <div id="aiChatMessages"></div>
-            <div class="ai-chat-input-area">
-                <input type="text" id="aiChatInput" placeholder="Type your message...">
-                <button id="aiChatSend">Send</button>
+            <div class="ai-chat-panel" aria-hidden="true">
+                <div class="ai-chat-header">
+                    <h3>Assistant</h3>
+                    <button class="ai-chat-close" aria-label="Close chat"></button>
+                </div>
+                <div id="aiChatMessages"></div>
+                <div id="aiChatStatus" aria-live="polite" aria-atomic="true"></div>
+                <div class="ai-chat-input-wrapper">
+                    <input type="text" id="aiChatInput" placeholder="Type your message...">
+                    <button id="aiChatSend">Send</button>
+                </div>
             </div>
         </div>
     `;

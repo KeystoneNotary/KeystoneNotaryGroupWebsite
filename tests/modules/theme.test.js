@@ -31,6 +31,7 @@ describe('Theme controls', () => {
         expect(document.documentElement.getAttribute('data-theme')).toBe('neutral');
         expect(localStorage.getItem('theme')).toBe('neutral');
         expect(document.querySelector('.theme-option.active').getAttribute('data-theme-option')).toBe('neutral');
+        expect(document.querySelector('[data-theme-option="neutral"]').getAttribute('aria-checked')).toBe('true');
     });
 
     test('applyTheme handles dark theme correctly by removing attribute', () => {
@@ -44,6 +45,7 @@ describe('Theme controls', () => {
         initTheme();
         expect(document.documentElement.getAttribute('data-theme')).toBe('light');
         expect(document.querySelector('.theme-option.active').getAttribute('data-theme-option')).toBe('light');
+        expect(document.querySelector('[data-theme-option="light"]').getAttribute('tabindex')).toBe('0');
     });
 
     test('bindThemeControls toggles panel and applies selection', () => {
@@ -57,5 +59,11 @@ describe('Theme controls', () => {
         panel.querySelector('[data-theme-option="neutral"]').click();
         expect(localStorage.getItem('theme')).toBe('neutral');
         expect(panel.classList.contains('open')).toBe(false);
+
+        toggle.click();
+        const activeOption = panel.querySelector('[data-theme-option="neutral"]');
+        activeOption.focus();
+        activeOption.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+        expect(document.activeElement.getAttribute('data-theme-option')).toBe('light');
     });
 });

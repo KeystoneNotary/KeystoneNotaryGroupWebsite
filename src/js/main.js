@@ -1,3 +1,4 @@
+import '../styles/main.css';
 import { initTheme } from './modules/theme.js';
 import { initNavigation } from './modules/navigation.js';
 import { initUI } from './modules/ui.js';

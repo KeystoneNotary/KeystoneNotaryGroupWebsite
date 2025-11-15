@@ -41,7 +41,7 @@ This playbook operationalizes the safety mandate for the Keystone Notary Group L
 - **Static Analysis:** Enable ESLint with security-conscious configs (`eslint:recommended`). The project aims to add `plugin:security/recommended` in the future. Run on every commit: `npm run lint`.
 - **Dependency Scanning:** Review `npm audit` output. Block merges on high-severity findings unless mitigated.
 - **Formatting:** Use Prettier (or the project formatter) to maintain consistent styling.
-- **CI Pipeline:** Configure GitHub Actions (or equivalent) to run lint, tests, and security scans on each pull request before merge.
+- **CI Pipeline:** A CI pipeline should be configured using GitHub Actions (or equivalent) to run lint, tests, and security scans on each pull request before merge.
 
 ## 5. Code Review Standards
 - Require at least one knowledgeable reviewer for every pull request.

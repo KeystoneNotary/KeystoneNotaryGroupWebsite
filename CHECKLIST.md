@@ -66,7 +66,7 @@
 - [x] Lazy loading for images
 - [x] Mobile viewport height optimization
 - [x] Smooth scroll with native CSS
-- [x] Debounced scroll events
+- [ ] Debounced scroll events _(current implementation in `src/js/modules/ui.js` uses a raw scroll listener; add debouncing before checking off again)_
 
 ## ✅ Testing & Documentation
 - [x] Comprehensive unit tests for all functions

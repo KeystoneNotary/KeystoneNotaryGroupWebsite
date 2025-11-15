@@ -3,6 +3,22 @@ import { monthNames, dayNames, availableSlots } from '../constants.js';
 const currentDate = new Date();
 let selectedDate = null;
 let selectedTime = null;
+let selectedDateInputEl = null;
+let selectedTimeInputEl = null;
+
+function getSelectedDateInput() {
+    if (!selectedDateInputEl || !document.body.contains(selectedDateInputEl)) {
+        selectedDateInputEl = document.getElementById('selectedDate');
+    }
+    return selectedDateInputEl;
+}
+
+function getSelectedTimeInput() {
+    if (!selectedTimeInputEl || !document.body.contains(selectedTimeInputEl)) {
+        selectedTimeInputEl = document.getElementById('selectedTime');
+    }
+    return selectedTimeInputEl;
+}
 
 export function setActiveBookingStep(index) {
     document.querySelectorAll('.booking-steps .step').forEach((step, stepIndex) => {
@@ -41,6 +57,8 @@ export function resetCalendar() {
     const bookingTimes = document.getElementById('bookingTimes');
     const bookingFormWrapper = document.getElementById('bookingFormWrapper');
     const bookingHint = document.getElementById('bookingHint');
+    const selectedDateInput = getSelectedDateInput();
+    const selectedTimeInput = getSelectedTimeInput();
 
     if (bookingTimes) {
         bookingTimes.classList.remove('visible');
@@ -53,6 +71,12 @@ export function resetCalendar() {
     document.querySelectorAll('.time-slot').forEach(el => el.classList.remove('selected'));
     selectedDate = null;
     selectedTime = null;
+    if (selectedDateInput) {
+        selectedDateInput.value = '';
+    }
+    if (selectedTimeInput) {
+        selectedTimeInput.value = '';
+    }
     setActiveBookingStep(0);
     updateBookingSummary('', '');
     if (bookingHint) {
@@ -83,8 +107,8 @@ export function selectTime(time, element) {
     document.querySelectorAll('.time-slot').forEach(el => el.classList.remove('selected'));
     element.classList.add('selected');
 
-    const selectedDateInput = document.getElementById('selectedDate');
-    const selectedTimeInput = document.getElementById('selectedTime');
+    const selectedDateInput = getSelectedDateInput();
+    const selectedTimeInput = getSelectedTimeInput();
     const bookingFormWrapper = document.getElementById('bookingFormWrapper');
     const bookingHint = document.getElementById('bookingHint');
 
@@ -217,6 +241,9 @@ function initAppointmentForm() {
 
 export function initCalendar() {
     renderCalendar();
+
+    selectedDateInputEl = getSelectedDateInput();
+    selectedTimeInputEl = getSelectedTimeInput();
 
     const prevMonthButton = document.getElementById('prevMonth');
     if (prevMonthButton) {

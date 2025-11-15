@@ -31,30 +31,46 @@ Professional notary services website with dark glassmorphism design, parallax ef
 
 ```
 KeystoneNotaryGroupLLC-Website/
-├── assets/
-│   ├── images/          # Logo variants and images
-│   └── videos/          # B-roll videos
-├── css/
-│   └── styles.css       # Main stylesheet
-├── js/
-│   └── main.js          # GSAP animations and form logic
+├── public/
+│   └── assets/                  # Static assets served as-is by Vite
+├── src/
+│   ├── index.html               # Entry HTML file served by Vite
+│   ├── main.js                  # Vite bootstrap that wires global styles and scripts
+│   ├── js/
+│   │   ├── ai-chat.js
+│   │   ├── constants.js
+│   │   └── modules/             # Feature-specific modules (animations, forms, etc.)
+│   ├── partials/                # Layout and section HTML fragments
+│   └── styles/
+│       ├── main.css             # Root stylesheet imported by main.js
+│       ├── ai-chat.css
+│       └── components/          # Component-scoped style sheets
 ├── tests/
-│   └── main.test.js     # Unit tests
-├── index.html           # Main page
-└── README.md
+│   └── main.test.js             # Vitest unit tests
+├── eslint.config.js             # Linting rules
+├── package.json                 # Project metadata and scripts
+├── vite.config.mjs              # Vite build and dev server configuration
+└── vitest.config.mjs            # Vitest configuration
 ```
 
 ## Setup
 
 1. Clone or download the repository
-2. Open `index.html` in a modern browser
-3. No build process required - runs directly
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the Vite development server (which serves `src/index.html`):
+   ```bash
+   npm run dev
+   ```
+4. Open the printed local development URL (typically `http://localhost:5173`) in a modern browser.
 
 ## Customization
 
 ### Update Contact Information
 
-Edit the contact section in `index.html`:
+Edit the contact section in `src/index.html`:
 - Phone number
 - Email address
 - Service area
@@ -62,7 +78,7 @@ Edit the contact section in `index.html`:
 
 ### Modify Colors
 
-Edit CSS custom properties in `css/styles.css`:
+Edit CSS custom properties in `src/styles/main.css`:
 ```css
 :root {
     --bg-dark: #0a0e27;
@@ -73,7 +89,7 @@ Edit CSS custom properties in `css/styles.css`:
 
 ### Adjust Animations
 
-Modify GSAP animations in `js/main.js`:
+Modify GSAP animations in `src/js/main.js` and supporting modules in `src/js/modules/`:
 - ScrollTrigger start/end points
 - Animation duration and easing
 - Stagger timing

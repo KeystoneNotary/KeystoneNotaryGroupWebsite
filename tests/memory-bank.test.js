@@ -119,7 +119,7 @@ describe('MemoryBank', () => {
 
         expect(updated.metadata).toMatchObject({ client: 'Acme Corp', urgent: true });
         expect(updated.importance).toBeCloseTo(0.75);
-        expect(updated.expiresAt).toBe(currentTime + DAY * 3);
+        expect(updated.expiresAt).toBe(entry.createdAt + DAY * 3);
     });
 
     it('records access and boosts importance for low priority items', () => {
@@ -130,13 +130,13 @@ describe('MemoryBank', () => {
             ttlMs: DAY * 2
         });
 
-        const before = bank.getMemories({ category: 'chat' })[0];
+        const before = bank.getMemories({ category: 'chat', sortBy: 'createdAt' })[0];
         expect(before.importance).toBeCloseTo(0.25, 5);
 
         const result = bank.recordAccess(entry.id);
         expect(result).toBe(true);
 
-        const after = bank.getMemories({ category: 'chat' })[0];
+        const after = bank.getMemories({ category: 'chat', sortBy: 'createdAt' })[0];
         expect(after.importance).toBeGreaterThan(before.importance);
         expect(after.lastAccessed).toBe(currentTime);
     });

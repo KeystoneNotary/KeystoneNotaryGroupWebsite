@@ -2,6 +2,26 @@
 
 import MemoryBank from './modules/memory/memory-bank.js';
 
+const CHAT_MEMORY_CONFIG = Object.freeze({
+    STORAGE_KEY: 'codex.memory.chat',
+    MAX_ENTRIES: 150,
+    DEFAULT_TTL_MS: 1000 * 60 * 60 * 24 * 21, // 21 days
+    STALE_AFTER_MS: 1000 * 60 * 60 * 24 * 5, // Maintain a rolling window for lower-importance chat
+    MIN_IMPORTANCE: 0.35
+});
+
+const CHAT_HISTORY_FALLBACK_KEY = 'aiChatHistory_fallback';
+const CHAT_HISTORY_FALLBACK_LIMIT = 50;
+const CHAT_HISTORY_RECENT_MESSAGES = 10;
+const DAY_IN_MS = 1000 * 60 * 60 * 24;
+
+const APPOINTMENT_REGEX = /appointment|schedule|apostille|mobile|travel|witness|loan|closing/i;
+const CONTACT_REGEX = /call|phone|email|contact|website/i;
+const USER_NEED_REGEX = /\?|need|help|urgent/i;
+const ASSISTANT_SUMMARY_REGEX = /summary|recap|next steps|follow up/i;
+const DOCUMENT_IMPORTANCE_REGEX = /appointment|schedule|document|travel|closing/i;
+const ASSISTANT_TTL_REGEX = /summary|recap|notes/i;
+
 const clampValue = (value, min, max) => Math.min(Math.max(value, min), max);
 
 class AIChatAgent {
@@ -10,11 +30,11 @@ class AIChatAgent {
         this.apiEndpoint = '/api/chat'; // Backend endpoint
 
         this.memoryBank = new MemoryBank({
-            storageKey: 'codex.memory.chat',
-            maxEntries: 150,
-            defaultTtlMs: 1000 * 60 * 60 * 24 * 21, // 21 days
-            staleAfterMs: 1000 * 60 * 60 * 24 * 5, // Maintain a rolling window for lower-importance chat
-            minImportanceForRetention: 0.35
+            storageKey: CHAT_MEMORY_CONFIG.STORAGE_KEY,
+            maxEntries: CHAT_MEMORY_CONFIG.MAX_ENTRIES,
+            defaultTtlMs: CHAT_MEMORY_CONFIG.DEFAULT_TTL_MS,
+            staleAfterMs: CHAT_MEMORY_CONFIG.STALE_AFTER_MS,
+            minImportanceForRetention: CHAT_MEMORY_CONFIG.MIN_IMPORTANCE
         });
 
         this.messages = [];
@@ -116,7 +136,7 @@ class AIChatAgent {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 message,
-                history: this.messages.slice(-10)
+                history: this.messages.slice(-CHAT_HISTORY_RECENT_MESSAGES)
             })
         });
         
@@ -129,7 +149,6 @@ class AIChatAgent {
         const message = { role, content, timestamp };
         this.messages.push(message);
         this.persistMessage(message);
-        this.saveChatHistory();
 
         if (!this.messagesContainer) {
             return;
@@ -171,22 +190,31 @@ class AIChatAgent {
         }
     }
 
-    saveChatHistory() {
-        this.memoryBank.maintain();
-    }
-
     loadChatHistory() {
+        this.memoryBank.maintain();
         const stored = this.memoryBank.getMemories({
             category: 'chat',
             sortBy: 'createdAt',
             includeExpired: false
         });
 
-        this.messages = stored.map((entry) => ({
-            role: entry.metadata.role || entry.tags[0] || 'assistant',
-            content: entry.content,
-            timestamp: entry.metadata.timestamp ?? entry.createdAt
-        }));
+        this.messages = stored.map((entry) => {
+            let role = 'assistant';
+            if (entry.metadata && typeof entry.metadata.role === 'string') {
+                role = entry.metadata.role;
+            } else if (Array.isArray(entry.tags) && entry.tags.length > 0) {
+                const validRole = entry.tags.find((tag) => ['user', 'assistant'].includes(tag));
+                if (validRole) {
+                    role = validRole;
+                }
+            }
+
+            return {
+                role,
+                content: entry.content,
+                timestamp: entry.metadata?.timestamp ?? entry.createdAt
+            };
+        });
 
         this.messages.forEach((msg) => {
             if (!this.messagesContainer) {
@@ -215,6 +243,22 @@ class AIChatAgent {
             });
         } catch (error) {
             console.error('AIChatAgent: Failed to persist chat memory', error);
+            if (typeof localStorage === 'undefined') {
+                return;
+            }
+            try {
+                const fallbackHistory = JSON.parse(
+                    localStorage.getItem(CHAT_HISTORY_FALLBACK_KEY) || '[]'
+                );
+                fallbackHistory.push(message);
+                const trimmedHistory = fallbackHistory.slice(-CHAT_HISTORY_FALLBACK_LIMIT);
+                localStorage.setItem(
+                    CHAT_HISTORY_FALLBACK_KEY,
+                    JSON.stringify(trimmedHistory)
+                );
+            } catch (fallbackError) {
+                console.warn('AIChatAgent: Fallback persistence also failed', fallbackError);
+            }
         }
     }
 
@@ -228,19 +272,19 @@ class AIChatAgent {
                 score += 0.05;
             }
 
-            if (/appointment|schedule|apostille|mobile|travel|witness|loan|closing/i.test(content)) {
+            if (APPOINTMENT_REGEX.test(content)) {
                 score += 0.2;
             }
 
-            if (/call|phone|email|contact|website/i.test(content)) {
+            if (CONTACT_REGEX.test(content)) {
                 score += 0.1;
             }
 
-            if (role === 'user' && /\?|need|help|urgent/i.test(content)) {
+            if (role === 'user' && USER_NEED_REGEX.test(content)) {
                 score += 0.05;
             }
 
-            if (role === 'assistant' && /summary|recap|next steps|follow up/i.test(content)) {
+            if (role === 'assistant' && ASSISTANT_SUMMARY_REGEX.test(content)) {
                 score += 0.05;
             }
         }
@@ -249,15 +293,14 @@ class AIChatAgent {
     }
 
     getMessageTtl(role, content) {
-        const day = 1000 * 60 * 60 * 24;
-        let baseTtl = role === 'user' ? day * 28 : day * 21;
+        let baseTtl = role === 'user' ? DAY_IN_MS * 28 : DAY_IN_MS * 21;
 
-        if (typeof content === 'string' && /appointment|schedule|document|travel|closing/i.test(content)) {
-            baseTtl += day * 14;
+        if (typeof content === 'string' && DOCUMENT_IMPORTANCE_REGEX.test(content)) {
+            baseTtl += DAY_IN_MS * 14;
         }
 
-        if (role === 'assistant' && /summary|recap|notes/i.test(content)) {
-            baseTtl += day * 7;
+        if (role === 'assistant' && ASSISTANT_TTL_REGEX.test(content)) {
+            baseTtl += DAY_IN_MS * 7;
         }
 
         return baseTtl;

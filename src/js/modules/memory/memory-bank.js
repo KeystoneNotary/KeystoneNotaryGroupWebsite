@@ -16,11 +16,22 @@ const clamp = (value, min, max) => {
     return Math.min(Math.max(value, min), max);
 };
 
+const SENSITIVE_STATE_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
 const cloneState = (state) => {
+    if (state === null || typeof state !== 'object') {
+        return state;
+    }
     if (typeof structuredClone === 'function') {
         return structuredClone(state);
     }
-    return JSON.parse(JSON.stringify(state));
+    const serialized = JSON.stringify(state, (key, value) => {
+        if (SENSITIVE_STATE_KEYS.has(key)) {
+            return undefined;
+        }
+        return value;
+    });
+    return JSON.parse(serialized);
 };
 
 const createDefaultState = () => cloneState(DEFAULT_STATE);
@@ -70,18 +81,27 @@ const parseState = (raw) => {
         version: typeof parsed.version === 'number' ? parsed.version : 1,
         lastUpdated: typeof parsed.lastUpdated === 'number' ? parsed.lastUpdated : null,
         entries: parsed.entries
-            .filter((entry) => isPlainObject(entry) && typeof entry.content === 'string')
+            .filter(
+                (entry) =>
+                    isPlainObject(entry) &&
+                    typeof entry.content === 'string' &&
+                    typeof entry.createdAt === 'number' &&
+                    Number.isFinite(entry.createdAt)
+            )
             .map((entry) => ({
                 ...entry,
                 tags: Array.isArray(entry.tags) ? entry.tags.filter((tag) => typeof tag === 'string') : [],
                 metadata: isPlainObject(entry.metadata) ? { ...entry.metadata } : {},
                 importance: typeof entry.importance === 'number' ? clamp(entry.importance, 0, 1) : 0.5,
-                createdAt: typeof entry.createdAt === 'number' ? entry.createdAt : Date.now(),
-                lastAccessed: typeof entry.lastAccessed === 'number' ? entry.lastAccessed : Date.now(),
+                createdAt: entry.createdAt,
+                lastAccessed:
+                    typeof entry.lastAccessed === 'number' && Number.isFinite(entry.lastAccessed)
+                        ? entry.lastAccessed
+                        : entry.createdAt,
                 expiresAt:
-                    typeof entry.expiresAt === 'number'
+                    typeof entry.expiresAt === 'number' && Number.isFinite(entry.expiresAt)
                         ? entry.expiresAt
-                        : Date.now() + DEFAULT_TTL_MS
+                        : entry.createdAt + DEFAULT_TTL_MS
             }))
     };
 };
@@ -92,10 +112,36 @@ const createStorageAdapter = (storageKey, storageInstance) => {
         typeof storageInstance.getItem === 'function' &&
         typeof storageInstance.setItem === 'function'
     ) {
+        let fallbackState = createDefaultState();
         return {
-            load: () => parseState(storageInstance.getItem(storageKey)),
+            load: () => {
+                try {
+                    const stored = storageInstance.getItem(storageKey);
+                    if (stored === null && fallbackState) {
+                        return cloneState(fallbackState);
+                    }
+                    const parsed = parseState(stored);
+                    fallbackState = cloneState(parsed);
+                    return parsed;
+                } catch (error) {
+                    console.warn(
+                        'MemoryBank: Failed to load from storage, using in-memory snapshot instead.',
+                        error
+                    );
+                    return cloneState(fallbackState);
+                }
+            },
             save: (state) => {
-                storageInstance.setItem(storageKey, JSON.stringify(state));
+                try {
+                    storageInstance.setItem(storageKey, JSON.stringify(state));
+                    fallbackState = cloneState(state);
+                } catch (error) {
+                    console.warn(
+                        'MemoryBank: Failed to save to storage, falling back to in-memory only.',
+                        error
+                    );
+                    fallbackState = cloneState(state);
+                }
             }
         };
     }
@@ -256,7 +302,7 @@ class MemoryBank {
 
         if (typeof updates.ttlMs === 'number' && updates.ttlMs > 0) {
             const safeTtl = clamp(updates.ttlMs, 60_000, MAX_TTL_MS);
-            entry.expiresAt = this.now() + safeTtl;
+            entry.expiresAt = entry.createdAt + safeTtl;
             mutated = true;
         }
 
@@ -301,7 +347,6 @@ class MemoryBank {
         } = options;
 
         const now = this.now();
-        this.maintain(now);
 
         let results = this.entries.slice();
 
@@ -406,15 +451,7 @@ class MemoryBank {
         if (this.entries.length <= this.maxEntries) {
             return 0;
         }
-        this.entries.sort((a, b) => {
-            if (b.importance !== a.importance) {
-                return b.importance - a.importance;
-            }
-            if (b.lastAccessed !== a.lastAccessed) {
-                return b.lastAccessed - a.lastAccessed;
-            }
-            return b.createdAt - a.createdAt;
-        });
+        this.entries.sort(this.createSorter());
         const removed = this.entries.length - this.maxEntries;
         this.entries.length = this.maxEntries;
         return removed;

@@ -40,6 +40,7 @@ describe('Booking workflow', () => {
 
     afterEach(() => {
         vi.runOnlyPendingTimers();
+        vi.clearAllTimers();
         vi.useRealTimers();
     });
 

@@ -17,6 +17,7 @@ describe('Contact form helpers', () => {
 
     afterEach(() => {
         vi.runOnlyPendingTimers();
+        vi.clearAllTimers();
         vi.useRealTimers();
     });
 

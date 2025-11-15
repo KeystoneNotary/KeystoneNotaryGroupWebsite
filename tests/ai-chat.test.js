@@ -32,8 +32,7 @@ describe('AIChatAgent responsive behaviors', () => {
     });
 
     afterEach(() => {
-        document.body.innerHTML = '';
-        document.body.classList.remove('ai-chat-open');
+        // Clean up global state not handled by jsdom
         if (window.__aiChatAgentInstance) {
             delete window.__aiChatAgentInstance;
         }

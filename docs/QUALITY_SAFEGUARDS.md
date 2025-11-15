@@ -38,7 +38,7 @@ This playbook operationalizes the safety mandate for the Keystone Notary Group L
   - Prefer vetted libraries (e.g., bcrypt, libsodium). Never roll your own crypto.
 
 ## 4. Tooling & Automation
-- **Static Analysis:** Enable ESLint with security-conscious configs (`eslint:recommended`, `plugin:security/recommended`). Run on every commit: `npm run lint`.
+- **Static Analysis:** Enable ESLint with security-conscious configs (`eslint:recommended`). The project aims to add `plugin:security/recommended` in the future. Run on every commit: `npm run lint`.
 - **Dependency Scanning:** Review `npm audit` output. Block merges on high-severity findings unless mitigated.
 - **Formatting:** Use Prettier (or the project formatter) to maintain consistent styling.
 - **CI Pipeline:** Configure GitHub Actions (or equivalent) to run lint, tests, and security scans on each pull request before merge.

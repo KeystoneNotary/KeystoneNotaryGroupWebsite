@@ -140,4 +140,79 @@ describe('MemoryBank', () => {
         expect(after.importance).toBeGreaterThan(before.importance);
         expect(after.lastAccessed).toBe(currentTime);
     });
+
+    it('sanitizes metadata and prevents prototype pollution in add/update flows', () => {
+        const entry = bank.addMemory({
+            content: 'Potentially malicious metadata payload.',
+            category: '__proto__',
+            tags: ['user', '__proto__'],
+            metadata: {
+                __proto__: { polluted: true },
+                constructor: 'ignored',
+                safe: 'value'
+            },
+            importance: 0.7,
+            ttlMs: DAY * 3
+        });
+
+        expect(entry.category).toBe('general');
+        expect(entry.tags).toEqual(['user']);
+        expect(entry.metadata).toEqual({ safe: 'value' });
+        expect(Object.prototype.polluted).toBeUndefined();
+
+        const stored = bank.getMemories({ category: 'general', sortBy: 'createdAt' })[0];
+        expect(stored.metadata).toEqual({ safe: 'value' });
+        expect(stored.tags).toEqual(['user']);
+
+        const updated = bank.updateMemory(entry.id, {
+            metadata: { __proto__: { polluted: true }, verified: true },
+            category: 'verified',
+            tags: ['assistant', 'verified', '__proto__']
+        });
+
+        expect(updated.category).toBe('verified');
+        expect(updated.tags).toEqual(['assistant', 'verified']);
+        expect(updated.metadata).toEqual({ safe: 'value', verified: true });
+        expect(Object.prototype.polluted).toBeUndefined();
+    });
+
+    it('sanitizes persisted state loaded from storage adapters', () => {
+        const maliciousState = {
+            version: 1,
+            lastUpdated: currentTime,
+            entries: [
+                {
+                    id: 'malicious',
+                    content: 'Persisted entry with polluted metadata.',
+                    category: '__proto__',
+                    tags: ['assistant', '__proto__'],
+                    importance: 0.9,
+                    createdAt: currentTime,
+                    lastAccessed: currentTime,
+                    expiresAt: currentTime + DAY,
+                    metadata: {
+                        __proto__: { hacked: true },
+                        safe: 'ok'
+                    }
+                }
+            ]
+        };
+
+        const maliciousAdapter = MemoryBank.createInMemoryStorageAdapter(maliciousState);
+        const reloaded = new MemoryBank({
+            storageAdapter: maliciousAdapter,
+            nowProvider,
+            maxEntries: 3,
+            defaultTtlMs: DAY,
+            staleAfterMs: DAY / 2,
+            minImportanceForRetention: 0.4
+        });
+
+        const memories = reloaded.getMemories({ sortBy: 'createdAt' });
+        expect(memories).toHaveLength(1);
+        expect(memories[0].category).toBe('general');
+        expect(memories[0].metadata).toEqual({ safe: 'ok' });
+        expect(memories[0].tags).toEqual(['assistant']);
+        expect(Object.prototype.hacked).toBeUndefined();
+    });
 });

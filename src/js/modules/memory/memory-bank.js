@@ -36,6 +36,33 @@ const cloneState = (state) => {
 
 const createDefaultState = () => cloneState(DEFAULT_STATE);
 
+const sanitizeTags = (tags) => {
+    if (!Array.isArray(tags)) return [];
+    return tags
+        .filter((tag) => typeof tag === 'string' && tag.trim().length > 0)
+        .map((tag) => tag.trim())
+        .filter((tag) => !SENSITIVE_STATE_KEYS.has(tag));
+};
+
+const sanitizeMetadata = (metadata) => {
+    if (!isPlainObject(metadata)) return {};
+    return Object.entries(metadata).reduce((acc, [key, value]) => {
+        if (typeof key !== 'string') {
+            return acc;
+        }
+
+        const trimmedKey = key.trim();
+        if (!trimmedKey || SENSITIVE_STATE_KEYS.has(trimmedKey)) {
+            return acc;
+        }
+
+        if (['string', 'number', 'boolean'].includes(typeof value)) {
+            acc[trimmedKey] = value;
+        }
+        return acc;
+    }, {});
+};
+
 const detectLocalStorage = () => {
     try {
         if (typeof globalThis === 'object' && globalThis !== null) {
@@ -89,24 +116,38 @@ const parseState = (raw) => {
                 (entry) =>
                     isPlainObject(entry) &&
                     typeof entry.content === 'string' &&
+                    entry.content.trim().length > 0 &&
                     typeof entry.createdAt === 'number' &&
                     Number.isFinite(entry.createdAt)
             )
-            .map((entry) => ({
-                ...entry,
-                tags: Array.isArray(entry.tags) ? entry.tags.filter((tag) => typeof tag === 'string') : [],
-                metadata: isPlainObject(entry.metadata) ? { ...entry.metadata } : {},
-                importance: typeof entry.importance === 'number' ? clamp(entry.importance, 0, 1) : 0.5,
-                createdAt: entry.createdAt,
-                lastAccessed:
-                    typeof entry.lastAccessed === 'number' && Number.isFinite(entry.lastAccessed)
-                        ? entry.lastAccessed
-                        : entry.createdAt,
-                expiresAt:
-                    typeof entry.expiresAt === 'number' && Number.isFinite(entry.expiresAt)
-                        ? entry.expiresAt
-                        : entry.createdAt + DEFAULT_TTL_MS
-            }))
+            .map((entry) => {
+                const trimmedCategory =
+                    typeof entry.category === 'string' ? entry.category.trim() : '';
+                const sanitizedCategory =
+                    trimmedCategory && trimmedCategory.length > 0
+                        ? SENSITIVE_STATE_KEYS.has(trimmedCategory)
+                            ? 'general'
+                            : trimmedCategory
+                        : 'general';
+
+                return {
+                    ...entry,
+                    content: entry.content.trim(),
+                    category: sanitizedCategory,
+                    tags: sanitizeTags(entry.tags),
+                    metadata: sanitizeMetadata(entry.metadata),
+                    importance: typeof entry.importance === 'number' ? clamp(entry.importance, 0, 1) : 0.5,
+                    createdAt: entry.createdAt,
+                    lastAccessed:
+                        typeof entry.lastAccessed === 'number' && Number.isFinite(entry.lastAccessed)
+                            ? entry.lastAccessed
+                            : entry.createdAt,
+                    expiresAt:
+                        typeof entry.expiresAt === 'number' && Number.isFinite(entry.expiresAt)
+                            ? entry.expiresAt
+                            : entry.createdAt + DEFAULT_TTL_MS
+                };
+            })
     };
 };
 
@@ -159,25 +200,9 @@ const createStorageAdapter = (storageKey, storageInstance) => {
     return {
         load: () => cloneState(state),
         save: (nextState) => {
-            state = cloneState(nextState);
+            state = parseState(cloneState(nextState));
         }
     };
-};
-
-const sanitizeTags = (tags) => {
-    if (!Array.isArray(tags)) return [];
-    return tags.filter((tag) => typeof tag === 'string' && tag.trim().length > 0).map((tag) => tag.trim());
-};
-
-const sanitizeMetadata = (metadata) => {
-    if (!isPlainObject(metadata)) return {};
-    return Object.entries(metadata).reduce((acc, [key, value]) => {
-        if (typeof key !== 'string' || !key.trim()) return acc;
-        if (['string', 'number', 'boolean'].includes(typeof value)) {
-            acc[key.trim()] = value;
-        }
-        return acc;
-    }, {});
 };
 
 const generateId = () => {
@@ -218,11 +243,11 @@ class MemoryBank {
     }
 
     static createInMemoryStorageAdapter(initialState = createDefaultState()) {
-        let state = cloneState(initialState);
+        let state = parseState(cloneState(initialState));
         return {
             load: () => cloneState(state),
             save: (nextState) => {
-                state = cloneState(nextState);
+                state = parseState(cloneState(nextState));
             }
         };
     }
@@ -252,10 +277,17 @@ class MemoryBank {
         const safeTtl = clamp(typeof ttlMs === 'number' && ttlMs > 0 ? ttlMs : this.defaultTtlMs, 60_000, MAX_TTL_MS);
         const expiresAt = safeCreatedAt + safeTtl;
 
+        const trimmedCategory = typeof category === 'string' ? category.trim() : '';
+        const sanitizedCategory = trimmedCategory
+            ? SENSITIVE_STATE_KEYS.has(trimmedCategory)
+                ? 'general'
+                : trimmedCategory
+            : 'general';
+
         const entry = {
             id: generateId(),
             content: sanitizedContent,
-            category: category || 'general',
+            category: sanitizedCategory,
             tags: sanitizeTags(tags),
             importance: safeImportance,
             createdAt: safeCreatedAt,
@@ -290,8 +322,11 @@ class MemoryBank {
         }
 
         if (typeof updates.category === 'string' && updates.category.trim()) {
-            entry.category = updates.category.trim();
-            mutated = true;
+            const trimmedCategory = updates.category.trim();
+            if (!SENSITIVE_STATE_KEYS.has(trimmedCategory)) {
+                entry.category = trimmedCategory;
+                mutated = true;
+            }
         }
 
         if (Array.isArray(updates.tags)) {

@@ -27,10 +27,6 @@ These are the non-negotiable rules that govern all your actions.
     > - Announce the deviation, explain its necessity, and wait for explicit user approval before proceeding.
 - **File System Protocol:** All file system operations are sacred. Handle them with extreme care.
     - **Always Read First:** At the start of any interaction, read `LAUNCH.MD` and `memory/context.md` to gain full project state.
-    - **Propose, Then Execute:** Never modify, create, or delete a file silently.
-        > 1. State which files you will modify and why.
-        > 2. Provide the exact proposed changes (diff or full content).
-        > 3. **Wait for the user's 'approve' command before writing to disk.**
 - **Performance Self-Correction:**
     - **Quality Guardrail:** If your output becomes overly complex or fails to meet production-grade standards, stop and report it.
     - **Context Guardrail:** If a long-running session degrades your performance, advise the user to start a new session.

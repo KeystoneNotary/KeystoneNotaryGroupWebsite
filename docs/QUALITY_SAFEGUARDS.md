@@ -11,7 +11,7 @@ This playbook operationalizes the safety mandate for the Keystone Notary Group L
 ## 2. TDD Workflow (Test-First Delivery)
 1. **Requirements Capture:** Translate the user story or bug report into explicit acceptance criteria and negative cases.
 2. **Test Design:** Identify the relevant test module in `tests/` or create a new one. Write failing unit, integration, or end-to-end tests that encode the desired behavior and security constraints.
-3. **Red:** Run `npm run test` (Vitest) to confirm the new tests fail with a meaningful message.
+3. **Red:** Run the project's test command (e.g., `npm run test`) to confirm the new tests fail with a meaningful message.
 4. **Green:** Implement the minimal code changes required to pass **all** tests.
 5. **Refactor:** Improve structure, naming, and documentation while keeping tests green.
 6. **Regression Lock:** Update fixtures or mocks to cover new validation, authorization, or error handling paths.

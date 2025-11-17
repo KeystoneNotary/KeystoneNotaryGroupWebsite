@@ -185,7 +185,6 @@ export function selectDate(date, element) {
         if (el instanceof HTMLButtonElement) {
             el.classList.remove('selected');
             el.setAttribute('aria-pressed', 'false');
-            el.removeAttribute('aria-selected');
         }
     });
     element.classList.add('selected');

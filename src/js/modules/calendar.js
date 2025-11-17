@@ -72,7 +72,6 @@ export function resetCalendar() {
         if (el instanceof HTMLButtonElement) {
             el.classList.remove('selected');
             el.setAttribute('aria-pressed', 'false');
-            el.removeAttribute('aria-selected');
         }
     });
     document.querySelectorAll('.time-slot').forEach(el => {

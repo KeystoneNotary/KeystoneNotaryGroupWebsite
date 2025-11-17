@@ -53,6 +53,8 @@
   list-style: none;
   justify-self: center;
   transition: transform 0.4s ease, opacity 0.4s ease;
+  position: relative;
+  z-index: 950;
 }
 
 .nav-links a {

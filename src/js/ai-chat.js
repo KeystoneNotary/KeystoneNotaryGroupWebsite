@@ -146,8 +146,9 @@ class AIChatAgent {
             this.hideTypingIndicator();
             this.addMessage('assistant', "I apologize, but I'm having trouble connecting. Please try again or call us at (267) 309-9000.");
             this.updateStatus('Unable to reach our assistant. Please try again in a moment.', 'error');
+        } finally {
+            this.setSendingState(false);
         }
-        this.setSendingState(false);
     }
 
     async callAI(message) {

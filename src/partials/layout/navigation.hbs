@@ -1,9 +1,10 @@
-<nav class="glass-nav">
+<nav class="glass-nav" aria-label="Primary">
+  <div class="nav-overlay" aria-hidden="true" data-nav-overlay></div>
   <div class="layout-container nav-inner">
     <div class="nav-left">
       <img src="/assets/images/logo-icon-gray.png" alt="Keystone Notary Group LLC" class="nav-logo">
     </div>
-    <ul class="nav-links" role="list">
+    <ul class="nav-links" id="primaryNav" role="list">
       <li><a href="#about" data-nav="about">About</a></li>
       <li><a href="#services" data-nav="services">Services</a></li>
       <li><a href="#credentials" data-nav="credentials">Credentials</a></li>
@@ -13,25 +14,25 @@
     </ul>
     <div class="nav-actions">
       <a href="#booking" class="nav-cta">Schedule Appointment</a>
-      <button class="theme-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Toggle theme">
+      <button class="theme-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="themePanel" aria-label="Toggle theme menu">
         <span class="theme-icon" aria-hidden="true">🌙</span>
         <span class="theme-toggle-label">Theme</span>
       </button>
-      <div class="theme-panel" role="menu" aria-label="Select theme">
-        <button class="theme-option" type="button" data-theme-option="dark" role="menuitem" aria-label="Activate dark theme">
+      <div class="theme-panel" id="themePanel" role="radiogroup" aria-label="Select theme">
+        <button class="theme-option" type="button" data-theme-option="dark" role="radio" aria-checked="false">
           <span class="theme-swatch theme-swatch-dark" aria-hidden="true"></span>
           <span class="theme-option-label">Dark</span>
         </button>
-        <button class="theme-option" type="button" data-theme-option="neutral" role="menuitem" aria-label="Activate steel theme">
+        <button class="theme-option" type="button" data-theme-option="neutral" role="radio" aria-checked="false">
           <span class="theme-swatch theme-swatch-neutral" aria-hidden="true"></span>
           <span class="theme-option-label">Steel</span>
         </button>
-        <button class="theme-option" type="button" data-theme-option="light" role="menuitem" aria-label="Activate light theme">
+        <button class="theme-option" type="button" data-theme-option="light" role="radio" aria-checked="false">
           <span class="theme-swatch theme-swatch-light" aria-hidden="true"></span>
           <span class="theme-option-label">Light</span>
         </button>
       </div>
-      <button class="hamburger" aria-label="Toggle menu">
+      <button class="hamburger" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="primaryNav">
         <span></span>
         <span></span>
         <span></span>

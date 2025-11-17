@@ -159,6 +159,20 @@ body.ai-chat-open {
     gap: 1rem;
 }
 
+.ai-chat-status {
+    min-height: 1.5rem;
+    padding: 0 1.5rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.3px;
+    color: var(--accent-chrome);
+    display: flex;
+    align-items: center;
+}
+
+.ai-chat-status[data-state="error"] {
+    color: #ffb4a2;
+}
+
 .ai-chat-messages::-webkit-scrollbar {
     width: 6px;
 }
@@ -250,6 +264,11 @@ body.ai-chat-open {
     background: rgba(255, 255, 255, 0.08);
 }
 
+.ai-chat-input:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 .ai-chat-send {
     width: 40px;
     height: 40px;
@@ -265,7 +284,14 @@ body.ai-chat-open {
     transition: all 0.3s;
 }
 
-.ai-chat-send:hover {
+.ai-chat-send:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+    transform: none;
+    box-shadow: none;
+}
+
+.ai-chat-send:hover:not(:disabled) {
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(184, 184, 184, 0.3);
 }

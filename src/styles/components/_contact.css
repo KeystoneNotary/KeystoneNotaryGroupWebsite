@@ -157,6 +157,12 @@
   gap: var(--space-md);
 }
 
+.contact-form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
 .contact-form input,
 .contact-form textarea {
   width: 100%;

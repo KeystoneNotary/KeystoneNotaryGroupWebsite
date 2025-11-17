@@ -23,6 +23,9 @@ function initLoader() {
 function initScrollProgress() {
     const scrollProgress = document.querySelector('.scroll-progress');
     const backToTop = document.querySelector('.back-to-top');
+    const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const shouldReduceMotion = () => reduceMotionQuery.matches;
 
     if (scrollProgress && backToTop) {
         window.addEventListener('scroll', () => {
@@ -39,7 +42,7 @@ function initScrollProgress() {
         });
 
         backToTop.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: shouldReduceMotion() ? 'auto' : 'smooth' });
         });
     }
 }

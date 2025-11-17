@@ -287,6 +287,8 @@
   background: var(--bg-dark);
   font-weight: 300;
   position: relative;
+  border: none;
+  padding: 0;
 }
 
 .calendar-day::after {
@@ -320,6 +322,7 @@
 .calendar-day.disabled {
   opacity: 0.2;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 .calendar-day.day-label {
@@ -334,6 +337,11 @@
 
 .calendar-day.day-label::after {
   display: none;
+}
+
+.calendar-day:focus-visible {
+  outline: 2px solid var(--accent-silver);
+  outline-offset: -2px;
 }
 
 .booking-form-wrapper {
@@ -441,6 +449,8 @@
   font-weight: 300;
   letter-spacing: 1px;
   position: relative;
+  border: none;
+  width: 100%;
 }
 
 .time-slot::after {
@@ -473,6 +483,12 @@
 .time-slot.unavailable {
   opacity: 0.2;
   cursor: not-allowed;
+  pointer-events: none;
+}
+
+.time-slot:focus-visible {
+  outline: 2px solid var(--accent-silver);
+  outline-offset: -2px;
 }
 
 .booking-form form {
@@ -487,7 +503,14 @@
   gap: var(--space-sm);
 }
 
-.form-grid input {
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.form-field input,
+.form-field textarea {
   width: 100%;
 }
 

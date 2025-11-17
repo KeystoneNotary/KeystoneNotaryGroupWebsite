@@ -1,4 +1,5 @@
 import { monthNames, dayNames, availableSlots } from '../constants.js';
+import { showError as showFormError, showSuccessMessage as showFormSuccessMessage } from './forms.js';
 
 const currentDate = new Date();
 let selectedDate = null;
@@ -67,8 +68,16 @@ export function resetCalendar() {
         bookingFormWrapper.classList.remove('visible');
     }
 
-    document.querySelectorAll('.calendar-day').forEach(el => el.classList.remove('selected'));
-    document.querySelectorAll('.time-slot').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('.calendar-day').forEach(el => {
+        if (el instanceof HTMLButtonElement) {
+            el.classList.remove('selected');
+            el.setAttribute('aria-pressed', 'false');
+        }
+    });
+    document.querySelectorAll('.time-slot').forEach(el => {
+        el.classList.remove('selected');
+        el.setAttribute('aria-selected', 'false');
+    });
     selectedDate = null;
     selectedTime = null;
     if (selectedDateInput) {
@@ -92,7 +101,10 @@ export function hideForm() {
         bookingFormWrapper.classList.remove('visible');
     }
 
-    document.querySelectorAll('.time-slot').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('.time-slot').forEach(el => {
+        el.classList.remove('selected');
+        el.setAttribute('aria-selected', 'false');
+    });
     selectedTime = null;
     updateBookingSummary(formatSelectedDate(selectedDate), '');
     setActiveBookingStep(selectedDate ? 1 : 0);
@@ -104,8 +116,12 @@ export function hideForm() {
 export function selectTime(time, element) {
     selectedTime = time;
 
-    document.querySelectorAll('.time-slot').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('.time-slot').forEach(el => {
+        el.classList.remove('selected');
+        el.setAttribute('aria-selected', 'false');
+    });
     element.classList.add('selected');
+    element.setAttribute('aria-selected', 'true');
 
     const selectedDateInput = getSelectedDateInput();
     const selectedTimeInput = getSelectedTimeInput();
@@ -140,12 +156,20 @@ export function showTimeSlots() {
     slotsContainer.innerHTML = '';
 
     availableSlots.forEach(slot => {
-        const slotEl = document.createElement('div');
+        const slotEl = document.createElement('button');
+        slotEl.type = 'button';
         slotEl.className = 'time-slot';
         slotEl.textContent = slot;
+        slotEl.setAttribute('role', 'option');
+        slotEl.setAttribute('aria-selected', 'false');
         slotEl.addEventListener('click', () => selectTime(slot, slotEl));
         slotsContainer.appendChild(slotEl);
     });
+
+    const firstSlot = slotsContainer.querySelector('.time-slot');
+    if (firstSlot) {
+        requestAnimationFrame(() => firstSlot.focus());
+    }
 }
 
 export function selectDate(date, element) {
@@ -156,8 +180,14 @@ export function selectDate(date, element) {
 
     if (!element) return;
 
-    document.querySelectorAll('.calendar-day').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('.calendar-day').forEach(el => {
+        if (el instanceof HTMLButtonElement) {
+            el.classList.remove('selected');
+            el.setAttribute('aria-pressed', 'false');
+        }
+    });
     element.classList.add('selected');
+    element.setAttribute('aria-pressed', 'true');
 
     updateBookingSummary(formatSelectedDate(selectedDate), '');
     setActiveBookingStep(1);
@@ -188,6 +218,7 @@ export function renderCalendar() {
         const label = document.createElement('div');
         label.className = 'calendar-day day-label';
         label.textContent = day;
+        label.setAttribute('role', 'columnheader');
         grid.appendChild(label);
     });
     
@@ -203,19 +234,24 @@ export function renderCalendar() {
     }
     
     for (let day = 1; day <= daysInMonth; day++) {
-        const dayEl = document.createElement('div');
+        const dayEl = document.createElement('button');
+        dayEl.type = 'button';
         dayEl.className = 'calendar-day';
         dayEl.textContent = day;
-        
+        dayEl.setAttribute('role', 'gridcell');
+        dayEl.setAttribute('aria-pressed', 'false');
+
         const dayDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
         dayDate.setHours(0, 0, 0, 0);
-        
+
         if (dayDate < today || dayDate.getDay() === 0) {
             dayEl.classList.add('disabled');
+            dayEl.setAttribute('aria-disabled', 'true');
+            dayEl.disabled = true;
         } else {
             dayEl.addEventListener('click', () => selectDate(dayDate, dayEl));
         }
-        
+
         grid.appendChild(dayEl);
     }
 }
@@ -229,9 +265,17 @@ function initAppointmentForm() {
             const formData = new FormData(e.target);
             const bookingData = Object.fromEntries(formData);
 
+            if (!bookingData.date || !bookingData.time) {
+                showFormError('Please select an appointment date and time before submitting.', appointmentForm);
+                return;
+            }
+
             console.log('Booking submitted:', bookingData);
 
-            alert(`Appointment requested for ${bookingData.date} at ${bookingData.time}. We'll confirm via email shortly.`);
+            showFormSuccessMessage(
+                `Appointment requested for ${bookingData.date} at ${bookingData.time}. We'll confirm via email shortly.`,
+                appointmentForm
+            );
 
             e.target.reset();
             resetCalendar();

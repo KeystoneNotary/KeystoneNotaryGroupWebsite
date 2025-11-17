@@ -119,10 +119,10 @@ function bindThemeControls() {
     });
 
     document.addEventListener('click', (event) => {
-        if (panel.classList.contains('open') && !panel.contains(event.target) && !toggle.contains(event.target)) {
         if (panel.classList.contains('open') && 
             !event.target.closest('.theme-panel') && 
             !event.target.closest('.theme-toggle')) {
+            closePanel({ restoreFocus: false });
         }
     });
 

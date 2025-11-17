@@ -83,7 +83,7 @@ function initHamburgerMenu() {
     };
 
     const openMenu = () => {
-        previouslyFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+        previouslyFocusedElement = document.activeElement && document.activeElement instanceof HTMLElement ? document.activeElement : null;
         hamburger.classList.add('active');
         hamburger.setAttribute('aria-expanded', 'true');
         hamburger.setAttribute('aria-label', 'Close navigation');

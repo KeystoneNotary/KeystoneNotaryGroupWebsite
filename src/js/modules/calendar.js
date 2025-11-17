@@ -189,7 +189,6 @@ export function selectDate(date, element) {
     });
     element.classList.add('selected');
     element.setAttribute('aria-pressed', 'true');
-    element.setAttribute('aria-selected', 'true');
 
     updateBookingSummary(formatSelectedDate(selectedDate), '');
     setActiveBookingStep(1);

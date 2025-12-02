@@ -1,0 +1,114 @@
+<section id="booking" class="booking-section surface-section surface-deep">
+  <div class="booking-content-centered">
+    <span class="section-label">Booking</span>
+    <h2>Schedule Appointment</h2>
+    <p class="lead">Choose a time that works for you and we’ll confirm with a concierge follow-up within minutes.</p>
+  </div>
+
+  <div class="layout-container section-inner booking-inner">
+    <div class="booking-shell">
+      <aside class="booking-guidance glass-card" aria-live="polite">
+        <div class="booking-header">
+          <ol class="booking-steps" role="list">
+            <li class="step active" data-step="1">Select date</li>
+            <li class="step" data-step="2">Choose time</li>
+            <li class="step" data-step="3">Confirm details</li>
+          </ol>
+          <p class="booking-hint" id="bookingHint">Select an available date to reveal appointment slots.</p>
+        </div>
+        <div class="booking-summary" id="bookingSummary">
+          <h3>Appointment Summary</h3>
+          <p class="summary-placeholder">Your chosen date and time will appear here after selection.</p>
+          <dl class="summary-list" aria-live="polite">
+            <div class="summary-item">
+              <dt>Date</dt>
+              <dd id="summaryDate">—</dd>
+            </div>
+            <div class="summary-item">
+              <dt>Time</dt>
+              <dd id="summaryTime">—</dd>
+            </div>
+          </dl>
+        </div>
+        <div class="booking-assurances">
+          <p>Need assistance? Call <a href="tel:+12673099000">(267) 309-9000</a> for concierge scheduling.</p>
+          <p class="microcopy">Travel fees are quoted upfront and invoices are issued immediately after notarization.</p>
+        </div>
+      </aside>
+
+      <div class="booking-body">
+        <div class="booking-container">
+          <div class="booking-calendar glass-card" aria-labelledby="currentMonth">
+            <div class="calendar-header">
+              <button class="calendar-nav" id="prevMonth" type="button" aria-label="Previous month">&larr;</button>
+              <h3 id="currentMonth">January 2025</h3>
+              <button class="calendar-nav" id="nextMonth" type="button" aria-label="Next month">&rarr;</button>
+            </div>
+            <div class="calendar-grid" id="calendarGrid" role="grid" aria-describedby="calendarInstructions"></div>
+            <p class="calendar-footnote" id="calendarInstructions">Sundays are reserved for emergency appointments only. Contact us directly for assistance.</p>
+          </div>
+
+          <div class="booking-times glass-card" id="bookingTimes">
+            <div class="booking-times-header">
+              <h3>Select Time</h3>
+              <p class="times-hint" id="timeSlotHint">All slots include a 15-minute buffer for verification and documentation.</p>
+            </div>
+            <div class="time-slots" id="timeSlots" role="group" aria-describedby="timeSlotHint"></div>
+            <button class="cancel-selection" id="cancelSelection" type="button">Start over</button>
+          </div>
+        </div>
+
+        <div class="booking-form-wrapper" id="bookingFormWrapper">
+          <div class="booking-form glass-card" id="bookingForm">
+            <h3>Your Details</h3>
+            <form id="appointmentForm" novalidate>
+              <div id="appointmentFormMessages" aria-live="polite" aria-atomic="true"></div>
+              <input type="hidden" id="selectedDate" name="date">
+              <input type="hidden" id="selectedTime" name="time">
+
+              <div class="form-grid">
+                <label class="form-field">
+                  <span class="sr-only">Full Name *</span>
+                  <input type="text" name="name" placeholder="Full Name *" autocomplete="name" required>
+                </label>
+                <label class="form-field">
+                  <span class="sr-only">Phone Number *</span>
+                  <input type="tel" name="phone" placeholder="Phone Number *" inputmode="tel" autocomplete="tel" required>
+                </label>
+                <label class="form-field">
+                  <span class="sr-only">Email Address *</span>
+                  <input type="email" name="email" placeholder="Email Address *" autocomplete="email" required>
+                </label>
+                <label class="form-field">
+                  <span class="sr-only">Appointment Address *</span>
+                  <input type="text" name="address" placeholder="Appointment Address *" autocomplete="street-address" required>
+                </label>
+                <label class="form-field">
+                  <span class="sr-only">Document Type *</span>
+                  <input type="text" name="documentType" placeholder="Document Type *" autocomplete="off" required>
+                </label>
+                <label class="form-field">
+                  <span class="sr-only">Service focus *</span>
+                  <input type="text" name="serviceFocus" placeholder="Service focus (e.g., refinance, POA)" autocomplete="off" required>
+                </label>
+              </div>
+              <label class="form-field">
+                <span class="sr-only">Additional details (optional)</span>
+                <textarea name="notes" placeholder="Additional details (optional)" rows="3" autocomplete="off"></textarea>
+              </label>
+
+              <label class="checkbox-label">
+                <input type="checkbox" name="idAcknowledgment" required>
+                <span>I will provide valid, government-issued identification for all signers.</span>
+              </label>
+
+              <!-- TODO: Add Google reCAPTCHA v3 integration -->
+
+              <button type="submit" class="glass-button">Confirm Appointment</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

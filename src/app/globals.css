@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --color-charcoal: #1A1A1A;
+  --color-obsidian: #121212;
+  --color-platinum: #E5E4E2;
+  --color-silver-light: #F5F5F5;
+  --color-silver-mid: #E0E0E0;
+  --color-silver-dark: #C0C0C0;
+  
+  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-inter);
+}
+
+:root {
+  --background: #1A1A1A;
+  --foreground: #E5E4E2;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Silver Metallic Gradient Utility */
+.bg-silver-metallic {
+  background: linear-gradient(135deg, #E0E0E0 0%, #F5F5F5 50%, #C0C0C0 100%);
+}
+
+.text-silver-metallic {
+  background: linear-gradient(135deg, #E0E0E0 0%, #F5F5F5 50%, #C0C0C0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.border-silver-metallic {
+  border-image: linear-gradient(135deg, #E0E0E0 0%, #F5F5F5 50%, #C0C0C0 100%) 1;
+}

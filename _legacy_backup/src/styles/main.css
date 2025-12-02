@@ -1,0 +1,13 @@
+@import url('./components/_variables.css');
+@import url('./components/_base.css');
+@import url('./components/_navigation.css');
+@import url('./components/_hero.css');
+@import url('./components/_about.css');
+@import url('./components/_ui.css');
+@import url('./components/_services.css');
+@import url('./components/_credentials.css');
+@import url('./components/_booking.css');
+@import url('./components/_faq.css');
+@import url('./components/_contact.css');
+@import url('./components/_footer.css');
+@import url('./components/_responsive.css');

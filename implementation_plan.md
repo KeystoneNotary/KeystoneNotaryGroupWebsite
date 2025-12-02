@@ -1,49 +1,64 @@
-# Implementation Plan
+# Implementation Plan - Keystone Notary Group Premium Redesign
 
-## Overview
-This plan outlines the comprehensive visual redesign of the website sections below "Who We Are" to achieve a modern, clean, and professional aesthetic, consistent with the approved "Who We Are" section. The goal is to enhance user experience through improved visual hierarchy, spacing, typography, and responsiveness, addressing the current design's shortcomings.
+# Goal Description
+Migrate the existing Vanilla JS application to a **Next.js (React) + Tailwind CSS** architecture. Implement a new "Premium Institution" aesthetic characterized by deep charcoal backgrounds, metallic silver accents, and editorial-style layouts. This is a complete rewrite to elevate the brand to an "Executive" standard.
 
-The scope includes a complete overhaul of the `services`, `credentials`, `booking`, `faq`, `contact`, and `spacing-map` sections. This involves significant modifications to their respective Handlebars partials and the main CSS stylesheet. JavaScript modifications will be minimal, primarily to adapt existing functionalities to new HTML structures or class names, rather than introducing new features.
+## User Review Required
+> [!WARNING]
+> **Major Architecture Change**: This plan involves moving the current Vanilla JS codebase to a backup directory and initializing a new Next.js project in the root.
+> **Technology Stack**: Switching to Next.js 14+ (App Router), Tailwind CSS, and Framer Motion (for the silver line/scroll animations).
 
-## Types
-No new complex types, interfaces, enums, or data structures are anticipated for this visual redesign. The existing HTML structure and CSS property usage will be leveraged and refined.
+## Proposed Changes
 
-## Files
-The following files will be modified:
+### 1. Project Restructuring
+#### [MODIFY] Root Directory
+- Move current contents (`src/`, `index.html`, `vite.config.js`, etc.) to `_legacy_backup/`.
+- Initialize new Next.js project in root.
 
-- **Existing files to be modified:**
-    - `src/partials/sections/services.hbs`: The HTML structure and content for the services section will be updated to reflect the new design.
-    - `src/partials/sections/credentials.hbs`: The HTML structure and content for the credentials section will be updated.
-    - `src/partials/sections/booking.hbs`: The HTML structure and content for the booking section will be updated, potentially requiring adjustments to associated JavaScript.
-    - `src/partials/sections/faq.hbs`: The HTML structure and content for the FAQ section will be updated, potentially requiring adjustments to associated JavaScript.
-    - `src/partials/sections/contact.hbs`: The HTML structure and content for the contact section will be updated.
-    - `src/partials/sections/spacing-map.hbs`: The HTML structure and content for the spacing map section will be updated.
-    - `src/styles/main.css`: This stylesheet will undergo extensive modifications to implement the new visual designs for all targeted sections, including layout, typography, color, and responsiveness.
-    - `src/js/main.js`: Minor adjustments may be required to ensure existing interactive elements (e.g., booking calendar, FAQ toggles) function correctly with the updated HTML structures and CSS classes.
+### 2. Design System Setup (Tailwind Config)
+#### [NEW] `tailwind.config.ts`
+- **Colors**:
+    - `charcoal`: `#1A1A1A` (Deep Matte)
+    - `obsidian`: `#121212` (Darker contrast)
+    - `silver-metallic`: Gradient definition (`#E0E0E0` -> `#F5F5F5` -> `#C0C0C0`)
+    - `platinum`: `#E5E4E2`
+- **Typography**:
+    - Headings: *Playfair Display* or *Cinzel* (Serif)
+    - Body: *Inter* or *Lato* (Sans-Serif)
 
-## Functions
-Existing JavaScript functions related to the `booking` and `faq` sections in `src/js/main.js` might require minor adjustments to accommodate new HTML structures or class names. No new JavaScript functions are anticipated unless new interactive features are explicitly introduced as part of the redesign.
+### 3. Component Implementation (TDD Approach)
+We will write tests (`__tests__/*.test.tsx`) before implementing components.
 
-## Classes
-No new JavaScript classes are anticipated. New CSS classes will be introduced, and existing ones modified, within `src/styles/main.css` to support the new visual designs, ensuring a clean and maintainable stylesheet.
+#### [NEW] `src/components/TheFirm.tsx` (Section 1)
+- **Design**: Split screen (50/50).
+- **Left**: Generated Image (Hand with Fountain Pen, B&W, Grainy).
+- **Right**: "Precision is our Currency" copy.
 
-## Dependencies
-No new external dependencies or package version changes are anticipated for this visual redesign. The project will continue to use its existing dependency stack.
+#### [NEW] `src/components/ConciergeList.tsx` (Section 2)
+- **Design**: Hover-reveal list.
+- **Interaction**: Items turn white + silver glow on hover.
 
-## Testing
-The testing approach will focus on visual and functional validation:
+#### [NEW] `src/components/SilverTimeline.tsx` (Section 3)
+- **Design**: Vertical scroll-triggered timeline.
+- **Animation**: Silver line draws down (SVG path + Framer Motion).
+- **Logic**: Active step highlighting based on scroll position.
 
-- **Visual Inspection:** Thorough visual inspection of all redesigned sections in a browser to ensure they match the desired aesthetic and consistency with the "Who We Are" section.
-- **Responsiveness Testing:** Verification of layout and element behavior across various screen sizes and devices to ensure optimal display and user experience.
-- **Functional Testing:** Confirmation that all interactive elements within the redesigned sections (e.g., booking calendar, form submissions, FAQ toggles) continue to function correctly without regressions.
+#### [NEW] `src/components/TitaniumFooter.tsx` (Section 4)
+- **Design**: Heavy, permanent feel. Black background.
 
-## Implementation Order
-The implementation will proceed in the following logical sequence to minimize conflicts and ensure successful integration:
+### 4. Assets
+- **Images**: Generate "Hand with Fountain Pen" and "Notary Seal" using AI image generation.
 
-1.  Redesign the `services` section (`src/partials/sections/services.hbs` and `src/styles/main.css`).
-2.  Redesign the `credentials` section (`src/partials/sections/credentials.hbs` and `src/styles/main.css`).
-3.  Redesign the `booking` section (`src/partials/sections/booking.hbs`, `src/styles/main.css`, and potentially `src/js/main.js`).
-4.  Redesign the `faq` section (`src/partials/sections/faq.hbs`, `src/styles/main.css`, and potentially `src/js/main.js`).
-5.  Redesign the `contact` section (`src/partials/sections/contact.hbs` and `src/styles/main.css`).
-6.  Redesign the `spacing-map` section (`src/partials/sections/spacing-map.hbs` and `src/styles/main.css`).
-7.  Perform comprehensive visual and functional testing across all modified sections.
+## Verification Plan
+
+### Automated Tests
+- **Unit/Component Tests**: `npm test` (Jest + React Testing Library).
+    - Verify `TheFirm` renders headline.
+    - Verify `ConciergeList` items have correct hover classes (static check) or interaction tests.
+    - Verify `SilverTimeline` renders all steps.
+
+### Manual Verification
+- **Visual Check**:
+    - Verify "Silver Gradient" effect looks metallic, not gray.
+    - Verify Scroll Animation (Silver Line) flows smoothly.
+    - Verify Mobile Responsiveness (Stacking order).

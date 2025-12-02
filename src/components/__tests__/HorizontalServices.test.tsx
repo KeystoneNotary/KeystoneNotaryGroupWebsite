@@ -1,0 +1,59 @@
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import HorizontalServices from "../HorizontalServices";
+
+// Mock GSAP
+jest.mock("gsap", () => ({
+  registerPlugin: jest.fn(),
+  to: jest.fn(),
+  from: jest.fn(),
+  fromTo: jest.fn(),
+  timeline: jest.fn(() => ({
+    to: jest.fn().mockReturnThis(),
+    from: jest.fn().mockReturnThis(),
+    fromTo: jest.fn().mockReturnThis(),
+  })),
+  matchMedia: jest.fn().mockReturnValue({
+    add: jest.fn(),
+    revert: jest.fn(),
+  }),
+}));
+
+jest.mock("@gsap/react", () => ({
+  useGSAP: jest.fn(),
+}));
+
+jest.mock("gsap/ScrollTrigger", () => ({
+  ScrollTrigger: {},
+}));
+
+describe("HorizontalServices (Kinetic Version)", () => {
+  it("renders the section label", () => {
+    render(<HorizontalServices />);
+    expect(screen.getByText(/Our Expertise/i)).toBeInTheDocument();
+  });
+
+  it("renders all service titles", () => {
+    render(<HorizontalServices />);
+    expect(
+      screen.getByText(/Estate & Real Estate Closings/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Executive Mobile Facilitation/i)
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Apostille & Authentication/i)).toBeInTheDocument();
+  });
+
+  it("renders service numbers", () => {
+    render(<HorizontalServices />);
+    expect(screen.getByText("01")).toBeInTheDocument();
+    expect(screen.getByText("02")).toBeInTheDocument();
+  });
+
+  it("does not render boxy containers", () => {
+    const { container } = render(<HorizontalServices />);
+    // Check for absence of borders or white backgrounds which indicate "boxes"
+    const boxes = container.querySelectorAll(".border, .bg-white");
+    expect(boxes.length).toBe(0);
+  });
+});

@@ -1,8 +1,81 @@
-# Task Checklist - Next.js Migration & Premium Redesign
+# Task Checklist - Production Refinement
 
-- [ ] **Project Restructuring** <!-- id: 0 -->
-  - [x] Create `_legacy_backup` and move existing files <!-- id: 1 -->
-  - [x] Initialize Next.js 14+ project (App Router, TypeScript, Tailwind) <!-- id: 2 -->
-- [ ] **Assets & Final Polish** <!-- id: 24 -->
-  - [x] Generate required AI images <!-- id: 25 -->
-  - [x] Final visual verification <!-- id: 26 -->
+- [x] **Phase 1: Critical UI/UX Implementation**
+  - [x] **Task 1.1: Header & Navigation**
+    - [x] Implement `Header.tsx` with sticky glassmorphism
+    - [x] Add mobile hamburger menu
+    - [x] Ensure "Book Now" CTA is prominent
+  - [x] **Task 1.2: About Section**
+    - [x] Implement `About.tsx` with "The Firm" aesthetic
+    - [x] Add mission statement and differentiators
+  - [x] **Task 1.3: Service Coverage**
+    - [x] Implement `ServiceCoverage.tsx` with map/list of areas
+    - [x] Add credentials (E&O, Bonded)
+  - [x] **Task 1.4: FAQ Section**
+    - [x] Implement `FAQ.tsx` with accordion style
+    - [x] Add 10-12 common questions
+  - [x] **Task 1.5: SEO & Metadata**
+    - [x] Add OpenGraph tags
+    - [x] Add JSON-LD Structured Data (LocalBusiness)
+    - [x] Optimize meta descriptions
+  - [x] **Task 1.6: Mobile Responsiveness**
+    - [x] Audit all sections on mobile
+    - [x] Fix Hero height (`100dvh`)
+    - [x] Fix HorizontalServices for mobile (vertical stack)
+  - [x] **Task 1.7: Legal Pages**
+    - [x] Create `Privacy Policy` page
+    - [x] Create `Terms of Service` page
+    - [x] Link in Footer
+
+- [x] **Phase 2: Booking Infrastructure**
+  - [x] **Task 2.1: Backend Setup**
+    - [x] Install dependencies (`googleapis`, `supabase-js`, `resend`, `zod`)
+    - [x] Configure Supabase client
+    - [x] Create Google Calendar utility
+  - [x] **Task 2.2: API Routes**
+    - [x] Create `api/bookings/check-availability`
+    - [x] Create `api/bookings/create`
+    - [x] Implement Zod validation
+  - [x] **Task 2.3: Email Integration**
+    - [x] Setup Resend client
+    - [x] Create email templates (Customer Confirmation, Notary Notification)
+
+- [x] **Phase 3: Booking UI Integration**
+  - [x] **Task 3.1: Real-time Availability**
+    - [x] Connect `BookingSection` to `check-availability` API
+    - [x] Disable unavailable time slots
+  - [x] **Task 3.2: Submission Flow**
+    - [x] Connect form to `create` API
+    - [x] Add loading states
+    - [x] Add success confirmation screen
+
+- [x] **Phase 4: Admin Dashboard**
+  - [x] **Task 4.1: Admin Login**
+    - [x] Create login page (`src/app/admin/login/page.tsx`)
+    - [x] Implement simple auth (cookie/password)
+  - [x] **Task 4.2: Dashboard UI**
+    - [x] Create dashboard page (`src/app/admin/dashboard/page.tsx`)
+    - [x] Fetch and display bookings from Supabase
+  - [x] **Task 4.3: Protection**
+    - [x] Implement middleware to protect admin routes
+
+- [x] **Phase 5: Final Polish & Verification**
+  - [x] **Task 5.1: Full Site Audit**
+    - [x] Verify all animations
+    - [x] Test booking flow (mock)
+    - [x] Check mobile responsiveness
+  - [x] **Task 5.2: Documentation**
+    - [x] Update README
+    - [x] Create walkthrough.md
+
+- [ ] **Phase 6: The Avant-Garde Pivot**
+  - [x] **Task 6.1: De-Clutter**
+    - [x] Remove `About.tsx` from `page.tsx`
+  - [ ] **Task 6.2: Kinetic Services**
+    - [ ] Create test `__tests__/HorizontalServices.test.tsx`
+    - [ ] Redesign `HorizontalServices.tsx` (Remove cards, add kinetic typography)
+  - [ ] **Task 6.3: Ethereal Booking**
+    - [ ] Create test `__tests__/BookingSection.test.tsx`
+    - [ ] Redesign `BookingSection.tsx` (Remove grid, add floating UI)
+  - [ ] **Task 6.4: Fluid Coverage**
+    - [ ] Redesign `ServiceCoverage.tsx` (Remove list/grid)

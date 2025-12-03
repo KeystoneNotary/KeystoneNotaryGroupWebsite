@@ -6,6 +6,8 @@ import { Menu, X } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { useDeferredInit } from "@/lib/useDeferredInit";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -38,6 +40,8 @@ const Header = () => {
   // ========================================================================
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldInit = useDeferredInit();
   const headerRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -65,39 +69,42 @@ const Header = () => {
   // ENHANCED SCROLL ANIMATIONS
   // ========================================================================
 
-  useGSAP(() => {
-    if (!headerRef.current) return;
+  useGSAP(
+    () => {
+      if (prefersReducedMotion || !shouldInit || !headerRef.current) return;
 
-    // Enhanced scroll effect: background blur, shadow, border
-    gsap.to(headerRef.current, {
-      backgroundColor: "rgba(0, 0, 0, 0.95)",
-      backdropFilter: "blur(20px)",
-      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.5)",
-      borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-      scrollTrigger: {
-        trigger: "body",
-        start: "top -100px",
-        end: "top -101px",
-        toggleActions: "play none none reverse",
-      },
-    });
+      // Enhanced scroll effect: background blur, shadow, border
+      gsap.to(headerRef.current, {
+        backgroundColor: "rgba(0, 0, 0, 0.95)",
+        backdropFilter: "blur(20px)",
+        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.5)",
+        borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+        scrollTrigger: {
+          trigger: "body",
+          start: "top -100px",
+          end: "top -101px",
+          toggleActions: "play none none reverse",
+        },
+      });
 
-    // Logo scale down on scroll
-    if (logoRef.current) {
-      const logoImage = logoRef.current.querySelector("img");
-      if (logoImage) {
-        gsap.to(logoImage, {
-          scale: 0.9,
-          scrollTrigger: {
-            trigger: "body",
-            start: "top -100px",
-            end: "top -101px",
-            toggleActions: "play none none reverse",
-          },
-        });
+      // Logo scale down on scroll
+      if (logoRef.current) {
+        const logoImage = logoRef.current.querySelector("img");
+        if (logoImage) {
+          gsap.to(logoImage, {
+            scale: 0.9,
+            scrollTrigger: {
+              trigger: "body",
+              start: "top -100px",
+              end: "top -101px",
+              toggleActions: "play none none reverse",
+            },
+          });
+        }
       }
-    }
-  });
+    },
+    { dependencies: [prefersReducedMotion, shouldInit] }
+  );
 
   return (
     <header
@@ -115,7 +122,7 @@ const Header = () => {
           aria-label="Keystone Notary Group home"
         >
           <Image
-            src="/assets/images/logo-silver-metallic.png"
+            src="/assets/images/logo-silver-metallic.webp"
             alt="Keystone Notary Group LLC"
             width={40}
             height={40}

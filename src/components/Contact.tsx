@@ -9,6 +9,8 @@ import {
   createScrollTimeline,
   bounceIn,
 } from "@/lib/gsap-animations";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { useDeferredInit } from "@/lib/useDeferredInit";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -42,6 +44,8 @@ const Contact: React.FC = () => {
     message: "",
   });
 
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldInit = useDeferredInit();
   const containerRef = useRef<HTMLElement>(null);
   const backgroundTextRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
@@ -83,7 +87,7 @@ const Contact: React.FC = () => {
 
   useGSAP(
     () => {
-      if (!containerRef.current) return;
+      if (prefersReducedMotion || !shouldInit || !containerRef.current) return;
 
       // 1. PARALLAX BACKGROUND "CONNECT" TYPOGRAPHY WITH SCRUB
       if (backgroundTextRef.current) {
@@ -193,7 +197,7 @@ const Contact: React.FC = () => {
         });
       }
     },
-    { scope: containerRef }
+    { scope: containerRef, dependencies: [prefersReducedMotion, shouldInit] }
   );
 
   return (

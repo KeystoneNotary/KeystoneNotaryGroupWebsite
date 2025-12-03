@@ -6,6 +6,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { createScrollTimeline } from "@/lib/gsap-animations";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { useDeferredInit } from "@/lib/useDeferredInit";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -25,6 +27,8 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  */
 
 const TitaniumFooter = () => {
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldInit = useDeferredInit();
   const footerRef = useRef<HTMLElement>(null);
   const backgroundTextRef = useRef<HTMLDivElement>(null);
 
@@ -34,7 +38,7 @@ const TitaniumFooter = () => {
 
   useGSAP(
     () => {
-      if (!footerRef.current) return;
+      if (prefersReducedMotion || !shouldInit || !footerRef.current) return;
 
       // 1. PARALLAX BACKGROUND "KNG" TYPOGRAPHY WITH SCRUB
       if (backgroundTextRef.current) {
@@ -141,7 +145,7 @@ const TitaniumFooter = () => {
         );
       });
     },
-    { scope: footerRef }
+    { scope: footerRef, dependencies: [prefersReducedMotion, shouldInit] }
   );
 
   return (

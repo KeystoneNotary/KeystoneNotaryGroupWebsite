@@ -31,7 +31,7 @@ export default function AdminLogin() {
       <div className="max-w-md w-full space-y-8">
         <div className="flex justify-center">
           <Image 
-            src="/assets/images/logo-silver-metallic.png" 
+            src="/assets/images/logo-silver-metallic.webp" 
             alt="Keystone Notary Group" 
             width={150} 
             height={150}

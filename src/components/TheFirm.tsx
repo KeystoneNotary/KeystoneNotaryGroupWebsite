@@ -4,10 +4,14 @@ import React, { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { useDeferredInit } from "@/lib/useDeferredInit";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const TheFirm = () => {
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldInit = useDeferredInit();
   const containerRef = useRef<HTMLDivElement>(null);
   const textLayer1Ref = useRef<HTMLHeadingElement>(null);
   const textLayer2Ref = useRef<HTMLHeadingElement>(null);
@@ -21,14 +25,15 @@ const TheFirm = () => {
 
   useGSAP(
     () => {
+      if (prefersReducedMotion || !shouldInit) return;
+
       // 1. Background Parallax & Slide In
-      // Layer 1 (Top): Precision - Slides in from Left
       gsap.fromTo(
         textLayer1Ref.current,
         { x: -500, opacity: 0 },
         {
           x: 0,
-          y: -100, // Keep vertical parallax
+          y: -100,
           opacity: 0.5,
           ease: "power2.out",
           scrollTrigger: {
@@ -40,13 +45,12 @@ const TheFirm = () => {
         }
       );
 
-      // Layer 2 (Bottom): Currency - Slides in from Right
       gsap.fromTo(
         textLayer2Ref.current,
         { x: 500, opacity: 0 },
         {
           x: 0,
-          y: -200, // Keep vertical parallax
+          y: -200,
           opacity: 0.3,
           ease: "power2.out",
           scrollTrigger: {
@@ -59,7 +63,6 @@ const TheFirm = () => {
       );
 
       // 2. Exploded Assembly Animation
-      // Elements start scattered and snap together
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -69,14 +72,12 @@ const TheFirm = () => {
         },
       });
 
-      // Label: Fades in from top
       tl.from(
         labelRef.current,
         { y: -50, opacity: 0, letterSpacing: "1em" },
         0
       );
 
-      // Headline Top: Flies in from Left with Blur
       tl.from(
         headlineTopRef.current,
         {
@@ -87,9 +88,8 @@ const TheFirm = () => {
           rotation: -5,
         },
         0.15
-      ); // Staggered
+      );
 
-      // Headline Bottom: Flies in from Right with Blur
       tl.from(
         headlineBottomRef.current,
         {
@@ -100,9 +100,8 @@ const TheFirm = () => {
           rotation: 5,
         },
         0.3
-      ); // Staggered
+      );
 
-      // Paragraph Left: Flies up from bottom-left
       tl.from(
         paraLeftRef.current,
         {
@@ -113,9 +112,8 @@ const TheFirm = () => {
           filter: "blur(10px)",
         },
         0.45
-      ); // Staggered
+      );
 
-      // Paragraph Right: Flies up from bottom-right
       tl.from(
         paraRightRef.current,
         {
@@ -126,9 +124,9 @@ const TheFirm = () => {
           filter: "blur(10px)",
         },
         0.6
-      ); // Staggered
+      );
     },
-    { scope: containerRef }
+    { scope: containerRef, dependencies: [prefersReducedMotion, shouldInit] }
   );
 
   return (

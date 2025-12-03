@@ -1,14 +1,18 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ChevronDown } from "lucide-react";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { useDeferredInit } from "@/lib/useDeferredInit";
 
 gsap.registerPlugin(useGSAP);
 
 const Hero = () => {
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldInit = useDeferredInit();
   const heroRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
@@ -16,10 +20,56 @@ const Hero = () => {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+
+  // Defer video loading so it doesn't compete with the LCP text on mobile.
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    let cancelled = false;
+    let cancelIdle: (() => void) | undefined;
+
+    const schedule = () => {
+      const run = () => {
+        if (!cancelled) setShouldLoadVideo(true);
+      };
+
+      const idleCb = (window as any).requestIdleCallback;
+      const cancelIdleCb = (window as any).cancelIdleCallback;
+
+      if (typeof idleCb === "function") {
+        const id = idleCb(run, { timeout: 500 });
+        cancelIdle = () => cancelIdleCb?.(id);
+      } else {
+        const id = window.setTimeout(run, 0);
+        cancelIdle = () => window.clearTimeout(id);
+      }
+    };
+
+    schedule();
+
+    return () => {
+      cancelled = true;
+      cancelIdle?.();
+    };
+  }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    if (!shouldLoadVideo || !videoRef.current || prefersReducedMotion) return;
+    const video = videoRef.current;
+
+    // Kick off playback after the source is attached.
+    video.load();
+    video
+      .play()
+      .catch(() => {
+        // Ignore autoplay blocking; user interaction will start playback.
+      });
+  }, [shouldLoadVideo, prefersReducedMotion]);
 
   useGSAP(
     () => {
-      if (!heroRef.current) return;
+      if (prefersReducedMotion || !shouldInit || !heroRef.current) return;
 
       // Master timeline for staggered entry
       const tl = gsap.timeline({ delay: 0.2 });
@@ -93,7 +143,7 @@ const Hero = () => {
         ease: "power1.inOut",
       });
     },
-    { scope: heroRef }
+    { scope: heroRef, dependencies: [prefersReducedMotion, shouldInit] }
   );
 
   return (
@@ -102,18 +152,36 @@ const Hero = () => {
       id="hero"
       className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden px-6 py-24"
     >
-      {/* Video Background (UNCHANGED) */}
-      <video
-        ref={videoRef}
-        className="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto object-cover -translate-x-1/2 -translate-y-1/2 z-0 opacity-40 brightness-100 contrast-125 saturate-125"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-      >
-        <source src="/assets/videos/hero-video.mp4" type="video/mp4" />
-      </video>
+      {/* Video Background with deferred loading */}
+      {!prefersReducedMotion ? (
+        <video
+          ref={videoRef}
+          data-testid="hero-video"
+          className={`absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto object-cover -translate-x-1/2 -translate-y-1/2 z-0 brightness-100 contrast-125 saturate-125 transition-opacity duration-500 ${
+            videoReady ? "opacity-40" : "opacity-0"
+          }`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          poster="/assets/images/logo-silver-metallic.webp"
+          onLoadedData={() => setVideoReady(true)}
+          onError={() => setVideoReady(false)}
+        >
+          {shouldLoadVideo ? (
+            <>
+              <source src="/assets/videos/hero-video.webm" type="video/webm" />
+              <source src="/assets/videos/hero-video.mp4" type="video/mp4" />
+            </>
+          ) : null}
+        </video>
+      ) : (
+        <div
+          data-testid="hero-reduced-fallback"
+          className="absolute inset-0 bg-gradient-to-b from-black via-neutral-900 to-black opacity-60"
+        />
+      )}
 
       {/* Content Overlay */}
       <div className="relative z-10 text-center max-w-4xl mx-auto flex flex-col items-center gap-6">
@@ -123,7 +191,7 @@ const Hero = () => {
           className="w-[120px] md:w-[220px] mb-4 md:mb-8 will-change-transform"
         >
           <Image
-            src="/assets/images/logo-silver-metallic.png"
+            src="/assets/images/logo-silver-metallic.webp"
             alt="Keystone Notary Group LLC"
             width={220}
             height={220}

@@ -52,5 +52,7 @@
   "editor.pasteAs.enabled": true,
   "editor.pasteAs.preferences": ["text.plain"],
   "editor.pasteAs.default": "text.plain",
-  "codium.codeCompletion.enable": true
+  "codium.codeCompletion.enable": true,
+  "claudeCode.environmentVariables": [],
+  "claudeCode.preferredLocation": "sidebar"
 }

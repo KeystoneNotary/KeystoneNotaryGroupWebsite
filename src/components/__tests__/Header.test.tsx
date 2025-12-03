@@ -2,8 +2,9 @@ jest.mock("next/image", () => ({
   __esModule: true,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   default: (props: any) => {
+    const { priority: _priority, ...rest } = props;
     // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
-    return <img {...props} />;
+    return <img {...rest} />;
   },
 }));
 
@@ -29,8 +30,15 @@ jest.mock("gsap/ScrollTrigger", () => ({
   ScrollTrigger: {},
 }));
 
+jest.mock("../../lib/usePrefersReducedMotion", () => ({
+  usePrefersReducedMotion: jest.fn(() => false),
+}));
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import Header from "../Header";
+import { usePrefersReducedMotion } from "../../lib/usePrefersReducedMotion";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 describe("Header", () => {
   it("renders the logo", () => {
@@ -58,5 +66,11 @@ describe("Header", () => {
     const menuButton = screen.getByLabelText(/Open menu/i);
     fireEvent.click(menuButton);
     expect(screen.getByLabelText(/Close menu/i)).toBeInTheDocument();
+  });
+
+  it("skips GSAP animations when user prefers reduced motion", () => {
+    (usePrefersReducedMotion as jest.Mock).mockReturnValueOnce(true);
+    render(<Header />);
+    expect(gsap.to).not.toHaveBeenCalled();
   });
 });

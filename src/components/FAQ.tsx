@@ -9,6 +9,8 @@ import {
   headerExplodedAssembly,
   createScrollTimeline,
 } from '@/lib/gsap-animations';
+import { usePrefersReducedMotion } from '@/lib/usePrefersReducedMotion';
+import { useDeferredInit } from '@/lib/useDeferredInit';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -96,6 +98,8 @@ const FAQ = () => {
   // ========================================================================
 
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldInit = useDeferredInit();
   const containerRef = useRef<HTMLElement>(null);
   const backgroundQRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
@@ -142,7 +146,7 @@ const FAQ = () => {
 
   useGSAP(
     () => {
-      if (!containerRef.current) return;
+      if (prefersReducedMotion || !shouldInit || !containerRef.current) return;
 
       // 1. PARALLAX BACKGROUND "?" TYPOGRAPHY WITH SCRUB
       if (backgroundQRef.current) {
@@ -260,7 +264,7 @@ const FAQ = () => {
         });
       }
     },
-    { scope: containerRef }
+    { scope: containerRef, dependencies: [prefersReducedMotion, shouldInit] }
   );
 
   return (

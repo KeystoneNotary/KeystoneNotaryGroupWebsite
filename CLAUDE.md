@@ -47,7 +47,7 @@ npm run lint         # Run ESLint
 
 **Components** (`src/components/`)
 - Page sections: `Hero`, `TheFirm`, `HorizontalServices`, `BookingSection`, `FAQ`, `Contact`, `TitaniumFooter`
-- Interactive: `HolographicCalculator`, `BookingCalendar`, `PriceCalculator`
+- Interactive: `HolographicCalculator`
 - All major components have tests in `__tests__/`
 
 ### Core Libraries (`src/lib/`)

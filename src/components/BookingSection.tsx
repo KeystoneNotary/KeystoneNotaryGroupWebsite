@@ -25,6 +25,8 @@ import {
   bounceIn,
   createScrollTimeline,
 } from "@/lib/gsap-animations";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { useDeferredInit } from "@/lib/useDeferredInit";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -74,6 +76,8 @@ const BookingSection = () => {
   // REFS FOR ANIMATIONS
   // ========================================================================
 
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldInit = useDeferredInit();
   const containerRef = useRef<HTMLElement>(null);
   const backgroundTextRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
@@ -200,7 +204,7 @@ const BookingSection = () => {
 
   useGSAP(
     () => {
-      if (!containerRef.current) return;
+      if (prefersReducedMotion || !shouldInit || !containerRef.current) return;
 
       // 1. PARALLAX BACKGROUND "BOOK" TYPOGRAPHY
       if (backgroundTextRef.current) {
@@ -308,7 +312,7 @@ const BookingSection = () => {
         );
       }
     },
-    { scope: containerRef }
+    { scope: containerRef, dependencies: [prefersReducedMotion, shouldInit] }
   );
 
   // ========================================================================

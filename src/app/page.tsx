@@ -1,5 +1,4 @@
 import React from "react";
-import { Playfair_Display, Inter } from "next/font/google";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import TheFirm from "@/components/TheFirm";
@@ -8,20 +7,10 @@ import BookingSection from "@/components/BookingSection";
 import TitaniumFooter from "@/components/TitaniumFooter";
 import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
-import HolographicCalculator from "@/components/HolographicCalculator";
+import LazyHolographicCalculator from "@/components/LazyHolographicCalculator";
 import { metadata as metadataConfig, structuredData } from "./metadata";
 
 export const metadata = metadataConfig;
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
 
 export default function Home() {
   return (
@@ -33,7 +22,7 @@ export default function Home() {
       />
 
       <div
-        className={`${playfair.variable} ${inter.variable} bg-black min-h-screen relative overflow-x-hidden`}
+        className="bg-black min-h-screen relative overflow-x-hidden"
       >
         <Header />
         <main className="relative z-10">
@@ -52,7 +41,7 @@ export default function Home() {
         <TitaniumFooter />
 
         {/* Floating UI */}
-        <HolographicCalculator />
+        <LazyHolographicCalculator />
       </div>
     </>
   );

@@ -4,6 +4,8 @@ import React, { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { useDeferredInit } from "@/lib/useDeferredInit";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -56,11 +58,14 @@ const services = [
 ];
 
 const HorizontalServices = () => {
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldInit = useDeferredInit();
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
+      if (prefersReducedMotion || !shouldInit) return;
       const track = trackRef.current;
       if (!track || !containerRef.current) return;
 
@@ -114,6 +119,7 @@ const HorizontalServices = () => {
               y: 0,
               opacity: 1,
               scale: 1,
+              filter: "blur(0px)",
               duration: 1,
               ease: "power2.out",
               force3D: true,
@@ -126,6 +132,7 @@ const HorizontalServices = () => {
             {
               y: 0,
               opacity: 1,
+              filter: "blur(0px)",
               duration: 0.8,
               ease: "power2.out",
               force3D: true,
@@ -134,7 +141,7 @@ const HorizontalServices = () => {
           );
       });
     },
-    { scope: containerRef }
+    { scope: containerRef, dependencies: [prefersReducedMotion, shouldInit] }
   );
 
   return (

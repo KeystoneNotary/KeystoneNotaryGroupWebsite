@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React, { useState, FormEvent, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
+import React, { useState, FormEvent, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import {
   headerExplodedAssembly,
   createScrollTimeline,
   bounceIn,
-} from '@/lib/gsap-animations';
+} from "@/lib/gsap-animations";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -33,11 +33,13 @@ const Contact: React.FC = () => {
   // STATE & REFS
   // ========================================================================
 
-  const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [formStatus, setFormStatus] = useState<"idle" | "success" | "error">(
+    "idle"
+  );
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
+    name: "",
+    email: "",
+    message: "",
   });
 
   const containerRef = useRef<HTMLElement>(null);
@@ -52,24 +54,26 @@ const Contact: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     // TODO: Integrate with backend
-    console.log('Contact form submitted:', formData);
-    
+    console.log("Contact form submitted:", formData);
+
     // Simulate success
-    setFormStatus('success');
-    
+    setFormStatus("success");
+
     // Reset form
-    setFormData({ name: '', email: '', message: '' });
-    
+    setFormData({ name: "", email: "", message: "" });
+
     // Clear success message after 5 seconds
-    setTimeout(() => setFormStatus('idle'), 5000);
+    setTimeout(() => setFormStatus("idle"), 5000);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
@@ -86,25 +90,21 @@ const Contact: React.FC = () => {
         gsap.fromTo(
           backgroundTextRef.current,
           {
-            x: -300,
             y: -100,
             opacity: 0,
             rotation: -5,
             scale: 0.95,
-            filter: 'blur(12px)',
           },
           {
-            x: 0,
             y: 50,
             opacity: 0.03,
             rotation: 0,
             scale: 1,
-            filter: 'blur(0px)',
             force3D: true,
             scrollTrigger: {
               trigger: containerRef.current,
-              start: 'top bottom',
-              end: 'bottom top',
+              start: "top bottom",
+              end: "bottom top",
               scrub: 1,
             },
           }
@@ -115,8 +115,8 @@ const Contact: React.FC = () => {
       if (labelRef.current && titleMainRef.current && titleAccentRef.current) {
         const headerTl = createScrollTimeline(containerRef.current, {
           trigger: containerRef.current,
-          start: 'top 70%',
-          end: 'center center',
+          start: "top 70%",
+          end: "center center",
           scrub: 1,
         });
 
@@ -131,27 +131,27 @@ const Contact: React.FC = () => {
       }
 
       // 3. ENHANCED FORM FIELDS WITH BLUR + ROTATION
-      const formFields = containerRef.current.querySelectorAll('.contact-field');
+      const formFields =
+        containerRef.current.querySelectorAll(".contact-field");
       if (formFields.length > 0) {
         const formTl = createScrollTimeline(formFields[0], {
           trigger: formFields[0],
-          start: 'top 75%',
-          end: 'center center',
+          start: "top 75%",
+          end: "center center",
           scrub: 1,
         });
 
-        gsap.utils.toArray(formFields).forEach((field: any, i: number) => {
+        gsap.utils.toArray(formFields).forEach((field, i) => {
           const fromLeft = i % 2 === 0;
           formTl.from(
-            field,
+            field as Element,
             {
               x: fromLeft ? -60 : 60,
               y: 30,
               opacity: 0,
               scale: 0.95,
               rotation: fromLeft ? -2 : 2,
-              filter: 'blur(12px)',
-              ease: 'power2.out',
+              ease: "power2.out",
               force3D: true,
             },
             i * 0.08
@@ -160,26 +160,24 @@ const Contact: React.FC = () => {
       }
 
       // 4. CONTACT CARDS WITH SCALE EFFECTS
-      const infoCards = containerRef.current.querySelectorAll('.contact-card');
+      const infoCards = containerRef.current.querySelectorAll(".contact-card");
       if (infoCards.length > 0) {
         const cardTl = createScrollTimeline(infoCards[0], {
           trigger: infoCards[0],
-          start: 'top 75%',
-          end: 'center center',
+          start: "top 75%",
+          end: "center center",
           scrub: 1,
         });
 
-        gsap.utils.toArray(infoCards).forEach((card: any, i: number) => {
+        gsap.utils.toArray(infoCards).forEach((card, i) => {
           cardTl.from(
-            card,
+            card as Element,
             {
-              x: 50,
               y: 40,
               opacity: 0,
               scale: 0.9,
               rotation: 2,
-              filter: 'blur(10px)',
-              ease: 'back.out(1.5)',
+              ease: "back.out(1.5)",
               force3D: true,
             },
             i * 0.1
@@ -188,7 +186,7 @@ const Contact: React.FC = () => {
       }
 
       // 5. SUBMIT BUTTON BOUNCE-IN
-      const submitBtn = containerRef.current.querySelector('.submit-button');
+      const submitBtn = containerRef.current.querySelector(".submit-button");
       if (submitBtn) {
         bounceIn(submitBtn, {
           delay: 0.3,
@@ -199,10 +197,14 @@ const Contact: React.FC = () => {
   );
 
   return (
-    <section ref={containerRef} id="contact" className="relative min-h-screen bg-black text-platinum overflow-hidden">
+    <section
+      ref={containerRef}
+      id="contact"
+      className="relative min-h-screen bg-black text-platinum overflow-hidden"
+    >
       {/* Background Depth Layer - "CONNECT" */}
       <div className="absolute left-0 top-1/3 pointer-events-none z-0 overflow-hidden">
-        <div 
+        <div
           ref={backgroundTextRef}
           className="font-serif text-[20vw] text-white opacity-5 leading-none select-none whitespace-nowrap will-change-transform"
         >
@@ -220,9 +222,12 @@ const Contact: React.FC = () => {
             Contact
           </span>
           <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
-            <span ref={titleMainRef} className="inline-block will-change-transform">
+            <span
+              ref={titleMainRef}
+              className="inline-block will-change-transform"
+            >
               Get in
-            </span>{' '}
+            </span>{" "}
             <span
               ref={titleAccentRef}
               className="inline-block text-silver-metallic italic will-change-transform"
@@ -230,15 +235,6 @@ const Contact: React.FC = () => {
               Touch
             </span>
           </h2>
-          <p className="text-gray-400 mb-12 max-w-md">
-            Send the details, we'll confirm logistics and arrive prepared.
-          </p>
-
-          {formStatus === 'success' && (
-            <div className="mb-6 p-4 border border-silver-mid/20 bg-silver-mid/5 animate-fade-in">
-              <p className="text-silver-mid">Message sent successfully! We'll be in touch soon.</p>
-            </div>
-          )}
 
           <form onSubmit={handleSubmit} className="space-y-6" role="form">
             <div className="contact-field will-change-transform">
@@ -285,7 +281,8 @@ const Contact: React.FC = () => {
             </button>
 
             <p className="text-xs text-gray-600 mt-4">
-              By submitting, you agree to receive scheduling communications from Keystone Notary Group LLC.
+              By submitting, you agree to receive scheduling communications from
+              Keystone Notary Group LLC.
             </p>
           </form>
         </div>
@@ -298,7 +295,9 @@ const Contact: React.FC = () => {
 
           <div className="space-y-12">
             <div className="contact-card will-change-transform">
-              <p className="text-xs uppercase tracking-widest text-gray-600 mb-3">Phone</p>
+              <p className="text-xs uppercase tracking-widest text-gray-600 mb-3">
+                Phone
+              </p>
               <a
                 href="tel:+12673099000"
                 className="text-3xl font-light text-white hover:text-silver-mid transition-colors"
@@ -309,28 +308,38 @@ const Contact: React.FC = () => {
             </div>
 
             <div className="contact-card will-change-transform">
-              <p className="text-xs uppercase tracking-widest text-gray-600 mb-3">Email</p>
+              <p className="text-xs uppercase tracking-widest text-gray-600 mb-3">
+                Email
+              </p>
               <a
                 href="mailto:contact@keystonenotarygroup.com"
                 className="text-lg text-white hover:text-silver-mid transition-colors break-all"
               >
                 contact@keystonenotarygroup.com
               </a>
-              <p className="text-sm text-gray-500 mt-2">Responses within 12 hours</p>
+              <p className="text-sm text-gray-500 mt-2">
+                Responses within 12 hours
+              </p>
             </div>
 
             <div className="contact-card will-change-transform">
-              <p className="text-xs uppercase tracking-widest text-gray-600 mb-3">Service Area</p>
-              <p className="text-lg text-white">Lehigh Valley, PA & 50-mile radius</p>
+              <p className="text-xs uppercase tracking-widest text-gray-600 mb-3">
+                Service Area
+              </p>
+              <p className="text-lg text-white">
+                Lehigh Valley, PA & 50-mile radius
+              </p>
             </div>
           </div>
 
           <div className="contact-card mt-16 pt-16 border-t border-neutral-900 will-change-transform">
             <p className="text-gray-400 leading-relaxed">
-              All appointments include document prep guidance and ID verification checklist.
+              All appointments include document prep guidance and ID
+              verification checklist.
             </p>
             <p className="text-sm text-gray-600 mt-4">
-              Prefer video consultations? Request a secure virtual session in your message.
+              Prefer video consultations? Request a secure virtual session in
+              your message.
             </p>
           </div>
         </div>

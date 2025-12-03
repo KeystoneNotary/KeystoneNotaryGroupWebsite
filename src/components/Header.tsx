@@ -1,12 +1,11 @@
-'use client';
+"use client";
 
-import React, { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
-import { Menu, X } from 'lucide-react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
-import { staggerReveal } from '@/lib/gsap-animations';
+import React, { useState, useRef } from "react";
+import Image from "next/image";
+import { Menu, X } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -25,12 +24,12 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  */
 
 const navLinks = [
-  { name: 'About', href: '#about' },
-  { name: 'Services', href: '#services' },
-  { name: 'Coverage', href: '#coverage' },
-  { name: 'Pricing', href: '#pricing' },
-  { name: 'FAQ', href: '#faq' },
-  { name: 'Contact', href: '#contact' },
+  { name: "About", href: "#about" },
+  { name: "Services", href: "#services" },
+  { name: "Coverage", href: "#coverage" },
+  { name: "Pricing", href: "#pricing" },
+  { name: "FAQ", href: "#faq" },
+  { name: "Contact", href: "#contact" },
 ];
 
 const Header = () => {
@@ -39,7 +38,6 @@ const Header = () => {
   // ========================================================================
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [hasAnimated, setHasAnimated] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -50,61 +48,18 @@ const Header = () => {
   // ========================================================================
 
   // Smooth scroll handler
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
     e.preventDefault();
     setMobileMenuOpen(false);
 
     const target = document.querySelector(href);
     if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
-
-  // ========================================================================
-  // INITIAL PAGE LOAD ANIMATION
-  // ========================================================================
-
-  useEffect(() => {
-    if (!hasAnimated && logoRef.current && navRef.current && ctaRef.current) {
-      const tl = gsap.timeline({ delay: 0.3 });
-
-      // Logo scale in
-      tl.from(logoRef.current, {
-        scale: 0.8,
-        opacity: 0,
-        duration: 0.6,
-        ease: 'back.out(1.5)',
-        force3D: true,
-      });
-
-      // Nav links stagger
-      const navLinks = navRef.current.querySelectorAll('a');
-      if (navLinks.length > 0) {
-        tl.add(
-          staggerReveal(navLinks, {
-            stagger: 0.05,
-            from: { y: -20, opacity: 0 },
-          }),
-          '-=0.4'
-        );
-      }
-
-      // CTA bounce in
-      tl.from(
-        ctaRef.current,
-        {
-          scale: 0.8,
-          opacity: 0,
-          duration: 0.5,
-          ease: 'back.out(2)',
-          force3D: true,
-        },
-        '-=0.3'
-      );
-
-      setHasAnimated(true);
-    }
-  }, [hasAnimated]);
 
   // ========================================================================
   // ENHANCED SCROLL ANIMATIONS
@@ -115,29 +70,29 @@ const Header = () => {
 
     // Enhanced scroll effect: background blur, shadow, border
     gsap.to(headerRef.current, {
-      backgroundColor: 'rgba(0, 0, 0, 0.95)',
-      backdropFilter: 'blur(20px)',
-      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
-      borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+      backgroundColor: "rgba(0, 0, 0, 0.95)",
+      backdropFilter: "blur(20px)",
+      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.5)",
+      borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
       scrollTrigger: {
-        trigger: 'body',
-        start: 'top -100px',
-        end: 'top -101px',
-        toggleActions: 'play none none reverse',
+        trigger: "body",
+        start: "top -100px",
+        end: "top -101px",
+        toggleActions: "play none none reverse",
       },
     });
 
     // Logo scale down on scroll
     if (logoRef.current) {
-      const logoImage = logoRef.current.querySelector('img');
+      const logoImage = logoRef.current.querySelector("img");
       if (logoImage) {
         gsap.to(logoImage, {
           scale: 0.9,
           scrollTrigger: {
-            trigger: 'body',
-            start: 'top -100px',
-            end: 'top -101px',
-            toggleActions: 'play none none reverse',
+            trigger: "body",
+            start: "top -100px",
+            end: "top -101px",
+            toggleActions: "play none none reverse",
           },
         });
       }
@@ -155,7 +110,7 @@ const Header = () => {
         <a
           ref={logoRef}
           href="#hero"
-          onClick={(e) => handleNavClick(e, '#hero')}
+          onClick={(e) => handleNavClick(e, "#hero")}
           className="flex items-center gap-3 will-change-transform"
           aria-label="Keystone Notary Group home"
         >
@@ -192,7 +147,10 @@ const Header = () => {
         </nav>
 
         {/* Phone & CTA */}
-        <div ref={ctaRef} className="hidden lg:flex items-center gap-6 will-change-transform">
+        <div
+          ref={ctaRef}
+          className="hidden lg:flex items-center gap-6 will-change-transform"
+        >
           <a
             href="tel:+12673099000"
             className="text-silver-mid hover:text-white transition-colors font-medium"
@@ -201,7 +159,7 @@ const Header = () => {
           </a>
           <a
             href="#booking"
-            onClick={(e) => handleNavClick(e, '#booking')}
+            onClick={(e) => handleNavClick(e, "#booking")}
             className="px-6 py-2 bg-silver-mid text-black uppercase tracking-widest text-xs font-medium rounded-full hover:bg-silver-metallic transition-all duration-300 hover:scale-105"
           >
             Book Now
@@ -212,7 +170,7 @@ const Header = () => {
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="lg:hidden p-2 text-white hover:text-silver-mid transition-colors"
-          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileMenuOpen}
         >
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -224,7 +182,9 @@ const Header = () => {
         role="navigation"
         aria-label="Mobile navigation"
         className={`lg:hidden fixed top-[72px] left-0 right-0 bg-black/95 backdrop-blur-xl border-t border-neutral-800 transition-all duration-300 ${
-          mobileMenuOpen ? 'max-h-screen opacity-100 visible' : 'max-h-0 opacity-0 invisible'
+          mobileMenuOpen
+            ? "max-h-screen opacity-100 visible"
+            : "max-h-0 opacity-0 invisible"
         } overflow-hidden`}
       >
         <div className="px-6 py-8 space-y-6">
@@ -238,7 +198,7 @@ const Header = () => {
               {link.name}
             </a>
           ))}
-          
+
           <div className="pt-6 border-t border-neutral-800 space-y-4">
             <a
               href="tel:+12673099000"
@@ -248,7 +208,7 @@ const Header = () => {
             </a>
             <a
               href="#booking"
-              onClick={(e) => handleNavClick(e, '#booking')}
+              onClick={(e) => handleNavClick(e, "#booking")}
               className="block w-full text-center px-6 py-3 bg-silver-mid text-black uppercase tracking-widest text-sm font-medium rounded-full hover:bg-silver-metallic transition-colors"
             >
               Book Now

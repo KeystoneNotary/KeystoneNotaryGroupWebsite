@@ -71,11 +71,16 @@
 - [ ] **Phase 6: The Avant-Garde Pivot**
   - [x] **Task 6.1: De-Clutter**
     - [x] Remove `About.tsx` from `page.tsx`
-  - [ ] **Task 6.2: Kinetic Services**
-    - [ ] Create test `__tests__/HorizontalServices.test.tsx`
-    - [ ] Redesign `HorizontalServices.tsx` (Remove cards, add kinetic typography)
-  - [ ] **Task 6.3: Ethereal Booking**
-    - [ ] Create test `__tests__/BookingSection.test.tsx`
-    - [ ] Redesign `BookingSection.tsx` (Remove grid, add floating UI)
-  - [ ] **Task 6.4: Fluid Coverage**
-    - [ ] Redesign `ServiceCoverage.tsx` (Remove list/grid)
+  - [x] **Task 6.2: Kinetic Services**
+    - [x] Create test `__tests__/HorizontalServices.test.tsx`
+    - [x] Redesign `HorizontalServices.tsx` (Remove cards, add kinetic typography)
+  - [x] **Task 6.3: Ethereal Booking**
+    - [x] Create test `__tests__/BookingSection.test.tsx`
+    - [x] Redesign `BookingSection.tsx` (Remove grid, add floating UI)
+  - [x] **Task 6.4: Fluid Coverage**
+    - [x] Create test `__tests__/ServiceCoverage.test.tsx`
+    - [x] Redesign `ServiceCoverage.tsx` (Remove list/grid)
+  - [ ] **Task 6.5: Production Hardening**
+    - [x] Create test `__tests__/Header.test.tsx`
+    - [x] Create test `__tests__/Contact.test.tsx`
+    - [ ] Verify build and linting

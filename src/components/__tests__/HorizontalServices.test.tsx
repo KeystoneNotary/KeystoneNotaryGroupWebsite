@@ -35,13 +35,9 @@ describe("HorizontalServices (Kinetic Version)", () => {
 
   it("renders all service titles", () => {
     render(<HorizontalServices />);
-    expect(
-      screen.getByText(/Estate & Real Estate Closings/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Executive Mobile Facilitation/i)
-    ).toBeInTheDocument();
-    expect(screen.getByText(/Apostille & Authentication/i)).toBeInTheDocument();
+    expect(screen.getByText(/ESTATE & REAL ESTATE/i)).toBeInTheDocument();
+    expect(screen.getByText(/EXECUTIVE MOBILE/i)).toBeInTheDocument();
+    expect(screen.getByText(/APOSTILLE & AUTHENTICATION/i)).toBeInTheDocument();
   });
 
   it("renders service numbers", () => {

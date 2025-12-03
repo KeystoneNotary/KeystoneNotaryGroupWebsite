@@ -65,9 +65,9 @@ const HorizontalServices = () => {
       if (!track || !containerRef.current) return;
 
       // Kinetic Typography Animation
-      const sections = gsap.utils.toArray(".service-section");
+      const sections = gsap.utils.toArray(".service-section") as HTMLElement[];
 
-      sections.forEach((section: any, i) => {
+      sections.forEach((section, i) => {
         const title = section.querySelector(".service-title");
         const number = section.querySelector(".service-number");
         const desc = section.querySelector(".service-desc");
@@ -114,7 +114,6 @@ const HorizontalServices = () => {
               y: 0,
               opacity: 1,
               scale: 1,
-              filter: "blur(0px)",
               duration: 1,
               ease: "power2.out",
               force3D: true,

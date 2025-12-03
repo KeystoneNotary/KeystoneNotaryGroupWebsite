@@ -7,8 +7,8 @@
  * @module gsap-animations
  */
 
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -93,7 +93,6 @@ export const parallaxBackgroundText = (
       opacity: startOpacity,
       rotation: startRotation,
       scale: startScale,
-      filter: `blur(${startBlur}px)`,
     },
     {
       y: endY,
@@ -104,8 +103,8 @@ export const parallaxBackgroundText = (
       force3D: true,
       scrollTrigger: {
         trigger,
-        start: 'top bottom',
-        end: 'bottom top',
+        start: "top bottom",
+        end: "bottom top",
         scrub: 1,
       },
     }
@@ -128,7 +127,7 @@ export const backgroundTextReveal = (
     startBlur = 25,
     endOpacity = 0.03,
     duration = 0.8,
-    ease = 'power2.out',
+    ease = "power2.out",
   } = config;
 
   return gsap.fromTo(
@@ -145,14 +144,14 @@ export const backgroundTextReveal = (
       opacity: endOpacity,
       rotation: 0,
       scale: 1,
-      filter: 'blur(0px)',
+      filter: "blur(0px)",
       duration,
       ease,
       force3D: true,
       scrollTrigger: {
         trigger,
-        start: 'top 70%',
-        toggleActions: 'play none none reverse',
+        start: "top 70%",
+        toggleActions: "play none none reverse",
       },
     }
   );
@@ -184,22 +183,22 @@ export const explosionReveal = (
     blur = 12,
     scale = 0.9,
     stagger = 0.08,
-    ease = 'back.out(1.5)',
+    ease = "back.out(1.5)",
     duration = 0.8,
   } = config;
 
   const tl = gsap.timeline();
   const elementsArray = gsap.utils.toArray(elements);
 
-  elementsArray.forEach((el: any, i: number) => {
+  elementsArray.forEach((el, i) => {
     // Calculate angle for radial explosion pattern
-    const angle = (i % 3 - 1) * 30; // Creates pattern: -30°, 0°, 30°, -30°, ...
+    const angle = ((i % 3) - 1) * 30; // Creates pattern: -30°, 0°, 30°, -30°, ...
     const xOffset = Math.sin((angle * Math.PI) / 180) * distance;
     const yOffset = distance;
     const rotation = (angle / 3) * (rotationRange / 10);
 
     tl.from(
-      el,
+      el as Element,
       {
         x: xOffset,
         y: yOffset,
@@ -236,8 +235,8 @@ export const headerExplodedAssembly = (
     {
       y: -30,
       opacity: 0,
-      letterSpacing: '1em',
-      ease: 'power2.out',
+      letterSpacing: "1em",
+      ease: "power2.out",
       duration: 0.6,
       force3D: true,
     },
@@ -251,9 +250,9 @@ export const headerExplodedAssembly = (
       x: -80,
       y: -30,
       opacity: 0,
-      filter: 'blur(15px)',
+      filter: "blur(15px)",
       rotation: -3,
-      ease: 'power2.out',
+      ease: "power2.out",
       duration: 0.8,
       force3D: true,
     },
@@ -267,9 +266,9 @@ export const headerExplodedAssembly = (
       x: 80,
       y: 30,
       opacity: 0,
-      filter: 'blur(15px)',
+      filter: "blur(15px)",
       rotation: 3,
-      ease: 'power2.out',
+      ease: "power2.out",
       duration: 0.8,
       force3D: true,
     },
@@ -283,7 +282,7 @@ export const headerExplodedAssembly = (
       {
         y: 30,
         opacity: 0,
-        ease: 'power2.out',
+        ease: "power2.out",
         duration: 0.6,
         force3D: true,
       },
@@ -308,7 +307,7 @@ export const staggerReveal = (
 ): gsap.core.Timeline => {
   const {
     stagger = 0.05,
-    ease = 'power2.out',
+    ease = "power2.out",
     duration = 0.6,
     from = { y: 30, opacity: 0 },
   } = config;
@@ -347,7 +346,7 @@ export const staggerRevealAdvanced = (
     blur = 10,
     scale = 0.95,
     stagger = 0.05,
-    ease = 'back.out(1.3)',
+    ease = "back.out(1.3)",
     duration = 0.6,
   } = config;
 
@@ -383,7 +382,7 @@ export const iconSpinReveal = (
 ): gsap.core.Timeline => {
   const {
     stagger = 0.1,
-    ease = 'back.out(2)',
+    ease = "back.out(2)",
     duration = 0.6,
     delay = 0,
   } = config;
@@ -411,7 +410,7 @@ export const bounceIn = (
   element: gsap.DOMTarget,
   config: AnimationConfig = {}
 ): GSAPTween => {
-  const { ease = 'back.out(2)', duration = 0.6, delay = 0 } = config;
+  const { ease = "back.out(2)", duration = 0.6, delay = 0 } = config;
 
   return gsap.from(element, {
     scale: 0.8,
@@ -434,7 +433,7 @@ export const mediaReveal = (
   const {
     startScale = 0.95,
     blur = 20,
-    ease = 'power2.out',
+    ease = "power2.out",
     duration = 1,
     delay = 0,
   } = config;
@@ -464,16 +463,16 @@ export const radialExplosion = (
     blur = 10,
     scale = 0.5,
     stagger = 0.01,
-    ease = 'back.out(1.5)',
+    ease = "back.out(1.5)",
     duration = 0.6,
   } = config;
 
   const tl = gsap.timeline();
   const elementsArray = gsap.utils.toArray(elements);
 
-  elementsArray.forEach((el: any, i: number) => {
+  elementsArray.forEach((el, i) => {
     // Calculate radial pattern based on grid position
-    const angle = ((i % columns) * 30) - 90; // Spread across columns
+    const angle = (i % columns) * 30 - 90; // Spread across columns
     const row = Math.floor(i / columns);
     const dist = distance + row * 30;
 
@@ -481,7 +480,7 @@ export const radialExplosion = (
     const yOffset = Math.sin((angle * Math.PI) / 180) * dist;
 
     tl.from(
-      el,
+      el as Element,
       {
         x: xOffset,
         y: yOffset,
@@ -512,11 +511,7 @@ export const createScrollTimeline = (
   trigger: gsap.DOMTarget,
   config: Partial<ScrollConfig> = {}
 ): gsap.core.Timeline => {
-  const {
-    start = 'top 70%',
-    end = 'center center',
-    scrub = 1,
-  } = config;
+  const { start = "top 70%", end = "center center", scrub = 1 } = config;
 
   return gsap.timeline({
     scrollTrigger: {
@@ -536,10 +531,8 @@ export const createToggleTimeline = (
   trigger: gsap.DOMTarget,
   config: Partial<ScrollConfig> = {}
 ): gsap.core.Timeline => {
-  const {
-    start = 'top 70%',
-    toggleActions = 'play none none reverse',
-  } = config;
+  const { start = "top 70%", toggleActions = "play none none reverse" } =
+    config;
 
   return gsap.timeline({
     scrollTrigger: {
@@ -562,10 +555,6 @@ export const killAllScrollTriggers = (): void => {
   ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 };
 
-/**
- * Refreshes all ScrollTriggers
- * Call this after DOM changes or layout shifts
- */
 export const refreshScrollTriggers = (): void => {
   ScrollTrigger.refresh();
 };
@@ -587,7 +576,7 @@ export const lazyScrollTrigger = (
         }
       });
     },
-    { rootMargin: '100px' }
+    { rootMargin: "100px" }
   );
 
   observer.observe(element);

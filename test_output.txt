@@ -1,0 +1,69 @@
+
+> temp_app@0.1.0 test
+> jest src/lib/__tests__/gsap-animations.test.ts
+
+FAIL src/lib/__tests__/gsap-animations.test.ts
+  GSAP Animation Utilities
+    parallaxBackgroundText
+      ΓêÜ should create parallax animation with default config (4 ms)
+      ΓêÜ should accept custom config (1 ms)
+    backgroundTextReveal
+      ΓêÜ should create toggle-action reveal (1 ms)
+    explosionReveal
+      ΓêÜ should create radial explosion for multiple elements (1 ms)
+      ΓêÜ should apply correct radial pattern (2 ms)
+    headerExplodedAssembly
+      ΓêÜ should create multi-direction header reveal (2 ms)
+      ΓêÜ should include subtitle if provided (1 ms)
+    staggerReveal
+      ΓêÜ should create simple staggered animation
+    staggerRevealAdvanced
+      ΓêÜ should create advanced staggered animation with blur and rotation (1 ms)
+    iconSpinReveal
+      ΓêÜ should create spinning icon entrance (1 ms)
+    bounceIn
+      ΓêÜ should create bounce-in effect (2 ms)
+    mediaReveal
+      ΓêÜ should create media reveal with blur (1 ms)
+    radialExplosion
+      ΓêÜ should create radial pattern for grid elements (1 ms)
+    createScrollTimeline
+      ΓêÜ should create timeline with scroll trigger and scrub
+      ΓêÜ should accept custom scroll config
+    createToggleTimeline
+      ΓêÜ should create timeline with toggle actions
+    killAllScrollTriggers
+      ΓêÜ should kill all active ScrollTriggers (1 ms)
+    refreshScrollTriggers
+      ΓêÜ should refresh all ScrollTriggers
+    completeSectionReveal
+      ├ù should orchestrate full section reveal (1 ms)
+      ΓêÜ should work with partial config
+    Animation Integration
+      ΓêÜ should handle multiple animations without conflicts (1 ms)
+      ΓêÜ should properly chain timeline animations
+    Accessibility Considerations
+      ΓêÜ should always include force3D for performance
+      ΓêÜ should use appropriate easing for natural motion (1 ms)
+
+  ΓùÅ GSAP Animation Utilities ΓÇ║ completeSectionReveal ΓÇ║ should orchestrate full section reveal
+
+    TypeError: tl.from is not a function
+
+      232 |
+      233 |   // Label: Compressed letter-spacing expansion
+    > 234 |   tl.from(
+          |      ^
+      235 |     label,
+      236 |     {
+      237 |       y: -30,
+
+      at from (src/lib/gsap-animations.ts:234:6)
+      at headerExplodedAssembly (src/lib/gsap-animations.ts:623:22)
+      at Object.<anonymous> (src/lib/__tests__/gsap-animations.test.ts:525:28)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 23 passed, 24 total
+Snapshots:   0 total
+Time:        1.125 s
+Ran all test suites matching src/lib/__tests__/gsap-animations.test.ts.

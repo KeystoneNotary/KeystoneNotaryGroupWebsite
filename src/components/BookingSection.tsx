@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import {
   format,
   addMonths,
@@ -11,12 +11,12 @@ import {
   isBefore,
   startOfToday,
   isSunday,
-} from 'date-fns';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
-import { CheckCircle2 } from 'lucide-react';
-import CompactCalculator from './CompactCalculator';
+} from "date-fns";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { CheckCircle2 } from "lucide-react";
+import CompactCalculator from "./CompactCalculator";
 import {
   parallaxBackgroundText,
   headerExplodedAssembly,
@@ -24,20 +24,20 @@ import {
   staggerRevealAdvanced,
   bounceIn,
   createScrollTimeline,
-} from '@/lib/gsap-animations';
+} from "@/lib/gsap-animations";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const timeSlots = [
-  '9:00 AM',
-  '10:00 AM',
-  '11:00 AM',
-  '12:00 PM',
-  '1:00 PM',
-  '2:00 PM',
-  '3:00 PM',
-  '4:00 PM',
-  '5:00 PM',
+  "9:00 AM",
+  "10:00 AM",
+  "11:00 AM",
+  "12:00 PM",
+  "1:00 PM",
+  "2:00 PM",
+  "3:00 PM",
+  "4:00 PM",
+  "5:00 PM",
 ];
 
 /**
@@ -103,16 +103,18 @@ const BookingSection = () => {
     // Fetch availability from API
     setIsLoadingSlots(true);
     try {
-      const dateStr = format(date, 'yyyy-MM-dd');
-      const res = await fetch(`/api/bookings/check-availability?date=${dateStr}`);
+      const dateStr = format(date, "yyyy-MM-dd");
+      const res = await fetch(
+        `/api/bookings/check-availability?date=${dateStr}`
+      );
       const data = await res.json();
 
       if (data.availableSlots) {
         // Convert 24h to 12h format
         const mappedSlots = data.availableSlots.map((slot: string) => {
-          const [hour, min] = slot.split(':');
+          const [hour, min] = slot.split(":");
           const h = parseInt(hour, 10);
-          const ampm = h >= 12 ? 'PM' : 'AM';
+          const ampm = h >= 12 ? "PM" : "AM";
           const h12 = h % 12 || 12;
           return `${h12}:${min} ${ampm}`;
         });
@@ -121,7 +123,7 @@ const BookingSection = () => {
         setAvailableSlots(timeSlots); // Fallback
       }
     } catch (err) {
-      console.error('Failed to fetch slots', err);
+      console.error("Failed to fetch slots", err);
       setAvailableSlots(timeSlots); // Fallback
     } finally {
       setIsLoadingSlots(false);
@@ -141,46 +143,48 @@ const BookingSection = () => {
 
     const formData = new FormData(e.target as HTMLFormElement);
     const bookingData = {
-      customerName: formData.get('customerName'),
-      customerEmail: formData.get('customerEmail'),
-      customerPhone: formData.get('customerPhone'),
-      address: formData.get('address'),
-      appointmentDate: format(selectedDate, 'yyyy-MM-dd'),
+      customerName: formData.get("customerName"),
+      customerEmail: formData.get("customerEmail"),
+      customerPhone: formData.get("customerPhone"),
+      address: formData.get("address"),
+      appointmentDate: format(selectedDate, "yyyy-MM-dd"),
       appointmentTime: convertTo24Hour(selectedTime),
-      serviceType: 'General Notary Work',
+      serviceType: "General Notary Work",
       price: 75,
-      notes: formData.get('notes'),
+      notes: formData.get("notes"),
     };
 
     try {
-      const res = await fetch('/api/bookings/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/bookings/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookingData),
       });
 
       const result = await res.json();
 
-      if (!res.ok) throw new Error(result.error || 'Booking failed');
+      if (!res.ok) throw new Error(result.error || "Booking failed");
 
       setBookingSuccess(true);
     } catch (error) {
-      console.error('Booking error:', error);
-      alert('Failed to book appointment. Please try again or call us.');
+      console.error("Booking error:", error);
+      alert("Failed to book appointment. Please try again or call us.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const convertTo24Hour = (time12h: string): string => {
-    const [time, modifier] = time12h.split(' ');
-    let [hours, minutes] = time.split(':');
-    if (hours === '12') {
-      hours = modifier === 'AM' ? '00' : '12';
+    const [time, modifier] = time12h.split(" ");
+    const [hours, minutes] = time.split(":");
+    let hoursNum = hours;
+    if (hoursNum === "12") {
+      hoursNum = modifier === "AM" ? "00" : "12";
     } else {
-      hours = modifier === 'PM' ? String(parseInt(hours, 10) + 12) : hours;
+      hoursNum =
+        modifier === "PM" ? String(parseInt(hoursNum, 10) + 12) : hoursNum;
     }
-    return `${hours.padStart(2, '0')}:${minutes}`;
+    return `${hoursNum.padStart(2, "0")}:${minutes}`;
   };
 
   const resetBooking = () => {
@@ -200,24 +204,28 @@ const BookingSection = () => {
 
       // 1. PARALLAX BACKGROUND "BOOK" TYPOGRAPHY
       if (backgroundTextRef.current) {
-        parallaxBackgroundText(backgroundTextRef.current, containerRef.current, {
-          startY: 100,
-          endY: -50,
-          startRotation: -10,
-          endRotation: 0,
-          startBlur: 30,
-          endBlur: 0,
-          startOpacity: 0,
-          endOpacity: 0.03,
-        });
+        parallaxBackgroundText(
+          backgroundTextRef.current,
+          containerRef.current,
+          {
+            startY: 100,
+            endY: -50,
+            startRotation: -10,
+            endRotation: 0,
+            startBlur: 30,
+            endBlur: 0,
+            startOpacity: 0,
+            endOpacity: 0.03,
+          }
+        );
       }
 
       // 2. SECTION HEADER EXPLODED ASSEMBLY
       if (labelRef.current && titleMainRef.current && titleAccentRef.current) {
         const headerTl = createScrollTimeline(containerRef.current, {
           trigger: containerRef.current,
-          start: 'top 70%',
-          end: 'center center',
+          start: "top 70%",
+          end: "center center",
           scrub: 1,
         });
 
@@ -232,8 +240,8 @@ const BookingSection = () => {
       }
 
       // 3. CALENDAR HEADERS STAGGERED REVEAL
-      const dayHeaders = containerRef.current.querySelectorAll('.day-header');
-      const calendarGrid = containerRef.current.querySelector('.calendar-grid');
+      const dayHeaders = containerRef.current.querySelectorAll(".day-header");
+      const calendarGrid = containerRef.current.querySelector(".calendar-grid");
       if (dayHeaders.length > 0 && calendarGrid) {
         staggerRevealAdvanced(dayHeaders, {
           fromY: -40,
@@ -244,12 +252,14 @@ const BookingSection = () => {
       }
 
       // 4. RADIAL EXPLOSION FOR CALENDAR DAYS
-      const calendarDays = containerRef.current.querySelectorAll('.calendar-day:not([disabled])');
+      const calendarDays = containerRef.current.querySelectorAll(
+        ".calendar-day:not([disabled])"
+      );
       if (calendarDays.length > 0 && calendarGrid) {
         const calendarTl = createScrollTimeline(calendarGrid, {
           trigger: calendarGrid,
-          start: 'top 70%',
-          end: 'center center',
+          start: "top 70%",
+          end: "center center",
           scrub: 1,
         });
 
@@ -257,16 +267,18 @@ const BookingSection = () => {
           radialExplosion(calendarDays, {
             columns: 7,
             distance: 50,
-            blur: 3,  // Reduced from 10 - blur is expensive
-            scale: 0.7,  // Less extreme scaling
-            stagger: 0.015,  // Slightly slower stagger
+            blur: 3, // Reduced from 10 - blur is expensive
+            scale: 0.7, // Less extreme scaling
+            stagger: 0.015, // Slightly slower stagger
           }),
           0.2
         );
       }
 
       // 5. CALCULATOR SIDEBAR DRAMATIC ENTRANCE
-      const calculator = containerRef.current.querySelector('.booking-calculator');
+      const calculator = containerRef.current.querySelector(
+        ".booking-calculator"
+      );
       if (calculator) {
         gsap.fromTo(
           calculator,
@@ -275,7 +287,6 @@ const BookingSection = () => {
             y: 50,
             opacity: 0,
             scale: 0.95,
-            filter: 'blur(15px)',
             rotation: 3,
           },
           {
@@ -283,14 +294,14 @@ const BookingSection = () => {
             y: 0,
             opacity: 1,
             scale: 1,
-            filter: 'blur(0px)',
+            filter: "blur(0px)",
             rotation: 0,
-            ease: 'back.out(1.5)',
+            ease: "back.out(1.5)",
             force3D: true,
             scrollTrigger: {
               trigger: calculator,
-              start: 'top 80%',
-              end: 'center center',
+              start: "top 80%",
+              end: "center center",
               scrub: 1,
             },
           }
@@ -306,7 +317,7 @@ const BookingSection = () => {
 
   useEffect(() => {
     if (selectedDate && !isLoadingSlots && availableSlots.length > 0) {
-      const timeSlotButtons = document.querySelectorAll('.time-slot-btn');
+      const timeSlotButtons = document.querySelectorAll(".time-slot-btn");
 
       if (timeSlotButtons.length > 0) {
         gsap.fromTo(
@@ -315,17 +326,16 @@ const BookingSection = () => {
             y: 30,
             opacity: 0,
             scale: 0.9,
-            filter: 'blur(8px)',
             rotation: -5,
           },
           {
             y: 0,
             opacity: 1,
             scale: 1,
-            filter: 'blur(0px)',
+            filter: "blur(0px)",
             rotation: 0,
             stagger: 0.05,
-            ease: 'back.out(1.5)',
+            ease: "back.out(1.5)",
             duration: 0.6,
             force3D: true,
           }
@@ -341,30 +351,29 @@ const BookingSection = () => {
   useEffect(() => {
     if (showForm) {
       // Form header
-      const formHeader = document.querySelector('.form-header');
+      const formHeader = document.querySelector(".form-header");
       if (formHeader) {
         gsap.from(formHeader, {
           y: -30,
           opacity: 0,
-          letterSpacing: '1em',
+          letterSpacing: "1em",
           duration: 0.6,
-          ease: 'power2.out',
+          ease: "power2.out",
           force3D: true,
         });
       }
 
       // Form fields - exploded assembly
-      const formFields = document.querySelectorAll('.booking-form-field');
+      const formFields = document.querySelectorAll(".booking-form-field");
       if (formFields.length > 0) {
-        gsap.utils.toArray(formFields).forEach((field: any, i: number) => {
+        gsap.utils.toArray(formFields).forEach((field, i: number) => {
           const fromLeft = i % 2 === 0;
-          gsap.from(field, {
+          gsap.from(field as Element, {
             x: fromLeft ? -60 : 60,
             y: 30,
             opacity: 0,
-            filter: 'blur(12px)',
             rotation: fromLeft ? -2 : 2,
-            ease: 'power2.out',
+            ease: "power2.out",
             duration: 0.6,
             delay: 0.1 + i * 0.08,
             force3D: true,
@@ -373,11 +382,11 @@ const BookingSection = () => {
       }
 
       // Submit button bounce-in
-      const submitBtn = document.querySelector('.booking-submit-btn');
+      const submitBtn = document.querySelector(".booking-submit-btn");
       if (submitBtn) {
         bounceIn(submitBtn, {
           delay: 0.6,
-          ease: 'back.out(2)',
+          ease: "back.out(2)",
         });
       }
     }
@@ -389,9 +398,9 @@ const BookingSection = () => {
 
   useEffect(() => {
     if (bookingSuccess) {
-      const successContainer = document.querySelector('.success-container');
-      const successIcon = document.querySelector('.success-icon');
-      const successMessage = document.querySelector('.success-message');
+      const successContainer = document.querySelector(".success-container");
+      const successIcon = document.querySelector(".success-icon");
+      const successMessage = document.querySelector(".success-message");
 
       if (successContainer) {
         const tl = gsap.timeline();
@@ -400,8 +409,8 @@ const BookingSection = () => {
         tl.from(successMessage, {
           scale: 0.5,
           opacity: 0,
-          filter: 'blur(30px)',
-          ease: 'back.out(2)',
+          filter: "blur(30px)",
+          ease: "back.out(2)",
           duration: 0.8,
           force3D: true,
         });
@@ -414,27 +423,27 @@ const BookingSection = () => {
               scale: 0,
               rotation: -180,
               opacity: 0,
-              ease: 'back.out(3)',
+              ease: "back.out(3)",
               duration: 0.6,
               force3D: true,
             },
-            '-=0.4'
+            "-=0.4"
           );
         }
 
         // Button bounce-in
-        const successBtn = document.querySelector('.success-btn');
+        const successBtn = document.querySelector(".success-btn");
         if (successBtn) {
           tl.from(
             successBtn,
             {
               scale: 0.8,
               opacity: 0,
-              ease: 'back.out(2)',
+              ease: "back.out(2)",
               duration: 0.5,
               force3D: true,
             },
-            '-=0.3'
+            "-=0.3"
           );
         }
       }
@@ -454,7 +463,10 @@ const BookingSection = () => {
       >
         <div className="success-container text-center max-w-2xl mx-auto z-10">
           <div className="success-icon mb-8 flex justify-center">
-            <CheckCircle2 className="w-24 h-24 text-silver-metallic" strokeWidth={1.5} />
+            <CheckCircle2
+              className="w-24 h-24 text-silver-metallic"
+              strokeWidth={1.5}
+            />
           </div>
 
           <div className="success-message space-y-6">
@@ -508,9 +520,12 @@ const BookingSection = () => {
             Reserve Your Time
           </span>
           <h2 className="font-serif text-5xl md:text-7xl text-white leading-tight">
-            <span ref={titleMainRef} className="inline-block will-change-transform">
+            <span
+              ref={titleMainRef}
+              className="inline-block will-change-transform"
+            >
               Schedule
-            </span>{' '}
+            </span>{" "}
             <span
               ref={titleAccentRef}
               className="inline-block text-silver-metallic italic will-change-transform"
@@ -533,7 +548,7 @@ const BookingSection = () => {
                 ← Prev
               </button>
               <h3 className="month-title font-serif text-4xl text-white will-change-transform">
-                {format(currentMonth, 'MMMM yyyy')}
+                {format(currentMonth, "MMMM yyyy")}
               </h3>
               <button
                 onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
@@ -548,14 +563,16 @@ const BookingSection = () => {
             <div className="calendar-grid will-change-transform">
               {/* Day Headers */}
               <div className="grid grid-cols-7 gap-px bg-neutral-900 mb-1">
-                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                  <div
-                    key={day}
-                    className="day-header bg-black text-center text-xs text-gray-600 uppercase tracking-wider py-4 will-change-transform"
-                  >
-                    {day}
-                  </div>
-                ))}
+                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                  (day) => (
+                    <div
+                      key={day}
+                      className="day-header bg-black text-center text-xs text-gray-600 uppercase tracking-wider py-4 will-change-transform"
+                    >
+                      {day}
+                    </div>
+                  )
+                )}
               </div>
 
               {/* Calendar Days */}
@@ -564,7 +581,8 @@ const BookingSection = () => {
                   const isDisabled = isBefore(date, today) || isSunday(date);
                   const isSelected =
                     selectedDate &&
-                    format(date, 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd');
+                    format(date, "yyyy-MM-dd") ===
+                      format(selectedDate, "yyyy-MM-dd");
 
                   return (
                     <button
@@ -573,14 +591,14 @@ const BookingSection = () => {
                       disabled={isDisabled}
                       className={`calendar-day bg-black aspect-square flex items-center justify-center text-sm transition-all will-change-transform ${
                         isDisabled
-                          ? 'text-gray-800 cursor-not-allowed opacity-30'
+                          ? "text-gray-800 cursor-not-allowed opacity-30"
                           : isSelected
-                          ? 'bg-silver-mid text-black font-medium'
-                          : 'text-white hover:bg-white/5'
+                            ? "bg-silver-mid text-black font-medium"
+                            : "text-white hover:bg-white/5"
                       }`}
-                      aria-label={`Select ${format(date, 'MMMM d, yyyy')}`}
+                      aria-label={`Select ${format(date, "MMMM d, yyyy")}`}
                     >
-                      {format(date, 'd')}
+                      {format(date, "d")}
                     </button>
                   );
                 })}
@@ -613,10 +631,10 @@ const BookingSection = () => {
                           disabled={!isAvailable}
                           className={`time-slot-btn py-4 text-sm transition-all border will-change-transform ${
                             selectedTime === time
-                              ? 'bg-silver-mid text-black border-silver-mid'
+                              ? "bg-silver-mid text-black border-silver-mid"
                               : isAvailable
-                              ? 'bg-transparent text-white border-neutral-800 hover:border-silver-mid'
-                              : 'bg-neutral-900 text-neutral-600 border-transparent cursor-not-allowed'
+                                ? "bg-transparent text-white border-neutral-800 hover:border-silver-mid"
+                                : "bg-neutral-900 text-neutral-600 border-transparent cursor-not-allowed"
                           }`}
                           aria-label={`Select ${time}`}
                         >
@@ -685,7 +703,8 @@ const BookingSection = () => {
                   <label className="booking-form-field flex items-start gap-3 text-sm text-gray-500 will-change-transform">
                     <input type="checkbox" required className="mt-1" />
                     <span>
-                      I will provide valid, government-issued identification for all signers.
+                      I will provide valid, government-issued identification for
+                      all signers.
                     </span>
                   </label>
 
@@ -694,7 +713,7 @@ const BookingSection = () => {
                     disabled={isSubmitting}
                     className="booking-submit-btn w-full px-12 py-4 border border-neutral-700 text-white uppercase tracking-[0.2em] text-sm hover:border-silver-mid hover:text-silver-mid transition-all disabled:opacity-50 disabled:cursor-not-allowed will-change-transform"
                   >
-                    {isSubmitting ? 'Processing...' : 'Confirm Appointment'}
+                    {isSubmitting ? "Processing..." : "Confirm Appointment"}
                   </button>
                 </form>
               </div>
@@ -710,8 +729,8 @@ const BookingSection = () => {
                 Need Assistance?
               </h4>
               <p className="text-sm text-gray-400 mb-4">
-                Our concierge team is available to handle complex requests or multi-signer
-                coordination.
+                Our concierge team is available to handle complex requests or
+                multi-signer coordination.
               </p>
               <a
                 href="tel:+12673099000"

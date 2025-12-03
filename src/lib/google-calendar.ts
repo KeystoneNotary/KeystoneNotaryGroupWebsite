@@ -115,7 +115,7 @@ export async function getAvailableSlots(date: string) {
       const slotEnd = addMinutes(parseISO(slotStart), 60).toISOString();
 
       // Check if any event overlaps with this slot
-      const hasConflict = events.some((event: any) => {
+      const hasConflict = events.some((event) => {
         const eventStart = event.start?.dateTime || event.start?.date;
         const eventEnd = event.end?.dateTime || event.end?.date;
 

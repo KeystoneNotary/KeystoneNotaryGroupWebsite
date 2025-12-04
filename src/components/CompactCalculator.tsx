@@ -23,7 +23,7 @@ const CompactCalculator = () => {
   return (
     <div
       id="calculator-widget"
-      className="bg-gradient-to-br from-neutral-900/90 via-neutral-950 to-black backdrop-blur-md ring-1 ring-white/10 rounded-2xl p-6 w-full max-w-sm shadow-[0_25px_70px_-50px_rgba(255,255,255,0.4)]"
+      className="bg-neutral-950/70 backdrop-blur-md ring-1 ring-white/10 rounded-2xl p-6 w-full max-w-sm"
     >
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
@@ -34,9 +34,6 @@ const CompactCalculator = () => {
             <h3 className="text-sm font-medium text-white uppercase tracking-widest">
               Estimate Cost
             </h3>
-            <p className="text-[11px] text-gray-500 tracking-[0.2em] uppercase">
-              Live Notary Calculator
-            </p>
           </div>
         </div>
         <div className="text-right">
@@ -50,15 +47,6 @@ const CompactCalculator = () => {
             </span>
           </div>
         </div>
-      </div>
-
-      <div className="flex flex-wrap gap-2 text-[10px] uppercase tracking-[0.2em] text-neutral-300 mb-4">
-        <span className="rounded-full px-3 py-1 bg-white/5 ring-1 ring-white/10">
-          Transparent fees
-        </span>
-        <span className="rounded-full px-3 py-1 bg-white/5 ring-1 ring-white/10">
-          First {PRICING_CONFIG.FREE_MILEAGE} miles included
-        </span>
       </div>
 
       <div className="space-y-4">

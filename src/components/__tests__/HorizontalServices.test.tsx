@@ -46,11 +46,6 @@ describe("HorizontalServices (Kinetic Version)", () => {
     expect(screen.getByText("02")).toBeInTheDocument();
   });
 
-  it("shows the new service assurance chips", () => {
-    render(<HorizontalServices />);
-    expect(screen.getByText(/50-mile coverage/i)).toBeInTheDocument();
-  });
-
   it("does not render boxy containers", () => {
     const { container } = render(<HorizontalServices />);
     // Check for absence of borders or white backgrounds which indicate "boxes"

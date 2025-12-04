@@ -217,13 +217,13 @@ const Contact: React.FC = () => {
       </div>
 
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute right-[-10%] top-10 h-72 w-72 bg-silver-mid/10 blur-[140px]" />
-        <div className="absolute left-[-15%] bottom-10 h-96 w-96 bg-silver-mid/5 blur-[180px]" />
+        <div className="absolute right-[-10%] top-10 h-64 w-64 bg-silver-mid/10 blur-[110px]" />
+        <div className="absolute left-[-10%] bottom-10 h-72 w-72 bg-silver-mid/6 blur-[140px]" />
       </div>
 
       <div className="grid lg:grid-cols-2 min-h-screen relative z-10">
         {/* Left Side: Form */}
-        <div className="flex flex-col justify-center p-8 md:p-16 lg:p-20 gap-6 rounded-3xl bg-neutral-950/50 backdrop-blur ring-1 ring-white/10 mx-4 md:mx-8 lg:mx-12">
+        <div className="flex flex-col justify-center p-10 md:p-16 gap-6 rounded-3xl bg-neutral-950/60 backdrop-blur ring-1 ring-white/10 mx-4 md:mx-8 lg:mx-12">
           <span
             ref={labelRef}
             className="text-sm uppercase tracking-[0.3em] text-gray-600 mb-8 will-change-transform"
@@ -244,18 +244,6 @@ const Contact: React.FC = () => {
               Touch
             </span>
           </h2>
-
-          <div className="flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.2em] text-neutral-200">
-            <span className="rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10">
-              Response &lt; 12 hours
-            </span>
-            <span className="rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10">
-              Mobile arrival prepped
-            </span>
-            <span className="rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10">
-              Witness provisioning
-            </span>
-          </div>
 
           <form onSubmit={handleSubmit} className="space-y-6" role="form">
             <div className="contact-field will-change-transform">
@@ -309,7 +297,7 @@ const Contact: React.FC = () => {
         </div>
 
         {/* Right Side: Concierge Info */}
-        <div className="flex flex-col justify-center p-8 md:p-16 lg:p-20 bg-neutral-950/70 border-l border-neutral-900/60 backdrop-blur">
+        <div className="flex flex-col justify-center p-10 md:p-16 bg-neutral-950/70 border-l border-neutral-900/60 backdrop-blur">
           <h3 className="text-sm uppercase tracking-[0.3em] text-gray-600 mb-10">
             Concierge Scheduling
           </h3>

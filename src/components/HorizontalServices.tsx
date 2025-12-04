@@ -201,70 +201,40 @@ const HorizontalServices = () => {
       ref={containerRef}
       className="relative bg-black py-32 overflow-hidden"
     >
-      {/* Atmosphere */}
-      <div className="absolute inset-0 pointer-events-none opacity-60">
-        <div className="absolute -left-20 top-10 h-64 w-64 bg-silver-mid/10 blur-3xl" />
-        <div className="absolute right-0 bottom-0 h-80 w-80 bg-silver-mid/5 blur-3xl" />
-        <div className="absolute inset-x-0 top-20 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+      {/* Atmosphere dialed to match About */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-black opacity-80" />
+        <div className="absolute -left-16 top-16 h-48 w-48 bg-silver-mid/10 blur-[96px]" />
+        <div className="absolute right-0 bottom-0 h-64 w-64 bg-silver-mid/5 blur-[110px]" />
       </div>
 
-      <div className="relative max-w-6xl mx-auto space-y-16 px-6 md:px-12">
+      <div className="relative max-w-6xl mx-auto space-y-20 px-6 md:px-12">
         {/* Section Header */}
-        <div className="grid lg:grid-cols-[1.1fr_1fr] gap-10 items-end">
-          <div className="services-lede space-y-6">
-            <span className="services-kicker text-xs uppercase tracking-[0.35em] text-neutral-500">
-              Signature Services
-            </span>
-            <h2 className="services-headline font-serif text-4xl md:text-6xl text-white leading-tight">
-              Built for closings that cannot miss.
-            </h2>
-            <p className="services-subhead text-neutral-400 text-lg md:text-xl leading-relaxed max-w-2xl">
-              Concierge mobility, apostille stewardship, and high-stakes witnessing—delivered with the same precision as our philosophy piece you love.
-            </p>
-            <div className="services-tags flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.2em] text-neutral-200">
-              <span className="tag rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10">
-                50-mile coverage
-              </span>
-              <span className="tag rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10">
-                Dual-witness ready
-              </span>
-              <span className="tag rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10">
-                Rush capable
-              </span>
-            </div>
-          </div>
-
-          <div className="hidden lg:flex justify-end">
-            <div className="relative w-full max-w-md">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-white/0 to-white/5 blur-2xl" />
-              <div className="relative rounded-3xl bg-neutral-900/60 backdrop-blur-xl ring-1 ring-white/10 p-8 space-y-4">
-                <p className="text-xs uppercase tracking-[0.25em] text-neutral-500">
-                  Field Protocol
-                </p>
-                <p className="text-xl font-serif text-white leading-snug">
-                  Every signer is guided through ID verification, tamper-evident sealing, and a double-check on execution order.
-                </p>
-                <p className="text-sm text-neutral-400">
-                  We arrive with dual devices, backup seals, and witness provisioning on request.
-                </p>
-              </div>
-            </div>
-          </div>
+        <div className="space-y-6 text-center">
+          <span className="services-kicker text-xs uppercase tracking-[0.35em] text-silver-mid">
+            Signature Services
+          </span>
+          <h2 className="services-headline font-serif text-5xl md:text-7xl text-white leading-tight">
+            Precision in motion.
+          </h2>
+          <p className="services-subhead text-neutral-400 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
+            The same discipline as our philosophy piece—applied to estate, executive mobility, apostille, and corporate work.
+          </p>
         </div>
 
         <div
           ref={trackRef}
-          className="flex flex-col gap-28 md:gap-36"
+          className="flex flex-col gap-24 md:gap-28"
         >
           {services.map((service) => (
             <div key={service.id} className="service-section relative group">
               {/* Massive Background Number */}
-              <div className="service-number absolute -top-20 -left-6 md:-left-24 text-[18vw] font-serif text-white leading-none select-none pointer-events-none opacity-0 z-0 will-change-transform">
+              <div className="service-number absolute -top-16 -left-4 md:-left-16 text-[18vw] font-serif text-white leading-none select-none pointer-events-none opacity-0 z-0 will-change-transform">
                 {service.number}
               </div>
 
-              <div className="relative z-10 pl-12 md:pl-32 border-l border-neutral-900/60 group-hover:border-neutral-700 transition-colors duration-500">
-                <h3 className="service-title font-serif text-4xl md:text-7xl text-white mb-4 leading-[0.95] tracking-tight mix-blend-difference will-change-transform">
+              <div className="relative z-10 pl-10 md:pl-24 border-l border-neutral-900/60 group-hover:border-neutral-700 transition-colors duration-500">
+                <h3 className="service-title font-serif text-4xl md:text-6xl text-white mb-3 leading-[0.95] tracking-tight mix-blend-difference will-change-transform">
                   {service.title}
                 </h3>
                 <p className="service-desc font-sans text-lg md:text-xl text-neutral-400 max-w-2xl leading-relaxed will-change-transform">

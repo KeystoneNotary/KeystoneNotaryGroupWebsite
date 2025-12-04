@@ -196,65 +196,35 @@ const BookingSection = () => {
       className="relative min-h-[80vh] bg-black text-platinum py-16 md:py-20 px-4 md:px-10 overflow-hidden"
     >
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute left-[-10%] top-10 h-72 w-72 bg-silver-mid/10 blur-[120px]" />
-        <div className="absolute right-[-5%] bottom-10 h-80 w-80 bg-silver-mid/5 blur-[140px]" />
-        <div className="absolute inset-x-0 top-24 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-        <div className="absolute left-6 md:left-16 top-1/4 text-[32vw] text-white/5 font-serif leading-none select-none">
-          SCHEDULE
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-black opacity-80" />
+        <div className="absolute left-[-10%] top-8 h-64 w-64 bg-silver-mid/10 blur-[100px]" />
+        <div className="absolute right-[-5%] bottom-8 h-64 w-64 bg-silver-mid/8 blur-[110px]" />
       </div>
 
       <div className="max-w-6xl mx-auto relative z-10 space-y-12">
-        <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-10 items-end">
-          <div className="space-y-6">
-            <span className="block text-silver-mid text-xs tracking-[0.35em] uppercase">
-              Concierge Booking
+        <div className="space-y-6 text-center">
+          <span className="block text-silver-mid text-xs tracking-[0.35em] uppercase">
+            Concierge Booking
+          </span>
+          <h2 className="font-serif text-4xl md:text-6xl text-white leading-tight">
+            <span className="inline-block">Schedule</span>{" "}
+            <span className="inline-block text-silver-metallic italic">
+              Appointment
             </span>
-            <h2 className="font-serif text-4xl md:text-6xl text-white leading-tight">
-              <span className="inline-block">Schedule</span>{" "}
-              <span className="inline-block text-silver-metallic italic">
-                Appointment
-              </span>
-            </h2>
-            <p className="text-neutral-400 text-lg leading-relaxed max-w-3xl">
-              Reserve mobile notarization, apostille handling, or executive witnessing with the same cinematic polish as our About section—now paired with live availability.
-            </p>
-            <div className="flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.2em] text-neutral-200">
-              <span className="rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10">
-                Mobile within 50 miles
-              </span>
-              <span className="rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10">
-                Rush windows
-              </span>
-              <span className="rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10">
-                Document prep guidance
-              </span>
-            </div>
-          </div>
-
-          <div className="hidden lg:block">
-            <div className="relative rounded-3xl bg-neutral-900/70 backdrop-blur-xl ring-1 ring-white/10 p-8 space-y-3">
-              <p className="text-xs uppercase tracking-[0.3em] text-neutral-500">
-                Arrival Protocol
-              </p>
-              <p className="text-2xl font-serif text-white leading-tight">
-                Same-day windows on request. Identity verification and witness provisioning handled before we roll.
-              </p>
-              <p className="text-sm text-neutral-400">
-                Need a bespoke time block? Note it below and we&apos;ll confirm within 12 hours.
-              </p>
-            </div>
-          </div>
+          </h2>
+          <p className="text-neutral-400 text-lg leading-relaxed max-w-3xl mx-auto">
+            Reserve mobile notarization, apostille handling, or executive witnessing with the same polish as our philosophy section.
+          </p>
         </div>
 
-        <div className="grid lg:grid-cols-[1.35fr_0.9fr] gap-12 items-start">
+        <div className="grid lg:grid-cols-[1.3fr_0.9fr] gap-12 items-start">
           {/* Calendar + Slots */}
-          <div className="space-y-10 rounded-3xl bg-neutral-950/40 ring-1 ring-white/10 p-6 md:p-10 backdrop-blur">
+          <div className="space-y-10 rounded-3xl bg-neutral-950/50 ring-1 ring-white/10 p-6 md:p-10 backdrop-blur">
             {/* Month Navigation */}
             <div className="flex items-center justify-between">
               <button
                 onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-                className="text-gray-600 hover:text-white transition-colors text-sm uppercase tracking-widest"
+                className="text-gray-500 hover:text-white transition-colors text-sm uppercase tracking-widest"
                 aria-label="Previous month"
               >
                 ← Prev
@@ -264,7 +234,7 @@ const BookingSection = () => {
               </h3>
               <button
                 onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-                className="text-gray-600 hover:text-white transition-colors text-sm uppercase tracking-widest"
+                className="text-gray-500 hover:text-white transition-colors text-sm uppercase tracking-widest"
                 aria-label="Next month"
               >
                 Next →
@@ -272,7 +242,7 @@ const BookingSection = () => {
             </div>
 
             {/* Calendar Grid */}
-            <div className="rounded-xl ring-1 ring-neutral-900 overflow-hidden shadow-[0_25px_70px_-50px_rgba(255,255,255,0.3)]">
+            <div className="rounded-xl ring-1 ring-neutral-900 overflow-hidden">
               <div className="grid grid-cols-7 bg-neutral-900 text-xs uppercase tracking-wider text-gray-500">
                 {weekdayLabels.map((day) => (
                   <div key={day} className="py-3 text-center">
@@ -295,7 +265,7 @@ const BookingSection = () => {
                         isDisabled
                           ? "text-gray-800 cursor-not-allowed opacity-30"
                           : isSelected
-                            ? "bg-silver-mid text-black font-medium shadow-[0_10px_40px_-20px_rgba(255,255,255,0.45)]"
+                            ? "bg-silver-mid text-black font-medium"
                             : "text-white hover:bg-white/5"
                       }`}
                       aria-label={`Select ${format(date, "MMMM d, yyyy")}`}
@@ -342,7 +312,7 @@ const BookingSection = () => {
                         onClick={() => handleTimeSelect(slot)}
                         className={`py-3 text-sm transition-all ring-1 ${
                           selectedTime === slot
-                            ? "bg-silver-mid text-black ring-silver-mid shadow-[0_15px_40px_-20px_rgba(255,255,255,0.5)]"
+                            ? "bg-silver-mid text-black ring-silver-mid"
                             : "bg-transparent text-white ring-neutral-800 hover:ring-silver-mid"
                         }`}
                         aria-label={`Select ${slot}`}

@@ -280,9 +280,8 @@ const FAQ = () => {
       </div>
 
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute left-[-10%] bottom-10 h-80 w-80 bg-silver-mid/10 blur-[140px]" />
-        <div className="absolute right-[-15%] top-10 h-96 w-96 bg-silver-mid/5 blur-[180px]" />
-        <div className="absolute inset-x-0 top-24 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="absolute left-[-10%] bottom-10 h-64 w-64 bg-silver-mid/10 blur-[120px]" />
+        <div className="absolute right-[-10%] top-10 h-72 w-72 bg-silver-mid/6 blur-[140px]" />
       </div>
 
       <div className="max-w-5xl w-full relative z-10 space-y-12">
@@ -305,72 +304,55 @@ const FAQ = () => {
               You Need
             </span>
           </h2>
-          <p className="text-neutral-400 text-lg md:text-xl max-w-3xl mx-auto">
-            Exactly how we handle identity, timing, and edge cases—mirroring the polished feel of the About section across the rest of the site.
-          </p>
         </div>
 
-        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start">
-          <div className="space-y-4 rounded-2xl bg-white/5 ring-1 ring-white/10 p-6 backdrop-blur">
-            <p className="text-xs uppercase tracking-[0.3em] text-neutral-500">
-              Fast Facts
-            </p>
-            <ul className="space-y-3 text-sm text-neutral-300">
-              <li>• Response within 12 hours for standard requests.</li>
-              <li>• Mobile within 50 miles, weekends available.</li>
-              <li>• Apostille and estate packages guided end-to-end.</li>
-            </ul>
-          </div>
+        <div className="space-y-4">
+          {faqs.map((faq, index) => {
+            const isOpen = openIndex === index;
 
-          {/* FAQ Items */}
-          <div className="space-y-4">
-            {faqs.map((faq, index) => {
-              const isOpen = openIndex === index;
+            return (
+              <div key={index} className="faq-item border-b border-neutral-800/70">
+                <button
+                  onClick={() => handleToggle(index)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleToggle(index)}
+                  aria-expanded={isOpen}
+                  className="w-full py-6 flex items-start gap-6 text-left group"
+                >
+                  {/* Number */}
+                  <span className="faq-number font-serif text-3xl text-neutral-700 group-hover:text-neutral-500 transition-colors select-none flex-shrink-0 will-change-transform">
+                    {faq.number}
+                  </span>
 
-              return (
-                <div key={index} className="faq-item border-b border-neutral-800/70">
-                  <button
-                    onClick={() => handleToggle(index)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleToggle(index)}
-                    aria-expanded={isOpen}
-                    className="w-full py-6 flex items-start gap-6 text-left group"
-                  >
-                    {/* Number */}
-                    <span className="faq-number font-serif text-3xl text-neutral-700 group-hover:text-neutral-500 transition-colors select-none flex-shrink-0 will-change-transform">
-                      {faq.number}
-                    </span>
+                  {/* Question */}
+                  <h3 className="faq-question font-serif text-2xl md:text-3xl text-white flex-1 leading-tight will-change-transform">
+                    {faq.question}
+                  </h3>
 
-                    {/* Question */}
-                    <h3 className="faq-question font-serif text-2xl md:text-3xl text-white flex-1 leading-tight will-change-transform">
-                      {faq.question}
-                    </h3>
-
-                    {/* Chevron */}
-                    <ChevronDown 
-                      className={`faq-chevron flex-shrink-0 transition-transform duration-300 text-silver-mid will-change-transform ${
-                        isOpen ? 'rotate-180' : ''
-                      }`}
-                      size={24}
-                    />
-                  </button>
-
-                  {/* Answer - Animated with GSAP */}
-                  <div
-                    className={`overflow-hidden transition-all duration-500 ease-out ${
-                      isOpen ? 'max-h-96 pb-8' : 'max-h-0'
+                  {/* Chevron */}
+                  <ChevronDown 
+                    className={`faq-chevron flex-shrink-0 transition-transform duration-300 text-silver-mid will-change-transform ${
+                      isOpen ? 'rotate-180' : ''
                     }`}
+                    size={24}
+                  />
+                </button>
+
+                {/* Answer - Animated with GSAP */}
+                <div
+                  className={`overflow-hidden transition-all duration-500 ease-out ${
+                    isOpen ? 'max-h-96 pb-8' : 'max-h-0'
+                  }`}
+                >
+                  <p
+                    id={`faq-answer-${index}`}
+                    className="font-sans text-lg text-gray-400 leading-relaxed pl-20"
                   >
-                    <p
-                      id={`faq-answer-${index}`}
-                      className="font-sans text-lg text-gray-400 leading-relaxed pl-20"
-                    >
-                      {faq.answer}
-                    </p>
-                  </div>
+                    {faq.answer}
+                  </p>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

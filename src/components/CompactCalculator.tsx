@@ -21,18 +21,44 @@ const CompactCalculator = () => {
   const total = Math.round(breakdown.total);
 
   return (
-    <div id="calculator-widget" className="bg-neutral-900/90 backdrop-blur-md border border-neutral-800 rounded-xl p-6 w-full max-w-sm shadow-2xl">
-      <div className="flex items-center justify-between mb-6">
+    <div
+      id="calculator-widget"
+      className="bg-gradient-to-br from-neutral-900/90 via-neutral-950 to-black backdrop-blur-md ring-1 ring-white/10 rounded-2xl p-6 w-full max-w-sm shadow-[0_25px_70px_-50px_rgba(255,255,255,0.4)]"
+    >
+      <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-neutral-800 rounded-lg">
+          <div className="p-2 bg-white/5 rounded-lg ring-1 ring-white/10">
             <Calculator className="w-4 h-4 text-silver-mid" />
           </div>
-          <h3 className="text-sm font-medium text-white uppercase tracking-widest">Estimate Cost</h3>
+          <div>
+            <h3 className="text-sm font-medium text-white uppercase tracking-widest">
+              Estimate Cost
+            </h3>
+            <p className="text-[11px] text-gray-500 tracking-[0.2em] uppercase">
+              Live Notary Calculator
+            </p>
+          </div>
         </div>
         <div className="text-right">
-          <span className="block text-xs text-gray-500 uppercase tracking-wider">Total</span>
-          <span className="text-2xl font-serif text-white">${total}</span>
+          <span className="block text-xs text-gray-500 uppercase tracking-wider">
+            Total
+          </span>
+          <div className="flex items-baseline gap-2 justify-end">
+            <span className="text-3xl font-serif text-white">${total}</span>
+            <span className="text-[10px] uppercase text-gray-500 tracking-[0.2em]">
+              usd
+            </span>
+          </div>
         </div>
+      </div>
+
+      <div className="flex flex-wrap gap-2 text-[10px] uppercase tracking-[0.2em] text-neutral-300 mb-4">
+        <span className="rounded-full px-3 py-1 bg-white/5 ring-1 ring-white/10">
+          Transparent fees
+        </span>
+        <span className="rounded-full px-3 py-1 bg-white/5 ring-1 ring-white/10">
+          First {PRICING_CONFIG.FREE_MILEAGE} miles included
+        </span>
       </div>
 
       <div className="space-y-4">
@@ -94,7 +120,7 @@ const CompactCalculator = () => {
         onClick={() => setIsExpanded(!isExpanded)}
         aria-label={isExpanded ? "Hide price breakdown" : "Show price breakdown"}
         aria-expanded={isExpanded}
-        className="w-full mt-6 flex items-center justify-center gap-2 text-xs text-gray-500 hover:text-white transition-colors uppercase tracking-widest"
+        className="w-full mt-6 flex items-center justify-center gap-2 text-xs text-gray-400 hover:text-white transition-colors uppercase tracking-widest"
       >
         {isExpanded ? 'Hide Breakdown' : 'View Breakdown'}
         {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}

@@ -22,7 +22,7 @@ describe("BookingSection", () => {
 
   it("renders header and weekday labels", () => {
     render(<BookingSection />);
-    expect(screen.getByText(/Reserve Your Time/i)).toBeInTheDocument();
+    expect(screen.getByText(/Concierge Booking/i)).toBeInTheDocument();
     expect(screen.getByText("Sun")).toBeInTheDocument();
     expect(screen.getByText("Mon")).toBeInTheDocument();
   });

@@ -28,9 +28,9 @@ jest.mock("gsap/ScrollTrigger", () => ({
 }));
 
 describe("HorizontalServices (Kinetic Version)", () => {
-  it("renders the section label", () => {
+  it("renders the upgraded section label", () => {
     render(<HorizontalServices />);
-    expect(screen.getByText(/Our Expertise/i)).toBeInTheDocument();
+    expect(screen.getByText(/Signature Services/i)).toBeInTheDocument();
   });
 
   it("renders all service titles", () => {
@@ -44,6 +44,11 @@ describe("HorizontalServices (Kinetic Version)", () => {
     render(<HorizontalServices />);
     expect(screen.getByText("01")).toBeInTheDocument();
     expect(screen.getByText("02")).toBeInTheDocument();
+  });
+
+  it("shows the new service assurance chips", () => {
+    render(<HorizontalServices />);
+    expect(screen.getByText(/50-mile coverage/i)).toBeInTheDocument();
   });
 
   it("does not render boxy containers", () => {

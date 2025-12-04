@@ -163,6 +163,12 @@ const TitaniumFooter = () => {
         </div>
       </div>
 
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute left-[-10%] top-10 h-72 w-72 bg-silver-mid/10 blur-[140px]" />
+        <div className="absolute right-[-15%] bottom-0 h-80 w-80 bg-silver-mid/5 blur-[180px]" />
+        <div className="absolute inset-x-0 top-10 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      </div>
+
       <div className="max-w-4xl mx-auto flex flex-col items-center text-center space-y-16 relative z-10">
         {/* Logo */}
         <div
@@ -180,22 +186,22 @@ const TitaniumFooter = () => {
         {/* CTA Button */}
         <a
           href="#booking"
-          className="footer-cta inline-block px-12 py-4 border border-neutral-700 text-white uppercase tracking-[0.2em] text-sm hover:border-silver-mid hover:text-silver-mid transition-all duration-300 will-change-transform"
+          className="footer-cta inline-block px-12 py-4 ring-1 ring-neutral-700 text-white uppercase tracking-[0.2em] text-sm hover:ring-silver-mid hover:text-silver-mid transition-all duration-300 rounded-full bg-white/5 backdrop-blur will-change-transform"
         >
           Secure Your Appointment
         </a>
 
         {/* Coverage Area */}
-        <div className="flex flex-col md:flex-row gap-4 md:gap-12 text-neutral-500 text-xs tracking-[0.3em] uppercase">
-          <span className="coverage-item will-change-transform">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-6 text-neutral-500 text-xs tracking-[0.3em] uppercase">
+          <span className="coverage-item rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10 will-change-transform">
             Pennsylvania
           </span>
-          <span className="hidden md:inline text-neutral-800">•</span>
-          <span className="coverage-item will-change-transform">
+          <span className="coverage-item rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10 will-change-transform">
             New Jersey
           </span>
-          <span className="hidden md:inline text-neutral-800">•</span>
-          <span className="coverage-item will-change-transform">Delaware</span>
+          <span className="coverage-item rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10 will-change-transform">
+            Delaware
+          </span>
         </div>
 
         {/* Socials */}

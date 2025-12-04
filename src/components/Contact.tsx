@@ -216,9 +216,14 @@ const Contact: React.FC = () => {
         </div>
       </div>
 
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute right-[-10%] top-10 h-72 w-72 bg-silver-mid/10 blur-[140px]" />
+        <div className="absolute left-[-15%] bottom-10 h-96 w-96 bg-silver-mid/5 blur-[180px]" />
+      </div>
+
       <div className="grid lg:grid-cols-2 min-h-screen relative z-10">
         {/* Left Side: Form */}
-        <div className="flex flex-col justify-center p-12 md:p-24">
+        <div className="flex flex-col justify-center p-8 md:p-16 lg:p-20 gap-6 rounded-3xl bg-neutral-950/50 backdrop-blur ring-1 ring-white/10 mx-4 md:mx-8 lg:mx-12">
           <span
             ref={labelRef}
             className="text-sm uppercase tracking-[0.3em] text-gray-600 mb-8 will-change-transform"
@@ -239,6 +244,18 @@ const Contact: React.FC = () => {
               Touch
             </span>
           </h2>
+
+          <div className="flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.2em] text-neutral-200">
+            <span className="rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10">
+              Response &lt; 12 hours
+            </span>
+            <span className="rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10">
+              Mobile arrival prepped
+            </span>
+            <span className="rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10">
+              Witness provisioning
+            </span>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-6" role="form">
             <div className="contact-field will-change-transform">
@@ -292,13 +309,13 @@ const Contact: React.FC = () => {
         </div>
 
         {/* Right Side: Concierge Info */}
-        <div className="flex flex-col justify-center p-12 md:p-24 bg-neutral-950 border-l border-neutral-900">
-          <h3 className="text-sm uppercase tracking-[0.3em] text-gray-600 mb-12">
+        <div className="flex flex-col justify-center p-8 md:p-16 lg:p-20 bg-neutral-950/70 border-l border-neutral-900/60 backdrop-blur">
+          <h3 className="text-sm uppercase tracking-[0.3em] text-gray-600 mb-10">
             Concierge Scheduling
           </h3>
 
-          <div className="space-y-12">
-            <div className="contact-card will-change-transform">
+          <div className="grid gap-8">
+            <div className="contact-card ring-1 ring-white/10 rounded-2xl p-6 bg-white/5 will-change-transform">
               <p className="text-xs uppercase tracking-widest text-gray-600 mb-3">
                 Phone
               </p>
@@ -311,7 +328,7 @@ const Contact: React.FC = () => {
               <p className="text-sm text-gray-500 mt-2">Daily 7am – 9pm</p>
             </div>
 
-            <div className="contact-card will-change-transform">
+            <div className="contact-card ring-1 ring-white/10 rounded-2xl p-6 bg-white/5 will-change-transform">
               <p className="text-xs uppercase tracking-widest text-gray-600 mb-3">
                 Email
               </p>
@@ -326,7 +343,7 @@ const Contact: React.FC = () => {
               </p>
             </div>
 
-            <div className="contact-card will-change-transform">
+            <div className="contact-card ring-1 ring-white/10 rounded-2xl p-6 bg-white/5 will-change-transform">
               <p className="text-xs uppercase tracking-widest text-gray-600 mb-3">
                 Service Area
               </p>
@@ -336,10 +353,10 @@ const Contact: React.FC = () => {
             </div>
           </div>
 
-          <div className="contact-card mt-16 pt-16 border-t border-neutral-900 will-change-transform">
+          <div className="contact-card mt-12 pt-10 border-t border-neutral-900/60 will-change-transform">
             <p className="text-gray-400 leading-relaxed">
-              All appointments include document prep guidance and ID
-              verification checklist.
+              All appointments include document prep guidance, ID verification,
+              and sequence checks for multi-signer packages.
             </p>
             <p className="text-sm text-gray-600 mt-4">
               Prefer video consultations? Request a secure virtual session in

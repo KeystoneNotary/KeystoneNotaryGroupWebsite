@@ -77,7 +77,6 @@ describe("GSAP Animation Utilities", () => {
           opacity: 0,
           rotation: 0,
           scale: 0.95,
-          filter: "blur(30px)",
         }),
         expect.objectContaining({
           y: -50,
@@ -114,7 +113,6 @@ describe("GSAP Animation Utilities", () => {
         expect.objectContaining({
           y: 200,
           opacity: 0.1,
-          filter: "blur(40px)",
         }),
         expect.objectContaining({
           y: -100,

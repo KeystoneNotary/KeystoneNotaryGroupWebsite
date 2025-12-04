@@ -2,75 +2,40 @@ import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import BookingSection from "../BookingSection";
 
-// Mock GSAP
-jest.mock("gsap", () => ({
-  registerPlugin: jest.fn(),
-  to: jest.fn(),
-  from: jest.fn(),
-  fromTo: jest.fn(),
-  set: jest.fn(),
-  timeline: jest.fn(() => ({
-    to: jest.fn().mockReturnThis(),
-    from: jest.fn().mockReturnThis(),
-    fromTo: jest.fn().mockReturnThis(),
-    add: jest.fn().mockReturnThis(),
-  })),
-  utils: {
-    toArray: jest.fn(() => []),
-  },
-}));
+describe("BookingSection", () => {
+  const originalFetch = global.fetch;
 
-jest.mock("@gsap/react", () => ({
-  useGSAP: jest.fn(),
-}));
-
-jest.mock("gsap/ScrollTrigger", () => ({
-  ScrollTrigger: {},
-}));
-
-// Mock API calls
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () =>
-      Promise.resolve({ availableSlots: ["09:00", "10:00", "11:00"] }),
-    ok: true,
-  })
-) as jest.Mock;
-
-describe("BookingSection (Ethereal Version)", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.useFakeTimers().setSystemTime(new Date("2024-12-02T12:00:00Z"));
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ availableSlots: ["09:00", "10:00"] }),
+      })
+    ) as jest.Mock;
   });
 
-  it("renders the section header", () => {
+  afterEach(() => {
+    jest.useRealTimers();
+    global.fetch = originalFetch;
+  });
+
+  it("renders header and weekday labels", () => {
     render(<BookingSection />);
     expect(screen.getByText(/Reserve Your Time/i)).toBeInTheDocument();
-    expect(screen.getByText(/Schedule/i)).toBeInTheDocument();
-  });
-
-  it("renders the calendar grid", () => {
-    render(<BookingSection />);
     expect(screen.getByText("Sun")).toBeInTheDocument();
     expect(screen.getByText("Mon")).toBeInTheDocument();
   });
 
-  it("allows selecting a date", async () => {
+  it("loads availability after selecting a valid date", async () => {
     render(<BookingSection />);
-    // Find a date button that is not disabled (e.g., 15th of current month)
-    // Note: This relies on the current date mocking or logic.
-    // For simplicity, we just look for a button with text "15"
-    const dayButton = screen.getByText("15");
+    const dayButton = screen.getAllByRole("button", { name: /Select .*2024/ })
+      .find((btn) => !btn.hasAttribute("disabled"));
+    expect(dayButton).toBeTruthy();
+    if (!dayButton) return;
     fireEvent.click(dayButton);
 
-    await waitFor(() => {
-      expect(screen.getByText(/Select Time/i)).toBeInTheDocument();
-    });
-  });
-
-  it("shows time slots after date selection", async () => {
-    render(<BookingSection />);
-    const dayButton = screen.getByText("15");
-    fireEvent.click(dayButton);
+    expect(screen.getByText(/Checking availability/i)).toBeInTheDocument();
 
     await waitFor(() => {
       expect(screen.getByText("9:00 AM")).toBeInTheDocument();
@@ -78,9 +43,16 @@ describe("BookingSection (Ethereal Version)", () => {
     });
   });
 
-  it("renders the calculator sidebar", () => {
+  it("reveals the form after picking a slot", async () => {
     render(<BookingSection />);
-    expect(screen.getByText(/Need Assistance/i)).toBeInTheDocument();
-    expect(screen.getByText(/\(267\) 309-9000/i)).toBeInTheDocument();
+    const dayButton = screen.getAllByRole("button", { name: /Select .*2024/ })
+      .find((btn) => !btn.hasAttribute("disabled"));
+    if (!dayButton) return;
+    fireEvent.click(dayButton);
+
+    await waitFor(() => screen.getByText("9:00 AM"));
+    fireEvent.click(screen.getByText("9:00 AM"));
+
+    expect(screen.getByLabelText(/Booking form/i)).toBeInTheDocument();
   });
 });

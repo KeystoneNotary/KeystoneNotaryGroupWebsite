@@ -82,7 +82,8 @@ const HorizontalServices = () => {
           y: 100,
           opacity: 0,
           scale: 0.95,
-          filter: "blur(10px)",
+          x: -20,
+          filter: "blur(6px)",
         });
         gsap.set(number, {
           x: -100,
@@ -90,7 +91,11 @@ const HorizontalServices = () => {
           rotation: -10,
           filter: "blur(5px)",
         });
-        gsap.set(desc, { y: 20, opacity: 0 });
+        gsap.set(desc, {
+          y: 20,
+          opacity: 0,
+          filter: "blur(8px)",
+        });
 
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -119,6 +124,7 @@ const HorizontalServices = () => {
               y: 0,
               opacity: 1,
               scale: 1,
+              x: 0,
               filter: "blur(0px)",
               duration: 1,
               ease: "power2.out",

@@ -193,16 +193,16 @@ const BookingSection = () => {
   return (
     <section
       id="booking"
-      className="relative min-h-[80vh] bg-black text-platinum py-16 md:py-20 px-4 md:px-10 overflow-hidden"
+      className="relative min-h-[80vh] bg-black text-platinum py-20 md:py-28 px-4 md:px-10 overflow-hidden"
     >
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-black opacity-80" />
-        <div className="absolute left-[-10%] top-8 h-64 w-64 bg-silver-mid/10 blur-[100px]" />
-        <div className="absolute right-[-5%] bottom-8 h-64 w-64 bg-silver-mid/8 blur-[110px]" />
+        <div className="absolute left-[-10%] top-8 h-56 w-56 bg-silver-mid/10 blur-[100px]" />
+        <div className="absolute right-[-5%] bottom-8 h-56 w-56 bg-silver-mid/8 blur-[100px]" />
       </div>
 
-      <div className="max-w-6xl mx-auto relative z-10 space-y-12">
-        <div className="space-y-6 text-center">
+      <div className="max-w-6xl mx-auto relative z-10 space-y-14">
+        <div className="space-y-5 text-center">
           <span className="block text-silver-mid text-xs tracking-[0.35em] uppercase">
             Concierge Booking
           </span>
@@ -217,14 +217,14 @@ const BookingSection = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-[1.3fr_0.9fr] gap-12 items-start">
+        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-14 items-start">
           {/* Calendar + Slots */}
-          <div className="space-y-10 rounded-3xl bg-neutral-950/50 ring-1 ring-white/10 p-6 md:p-10 backdrop-blur">
+          <div className="space-y-10 rounded-3xl bg-neutral-950/60 ring-1 ring-white/10 p-8 md:p-12 backdrop-blur">
             {/* Month Navigation */}
             <div className="flex items-center justify-between">
               <button
                 onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-                className="text-gray-500 hover:text-white transition-colors text-sm uppercase tracking-widest"
+                className="text-gray-500 hover:text-white transition-colors text-sm uppercase tracking-[0.2em]"
                 aria-label="Previous month"
               >
                 ← Prev
@@ -234,7 +234,7 @@ const BookingSection = () => {
               </h3>
               <button
                 onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-                className="text-gray-500 hover:text-white transition-colors text-sm uppercase tracking-widest"
+                className="text-gray-500 hover:text-white transition-colors text-sm uppercase tracking-[0.2em]"
                 aria-label="Next month"
               >
                 Next →

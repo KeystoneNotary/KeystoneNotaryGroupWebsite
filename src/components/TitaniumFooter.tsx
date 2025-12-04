@@ -164,8 +164,8 @@ const TitaniumFooter = () => {
       </div>
 
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute left-[-10%] top-10 h-52 w-52 bg-silver-mid/10 blur-[100px]" />
-        <div className="absolute right-[-15%] bottom-0 h-64 w-64 bg-silver-mid/6 blur-[120px]" />
+        <div className="absolute left-[-12%] top-10 h-48 w-48 bg-silver-mid/10 blur-[90px]" />
+        <div className="absolute right-[-12%] bottom-0 h-56 w-56 bg-silver-mid/6 blur-[110px]" />
       </div>
 
       <div className="max-w-4xl mx-auto flex flex-col items-center text-center space-y-16 relative z-10">

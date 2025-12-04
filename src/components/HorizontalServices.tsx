@@ -199,22 +199,22 @@ const HorizontalServices = () => {
   return (
     <section
       ref={containerRef}
-      className="relative bg-black py-32 overflow-hidden"
+      className="relative bg-black py-36 md:py-44 overflow-hidden"
     >
       {/* Atmosphere dialed to match About */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-black opacity-80" />
-        <div className="absolute -left-16 top-16 h-48 w-48 bg-silver-mid/10 blur-[96px]" />
-        <div className="absolute right-0 bottom-0 h-64 w-64 bg-silver-mid/5 blur-[110px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-black opacity-75" />
+        <div className="absolute -left-20 top-10 h-56 w-56 bg-silver-mid/10 blur-[110px]" />
+        <div className="absolute right-[-10%] bottom-10 h-56 w-56 bg-silver-mid/8 blur-[110px]" />
       </div>
 
-      <div className="relative max-w-6xl mx-auto space-y-20 px-6 md:px-12">
+      <div className="relative max-w-5xl mx-auto space-y-16 px-6 md:px-12">
         {/* Section Header */}
-        <div className="space-y-6 text-center">
+        <div className="space-y-5 text-center">
           <span className="services-kicker text-xs uppercase tracking-[0.35em] text-silver-mid">
             Signature Services
           </span>
-          <h2 className="services-headline font-serif text-5xl md:text-7xl text-white leading-tight">
+          <h2 className="services-headline font-serif text-4xl md:text-6xl text-white leading-tight">
             Precision in motion.
           </h2>
           <p className="services-subhead text-neutral-400 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
@@ -224,17 +224,17 @@ const HorizontalServices = () => {
 
         <div
           ref={trackRef}
-          className="flex flex-col gap-24 md:gap-28"
+          className="flex flex-col gap-16 md:gap-20"
         >
           {services.map((service) => (
             <div key={service.id} className="service-section relative group">
               {/* Massive Background Number */}
-              <div className="service-number absolute -top-16 -left-4 md:-left-16 text-[18vw] font-serif text-white leading-none select-none pointer-events-none opacity-0 z-0 will-change-transform">
+              <div className="service-number absolute -top-12 -left-6 md:-left-12 text-[14vw] md:text-[12vw] font-serif text-white leading-none select-none pointer-events-none opacity-0 z-0 will-change-transform">
                 {service.number}
               </div>
 
-              <div className="relative z-10 pl-10 md:pl-24 border-l border-neutral-900/60 group-hover:border-neutral-700 transition-colors duration-500">
-                <h3 className="service-title font-serif text-4xl md:text-6xl text-white mb-3 leading-[0.95] tracking-tight mix-blend-difference will-change-transform">
+              <div className="relative z-10 pl-10 md:pl-24 border-l border-neutral-900/50 group-hover:border-neutral-700 transition-colors duration-500">
+                <h3 className="service-title font-serif text-3xl md:text-5xl text-white mb-2 leading-[1.05] tracking-tight will-change-transform">
                   {service.title}
                 </h3>
                 <p className="service-desc font-sans text-lg md:text-xl text-neutral-400 max-w-2xl leading-relaxed will-change-transform">

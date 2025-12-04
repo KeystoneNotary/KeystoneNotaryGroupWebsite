@@ -197,8 +197,8 @@ const BookingSection = () => {
     >
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-black opacity-80" />
-        <div className="absolute left-[-10%] top-8 h-56 w-56 bg-silver-mid/10 blur-[100px]" />
-        <div className="absolute right-[-5%] bottom-8 h-56 w-56 bg-silver-mid/8 blur-[100px]" />
+        <div className="absolute left-[-12%] top-8 h-52 w-52 bg-silver-mid/10 blur-[90px]" />
+        <div className="absolute right-[-12%] bottom-8 h-52 w-52 bg-silver-mid/8 blur-[90px]" />
       </div>
 
       <div className="max-w-6xl mx-auto relative z-10 space-y-14">
@@ -206,7 +206,7 @@ const BookingSection = () => {
           <span className="block text-silver-mid text-xs tracking-[0.35em] uppercase">
             Concierge Booking
           </span>
-          <h2 className="font-serif text-4xl md:text-6xl text-white leading-tight">
+          <h2 className="font-serif text-4xl md:text-5xl text-white leading-tight">
             <span className="inline-block">Schedule</span>{" "}
             <span className="inline-block text-silver-metallic italic">
               Appointment
@@ -217,7 +217,7 @@ const BookingSection = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-14 items-start">
+        <div className="grid lg:grid-cols-[1fr_0.8fr] gap-14 items-start">
           {/* Calendar + Slots */}
           <div className="space-y-10 rounded-3xl bg-neutral-950/60 ring-1 ring-white/10 p-8 md:p-12 backdrop-blur">
             {/* Month Navigation */}

@@ -196,7 +196,7 @@ const BookingSection = () => {
       className="relative min-h-[80vh] bg-black text-platinum py-24 md:py-32 px-4 md:px-10 overflow-hidden"
     >
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-black opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-neutral-950 to-neutral-900 opacity-80" />
       </div>
 
       <div className="max-w-5xl mx-auto relative z-10 space-y-16">

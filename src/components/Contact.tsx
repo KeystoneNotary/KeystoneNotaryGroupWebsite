@@ -178,7 +178,9 @@ const Contact: React.FC = () => {
       id="contact"
       className="relative min-h-screen bg-black text-platinum overflow-hidden"
     >
-      <div className="absolute inset-0 pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-neutral-950 to-neutral-900 opacity-75" />
+      </div>
 
       <div className="grid lg:grid-cols-2 min-h-screen relative z-10">
         {/* Left Side: Form */}

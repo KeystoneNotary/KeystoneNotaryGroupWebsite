@@ -29,8 +29,15 @@ describe("createResendClient", () => {
     );
   });
 
-  it("rejects known placeholder Resend keys", () => {
-    process.env.RESEND_API_KEY = "re_123456789";
+  it.each([
+    "re_123456789",
+    "re_123",
+    "re-test-key-abc",
+    "your_resend_api_key",
+    "placeholder_key",
+    "test_key_123",
+  ])("rejects known placeholder Resend key: %s", (placeholderKey) => {
+    process.env.RESEND_API_KEY = placeholderKey;
 
     expect(() => createResendClient()).toThrow(/placeholder/i);
   });

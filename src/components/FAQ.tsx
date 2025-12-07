@@ -238,7 +238,7 @@ const FAQ = () => {
   return (
     <section ref={containerRef} id="faq" className="relative min-h-screen bg-black py-24 px-6 md:px-12 flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-neutral-950 to-neutral-900 opacity-70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-800 opacity-85" />
       </div>
 
       <div className="max-w-5xl w-full relative z-10 space-y-12">

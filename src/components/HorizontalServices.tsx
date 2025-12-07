@@ -102,17 +102,6 @@ const HorizontalServices = () => {
             filter: "blur(12px)",
           },
           "-=0.05"
-        )
-        .from(
-          ".services-tags .tag",
-          {
-            y: 24,
-            opacity: 0,
-            scale: 0.95,
-            filter: "blur(8px)",
-            stagger: 0.08,
-          },
-          "-=0.1"
         );
 
       // Kinetic Typography Animation

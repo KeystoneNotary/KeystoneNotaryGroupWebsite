@@ -195,9 +195,13 @@ const BookingSection = () => {
       id="booking"
       className="relative min-h-[80vh] bg-black text-platinum py-24 md:py-32 px-4 md:px-10 overflow-hidden"
     >
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neutral-900/80 to-neutral-900 opacity-100" />
-      </div>
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.05) 100%)",
+        }}
+      />
 
       <div className="max-w-5xl mx-auto relative z-10 space-y-16">
         <div className="space-y-4 text-center">

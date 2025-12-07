@@ -176,22 +176,26 @@ const Contact: React.FC = () => {
     <section
       ref={containerRef}
       id="contact"
-      className="relative min-h-screen bg-black text-platinum overflow-hidden"
+      className="relative min-h-[80vh] bg-black text-platinum overflow-hidden"
     >
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-850 opacity-90" />
-      </div>
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.05) 100%)",
+        }}
+      />
 
-      <div className="grid lg:grid-cols-2 min-h-screen relative z-10">
+      <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 max-w-5xl mx-auto px-6 md:px-10 py-12 relative z-10">
         {/* Left Side: Form */}
-        <div className="flex flex-col justify-center p-10 md:p-16 gap-6 rounded-3xl bg-neutral-900/90 backdrop-blur ring-1 ring-white/20 mx-4 md:mx-8 lg:mx-12">
+        <div className="flex flex-col justify-center p-8 md:p-10 gap-6 rounded-3xl bg-neutral-900/85 backdrop-blur ring-1 ring-white/15">
           <span
             ref={labelRef}
             className="text-sm uppercase tracking-[0.3em] text-gray-400 mb-8 will-change-transform"
           >
             Contact
           </span>
-          <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
+          <h2 className="font-serif text-3xl md:text-4xl text-white mb-6">
             <span
               ref={titleMainRef}
               className="inline-block will-change-transform"
@@ -258,7 +262,7 @@ const Contact: React.FC = () => {
         </div>
 
         {/* Right Side: Concierge Info */}
-        <div className="flex flex-col justify-center p-10 md:p-16 bg-neutral-900/90 border-l border-neutral-800/70 backdrop-blur">
+        <div className="flex flex-col justify-center p-8 md:p-10 bg-neutral-900/85 border-l border-neutral-800/70 backdrop-blur rounded-3xl lg:rounded-none">
           <h3 className="text-sm uppercase tracking-[0.3em] text-gray-400 mb-10">
             Concierge Scheduling
           </h3>

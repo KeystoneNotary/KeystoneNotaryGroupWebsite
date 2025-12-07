@@ -135,7 +135,13 @@ const TheFirm = () => {
       className="relative min-h-[100dvh] bg-obsidian overflow-hidden flex items-center justify-center py-24 md:py-0"
     >
       {/* Background Texture/Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-obsidian to-black opacity-80 z-0" />
+      <div
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.05) 100%)",
+        }}
+      />
 
       {/* Parallax Typography Layer 1 (Background) */}
       <h2

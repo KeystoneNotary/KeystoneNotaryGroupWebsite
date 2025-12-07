@@ -123,9 +123,13 @@ const TitaniumFooter = () => {
       ref={footerRef}
       className="relative bg-black text-platinum py-24 px-6 md:px-24 border-t border-neutral-900 overflow-hidden"
     >
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-900 to-neutral-850 opacity-90" />
-      </div>
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(0deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.05) 100%)",
+        }}
+      />
 
       <div className="max-w-4xl mx-auto flex flex-col items-center text-center space-y-16 relative z-10">
         {/* Logo */}

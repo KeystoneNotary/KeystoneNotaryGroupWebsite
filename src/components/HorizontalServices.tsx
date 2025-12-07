@@ -191,9 +191,13 @@ const HorizontalServices = () => {
       className="relative bg-black py-44 md:py-52 overflow-hidden"
     >
       {/* Atmosphere dialed to match About */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-black opacity-80" />
-      </div>
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.05) 100%)",
+        }}
+      />
 
       <div className="relative max-w-5xl mx-auto space-y-20 px-6 md:px-12">
         {/* Section Header */}

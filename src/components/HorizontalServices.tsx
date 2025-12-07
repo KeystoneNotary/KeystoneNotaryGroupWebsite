@@ -27,32 +27,32 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 const services = [
   {
     id: "estate",
-    title: "ESTATE & REAL ESTATE",
-    description: "Seamless execution for title companies and attorneys.",
+    title: "Estate & Real Estate",
+    description: "Where seven-figure transactions close without friction.",
     number: "01",
   },
   {
     id: "mobile",
-    title: "EXECUTIVE MOBILE",
-    description: "Discretion and punctuality at your office or residence.",
+    title: "Executive Mobile",
+    description: "Silent precision. Your location. Your timeline.",
     number: "02",
   },
   {
     id: "apostille",
-    title: "APOSTILLE & AUTHENTICATION",
-    description: "Navigating international complexities for you.",
+    title: "Apostille & Authentication",
+    description: "Cutting through international red tape others avoid.",
     number: "03",
   },
   {
     id: "legal",
-    title: "SPECIALIZED LEGAL",
-    description: "Wills, Trusts, and Power of Attorney.",
+    title: "Specialized Legal",
+    description: "Safeguarding legacy documents that outlive generations.",
     number: "04",
   },
   {
     id: "corporate",
-    title: "CORPORATE DOCUMENTS",
-    description: "Operating agreements and compliance affidavits.",
+    title: "Corporate Documents",
+    description: "The paperwork that protects what you've built.",
     number: "05",
   },
 ];
@@ -202,11 +202,11 @@ const HorizontalServices = () => {
       <div className="relative max-w-5xl mx-auto space-y-20 px-6 md:px-12">
         {/* Section Header */}
         <div className="space-y-4 text-center">
-          <span className="services-kicker text-xs uppercase tracking-[0.35em] text-silver-mid">
+          <span className="services-kicker text-xs uppercase tracking-[0.4em] text-silver-mid">
             Signature Services
           </span>
-          <h2 className="services-headline font-serif text-5xl md:text-6xl text-white leading-tight">
-            Precision in motion.
+          <h2 className="services-headline font-serif text-5xl md:text-6xl font-light text-white leading-tight">
+            Precision <span className="text-silver-metallic italic">in motion.</span>
           </h2>
           <p className="services-subhead text-neutral-400 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
             The same discipline as our philosophy piece—applied to estate, executive mobility, apostille, and corporate work.
@@ -225,7 +225,7 @@ const HorizontalServices = () => {
               </div>
 
               <div className="relative z-10 pl-6 md:pl-10">
-                <h3 className="service-title font-serif text-3xl md:text-5xl text-white mb-3 leading-[1.1] tracking-tight will-change-transform">
+                <h3 className="service-title font-serif text-3xl md:text-5xl font-light text-silver-metallic mb-3 leading-[1.1] tracking-tight will-change-transform">
                   {service.title}
                 </h3>
                 <p className="service-desc font-sans text-lg md:text-xl text-neutral-400 max-w-2xl leading-relaxed will-change-transform">

@@ -193,7 +193,7 @@ const BookingSection = () => {
   return (
     <section
       id="booking"
-      className="relative min-h-[80vh] bg-black text-platinum py-24 md:py-32 px-4 md:px-10 overflow-hidden"
+      className="relative min-h-[100dvh] bg-black text-platinum py-24 md:py-32 px-6 overflow-hidden"
     >
       <div
         className="absolute inset-0 pointer-events-none"
@@ -208,20 +208,20 @@ const BookingSection = () => {
           <span className="block text-silver-mid text-xs tracking-[0.35em] uppercase">
             Concierge Booking
           </span>
-          <h2 className="font-serif text-4xl md:text-5xl text-white leading-tight">
+          <h2 className="font-serif text-5xl md:text-6xl font-light text-white leading-tight">
             <span className="inline-block">Schedule</span>{" "}
             <span className="inline-block text-silver-metallic italic">
               Appointment
             </span>
           </h2>
           <p className="text-neutral-400 text-lg leading-relaxed max-w-3xl mx-auto">
-            Reserve mobile notarization, apostille handling, or executive witnessing with the same polish as our philosophy section.
+            Secure your appointment. Mobile notarization, apostille services, and executive witnessing—executed flawlessly.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-[1fr_0.9fr] gap-16 items-start">
           {/* Calendar + Slots */}
-          <div className="space-y-10 rounded-3xl bg-neutral-950/60 ring-1 ring-white/10 p-10 md:p-12 backdrop-blur">
+          <div className="space-y-10 rounded-2xl bg-neutral-950/60 ring-1 ring-white/10 p-10 md:p-12 backdrop-blur">
             {/* Month Navigation */}
             <div className="flex items-center justify-between">
               <button
@@ -277,7 +277,7 @@ const BookingSection = () => {
                   );
                 })}
               </div>
-              <p className="text-xs text-gray-600 mt-3 px-2">
+              <p className="text-xs text-gray-500 mt-3 px-2">
                 Sundays reserved for emergency appointments only.
               </p>
             </div>
@@ -286,7 +286,7 @@ const BookingSection = () => {
             {selectedDate && (
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <h4 className="text-xs uppercase tracking-widest text-gray-600">
+                  <h4 className="text-xs uppercase tracking-widest text-gray-500">
                     Select Time
                   </h4>
                   {availabilityState === "loading" && (
@@ -328,7 +328,7 @@ const BookingSection = () => {
                 </div>
                 <button
                   onClick={resetBooking}
-                  className="text-sm text-gray-600 hover:text-white uppercase tracking-widest"
+                  className="text-sm text-gray-500 hover:text-white uppercase tracking-widest"
                 >
                   Start over
                 </button>
@@ -350,35 +350,35 @@ const BookingSection = () => {
                       type="text"
                       placeholder="Full Name *"
                       required
-                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-700 focus:border-silver-mid focus:outline-none"
+                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none"
                     />
                     <input
                       name="customerPhone"
                       type="tel"
                       placeholder="Phone Number *"
                       required
-                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-700 focus:border-silver-mid focus:outline-none"
+                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none"
                     />
                     <input
                       name="customerEmail"
                       type="email"
                       placeholder="Email Address *"
                       required
-                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-700 focus:border-silver-mid focus:outline-none"
+                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none"
                     />
                     <input
                       name="address"
                       type="text"
                       placeholder="Appointment Address *"
                       required
-                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-700 focus:border-silver-mid focus:outline-none"
+                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none"
                     />
                   </div>
                   <textarea
                     name="notes"
                     placeholder="Additional details (optional)"
                     rows={3}
-                    className="w-full bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-700 focus:border-silver-mid focus:outline-none resize-none"
+                    className="w-full bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none resize-none"
                   />
                   <label className="flex items-start gap-3 text-sm text-gray-500">
                     <input type="checkbox" required className="mt-1" />
@@ -389,7 +389,7 @@ const BookingSection = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full px-12 py-4 ring-1 ring-neutral-700 text-white uppercase tracking-[0.2em] text-sm hover:ring-silver-mid hover:text-silver-mid transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-12 py-4 bg-white/10 border border-white/20 backdrop-blur-md text-white uppercase tracking-widest text-sm font-medium rounded-full hover:bg-white/20 hover:scale-[1.02] transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? "Processing..." : "Confirm Appointment"}
                   </button>
@@ -422,10 +422,10 @@ const BookingSection = () => {
 
             <div className="p-6 rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur">
               <h4 className="text-xs uppercase tracking-widest text-gray-500 mb-3">
-                Need Assistance?
+                Complex Arrangement?
               </h4>
-              <p className="text-sm text-gray-300 mb-4">
-                Concierge team available for complex packages, hospital signings, and multi-signer coordination.
+              <p className="text-sm text-gray-400 mb-4">
+                Our concierge handles hospital signings, multi-party closings, and arrangements others decline.
               </p>
               <a
                 href="tel:+12673099000"

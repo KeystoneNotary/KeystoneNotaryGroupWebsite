@@ -238,8 +238,8 @@ const FAQ = () => {
   return (
     <section ref={containerRef} id="faq" className="relative min-h-screen bg-black py-24 px-6 md:px-12 flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute left-[-10%] bottom-10 h-64 w-64 bg-silver-mid/10 blur-[120px]" />
-        <div className="absolute right-[-10%] top-10 h-72 w-72 bg-silver-mid/6 blur-[140px]" />
+        <div className="absolute left-[-8%] bottom-12 h-48 w-48 bg-silver-mid/8 blur-[70px]" />
+        <div className="absolute right-[-8%] top-12 h-56 w-56 bg-silver-mid/5 blur-[90px]" />
       </div>
 
       <div className="max-w-5xl w-full relative z-10 space-y-12">

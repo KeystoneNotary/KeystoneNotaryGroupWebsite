@@ -21,7 +21,6 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  * Score: 9/10 - Excellence Standard
  *
  * Features:
- * - Parallax background "?" typography with scrub
  * - Exploded assembly section header
  * - Enhanced FAQ item reveals with blur + rotation
  * - GSAP-driven answer content animations
@@ -101,7 +100,6 @@ const FAQ = () => {
   const prefersReducedMotion = usePrefersReducedMotion();
   const shouldInit = useDeferredInit();
   const containerRef = useRef<HTMLElement>(null);
-  const backgroundQRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
   const titleMainRef = useRef<HTMLSpanElement>(null);
   const titleAccentRef = useRef<HTMLSpanElement>(null);
@@ -148,37 +146,7 @@ const FAQ = () => {
     () => {
       if (prefersReducedMotion || !shouldInit || !containerRef.current) return;
 
-      // 1. PARALLAX BACKGROUND "?" TYPOGRAPHY WITH SCRUB
-      if (backgroundQRef.current) {
-        gsap.fromTo(
-          backgroundQRef.current,
-          {
-            x: 200,
-            y: -100,
-            opacity: 0,
-            rotation: 15,
-            scale: 0.95,
-            filter: 'blur(12px)',
-          },
-          {
-            x: 0,
-            y: 50,
-            opacity: 0.04,
-            rotation: 0,
-            scale: 1,
-            filter: 'blur(0px)',
-            force3D: true,
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: 1,
-            },
-          }
-        );
-      }
-
-      // 2. SECTION HEADER EXPLODED ASSEMBLY
+      // 1. SECTION HEADER EXPLODED ASSEMBLY
       if (labelRef.current && titleMainRef.current && titleAccentRef.current) {
         const headerTl = createScrollTimeline(containerRef.current, {
           trigger: containerRef.current,
@@ -197,7 +165,7 @@ const FAQ = () => {
         );
       }
 
-      // 3. ENHANCED FAQ ITEMS WITH BLUR + ROTATION
+      // 2. ENHANCED FAQ ITEMS WITH BLUR + ROTATION
       const faqItems = containerRef.current.querySelectorAll('.faq-item');
       if (faqItems.length > 0) {
         const faqTl = createScrollTimeline(faqItems[0], {
@@ -269,16 +237,6 @@ const FAQ = () => {
 
   return (
     <section ref={containerRef} id="faq" className="relative min-h-screen bg-black py-24 px-6 md:px-12 flex items-center justify-center overflow-hidden">
-      {/* Background Depth Layer - Giant Question Mark */}
-      <div className="absolute right-0 top-1/4 pointer-events-none z-0 overflow-hidden">
-        <div 
-          ref={backgroundQRef}
-          className="font-serif text-[40vw] text-white opacity-5 leading-none select-none will-change-transform"
-        >
-          ?
-        </div>
-      </div>
-
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute left-[-10%] bottom-10 h-64 w-64 bg-silver-mid/10 blur-[120px]" />
         <div className="absolute right-[-10%] top-10 h-72 w-72 bg-silver-mid/6 blur-[140px]" />

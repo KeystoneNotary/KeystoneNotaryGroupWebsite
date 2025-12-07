@@ -21,7 +21,6 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  * Score: 9/10 - Excellence Standard
  *
  * Features:
- * - Parallax background "CONNECT" typography with scrub
  * - Exploded assembly section header
  * - Enhanced form fields with blur + rotation
  * - Contact cards with scale effects
@@ -47,7 +46,6 @@ const Contact: React.FC = () => {
   const prefersReducedMotion = usePrefersReducedMotion();
   const shouldInit = useDeferredInit();
   const containerRef = useRef<HTMLElement>(null);
-  const backgroundTextRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
   const titleMainRef = useRef<HTMLSpanElement>(null);
   const titleAccentRef = useRef<HTMLSpanElement>(null);
@@ -89,33 +87,7 @@ const Contact: React.FC = () => {
     () => {
       if (prefersReducedMotion || !shouldInit || !containerRef.current) return;
 
-      // 1. PARALLAX BACKGROUND "CONNECT" TYPOGRAPHY WITH SCRUB
-      if (backgroundTextRef.current) {
-        gsap.fromTo(
-          backgroundTextRef.current,
-          {
-            y: -100,
-            opacity: 0,
-            rotation: -5,
-            scale: 0.95,
-          },
-          {
-            y: 50,
-            opacity: 0.03,
-            rotation: 0,
-            scale: 1,
-            force3D: true,
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 1,
-            },
-          }
-        );
-      }
-
-      // 2. SECTION HEADER EXPLODED ASSEMBLY
+      // 1. SECTION HEADER EXPLODED ASSEMBLY
       if (labelRef.current && titleMainRef.current && titleAccentRef.current) {
         const headerTl = createScrollTimeline(containerRef.current, {
           trigger: containerRef.current,
@@ -134,7 +106,7 @@ const Contact: React.FC = () => {
         );
       }
 
-      // 3. ENHANCED FORM FIELDS WITH BLUR + ROTATION
+      // 2. ENHANCED FORM FIELDS WITH BLUR + ROTATION
       const formFields =
         containerRef.current.querySelectorAll(".contact-field");
       if (formFields.length > 0) {
@@ -163,7 +135,7 @@ const Contact: React.FC = () => {
         });
       }
 
-      // 4. CONTACT CARDS WITH SCALE EFFECTS
+      // 3. CONTACT CARDS WITH SCALE EFFECTS
       const infoCards = containerRef.current.querySelectorAll(".contact-card");
       if (infoCards.length > 0) {
         const cardTl = createScrollTimeline(infoCards[0], {
@@ -189,7 +161,7 @@ const Contact: React.FC = () => {
         });
       }
 
-      // 5. SUBMIT BUTTON BOUNCE-IN
+      // 4. SUBMIT BUTTON BOUNCE-IN
       const submitBtn = containerRef.current.querySelector(".submit-button");
       if (submitBtn) {
         bounceIn(submitBtn, {
@@ -206,16 +178,6 @@ const Contact: React.FC = () => {
       id="contact"
       className="relative min-h-screen bg-black text-platinum overflow-hidden"
     >
-      {/* Background Depth Layer - "CONNECT" */}
-      <div className="absolute left-0 top-1/3 pointer-events-none z-0 overflow-hidden">
-        <div
-          ref={backgroundTextRef}
-          className="font-serif text-[20vw] text-white opacity-5 leading-none select-none whitespace-nowrap will-change-transform"
-        >
-          CONNECT
-        </div>
-      </div>
-
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute right-[-10%] top-10 h-64 w-64 bg-silver-mid/10 blur-[110px]" />
         <div className="absolute left-[-10%] bottom-10 h-72 w-72 bg-silver-mid/6 blur-[140px]" />

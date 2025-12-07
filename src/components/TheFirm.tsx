@@ -150,7 +150,7 @@ const TheFirm = () => {
         ref={textLayer2Ref}
         className="absolute bottom-1/4 right-0 w-full text-right text-[18vw] md:text-[15vw] font-serif text-neutral-800 leading-none opacity-30 select-none z-0 pointer-events-none whitespace-nowrap"
       >
-        CURRENCY
+        NOTARIZED
       </h2>
 
       {/* Main Content (Floating) */}

@@ -18,7 +18,6 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  * Score: 9/10 - Excellence Standard
  *
  * Features:
- * - Parallax background "KNG" typography with scrub
  * - Enhanced logo reveal with blur
  * - Coverage items with blur effects
  * - Improved social link animations
@@ -30,7 +29,6 @@ const TitaniumFooter = () => {
   const prefersReducedMotion = usePrefersReducedMotion();
   const shouldInit = useDeferredInit();
   const footerRef = useRef<HTMLElement>(null);
-  const backgroundTextRef = useRef<HTMLDivElement>(null);
 
   // ========================================================================
   // CINEMATIC GSAP ANIMATIONS
@@ -40,35 +38,7 @@ const TitaniumFooter = () => {
     () => {
       if (prefersReducedMotion || !shouldInit || !footerRef.current) return;
 
-      // 1. PARALLAX BACKGROUND "KNG" TYPOGRAPHY WITH SCRUB
-      if (backgroundTextRef.current) {
-        gsap.fromTo(
-          backgroundTextRef.current,
-          {
-            y: 100,
-            opacity: 0,
-            scale: 0.9,
-            rotation: -5,
-            filter: "blur(12px)",
-          },
-          {
-            y: 0,
-            opacity: 0.04,
-            scale: 1,
-            rotation: 0,
-            filter: "blur(0px)",
-            force3D: true,
-            scrollTrigger: {
-              trigger: footerRef.current,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 1,
-            },
-          }
-        );
-      }
-
-      // 2. CONSOLIDATED TIMELINE FOR ALL FOOTER ELEMENTS
+      // 1. CONSOLIDATED TIMELINE FOR ALL FOOTER ELEMENTS
       const footerTl = createScrollTimeline(footerRef.current, {
         trigger: footerRef.current,
         start: "top 75%",
@@ -76,7 +46,7 @@ const TitaniumFooter = () => {
         scrub: 1,
       });
 
-      // 3. ENHANCED LOGO REVEAL WITH BLUR
+      // 2. ENHANCED LOGO REVEAL WITH BLUR
       const logo = footerRef.current.querySelector(".footer-logo");
       if (logo) {
         footerTl.from(
@@ -94,7 +64,7 @@ const TitaniumFooter = () => {
         );
       }
 
-      // 4. CTA BUTTON WITH BLUR
+      // 3. CTA BUTTON WITH BLUR
       const ctaButton = footerRef.current.querySelector(".footer-cta");
       if (ctaButton) {
         footerTl.from(
@@ -110,7 +80,7 @@ const TitaniumFooter = () => {
         );
       }
 
-      // 5. COVERAGE AREAS WITH BLUR
+      // 4. COVERAGE AREAS WITH BLUR
       const coverageItems =
         footerRef.current.querySelectorAll(".coverage-item");
       gsap.utils.toArray(coverageItems).forEach((item, index) => {
@@ -128,7 +98,7 @@ const TitaniumFooter = () => {
         );
       });
 
-      // 6. IMPROVED SOCIAL LINK ANIMATIONS
+      // 5. IMPROVED SOCIAL LINK ANIMATIONS
       const socialLinks = footerRef.current.querySelectorAll(".social-link");
       gsap.utils.toArray(socialLinks).forEach((link, index) => {
         footerTl.from(
@@ -153,16 +123,6 @@ const TitaniumFooter = () => {
       ref={footerRef}
       className="relative bg-black text-platinum py-24 px-6 md:px-24 border-t border-neutral-900 overflow-hidden"
     >
-      {/* Background Depth Layer - "KNG" */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0">
-        <div
-          ref={backgroundTextRef}
-          className="font-serif text-[25vw] text-white opacity-5 leading-none select-none will-change-transform"
-        >
-          KNG
-        </div>
-      </div>
-
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute left-[-12%] top-10 h-48 w-48 bg-silver-mid/10 blur-[90px]" />
         <div className="absolute right-[-12%] bottom-0 h-56 w-56 bg-silver-mid/6 blur-[110px]" />

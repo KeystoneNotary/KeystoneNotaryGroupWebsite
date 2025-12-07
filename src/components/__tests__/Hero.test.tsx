@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, act } from "@testing-library/react";
+import { render, screen, act, waitFor } from "@testing-library/react";
 import Hero from "../Hero";
 
 describe("Hero video loading", () => {
@@ -35,26 +35,29 @@ describe("Hero video loading", () => {
     expect(video.querySelector("source")).not.toBeNull();
   });
 
-  it("respects prefers-reduced-motion and uses a static fallback", () => {
+  it("respects prefers-reduced-motion and uses a static fallback", async () => {
     const originalMatchMedia = window.matchMedia;
-    (window as any).matchMedia = (query: string) => ({
-      matches: query === "(prefers-reduced-motion: reduce)",
-      media: query,
-      onchange: null,
-      addListener: jest.fn(),
-      removeListener: jest.fn(),
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
-      dispatchEvent: jest.fn(),
-    });
+    (
+      window as unknown as { matchMedia: (query: string) => MediaQueryList }
+    ).matchMedia = (query: string) =>
+      ({
+        matches: query === "(prefers-reduced-motion: reduce)",
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      } as unknown as MediaQueryList);
 
     render(<Hero />);
 
-    expect(screen.queryByTestId("hero-video")).toBeNull();
-    expect(
-      screen.getByTestId("hero-reduced-fallback")
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByTestId("hero-video")).toBeNull();
+    });
+    expect(screen.getByTestId("hero-reduced-fallback")).toBeInTheDocument();
 
-    (window as any).matchMedia = originalMatchMedia;
+    window.matchMedia = originalMatchMedia;
   });
 });

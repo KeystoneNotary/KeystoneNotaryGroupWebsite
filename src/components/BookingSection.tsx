@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import {
   format,
   addMonths,
@@ -14,51 +14,16 @@ import {
 } from "date-fns";
 import { CheckCircle2, AlertCircle } from "lucide-react";
 import CompactCalculator from "./CompactCalculator";
-import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
-import { useDeferredInit } from "@/lib/useDeferredInit";
+import {
+  timeSlotsFallback,
+  weekdayLabels,
+  formatApiSlots,
+  convertTo24Hour,
+} from "@/lib/utils/booking";
 
 type AvailabilityState = "idle" | "loading" | "error" | "loaded";
 
-const timeSlotsFallback = [
-  "9:00 AM",
-  "10:00 AM",
-  "11:00 AM",
-  "12:00 PM",
-  "1:00 PM",
-  "2:00 PM",
-  "3:00 PM",
-  "4:00 PM",
-  "5:00 PM",
-];
-
-const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-const formatApiSlots = (slots: string[]) =>
-  slots.map((slot) => {
-    const [hour, min] = slot.split(":");
-    const h = parseInt(hour, 10);
-    const ampm = h >= 12 ? "PM" : "AM";
-    const h12 = h % 12 || 12;
-    return `${h12}:${min} ${ampm}`;
-  });
-
-const convertTo24Hour = (time12h: string): string => {
-  const [time, modifier] = time12h.split(" ");
-  const [hours, minutes] = time.split(":");
-  let hoursNum = hours;
-  if (hoursNum === "12") {
-    hoursNum = modifier === "AM" ? "00" : "12";
-  } else {
-    hoursNum =
-      modifier === "PM" ? String(parseInt(hoursNum, 10) + 12) : hoursNum;
-  }
-  return `${hoursNum.padStart(2, "0")}:${minutes}`;
-};
-
 const BookingSection = () => {
-  const prefersReducedMotion = usePrefersReducedMotion();
-  const shouldInit = useDeferredInit();
-
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -91,7 +56,9 @@ const BookingSection = () => {
 
     try {
       const dateStr = format(date, "yyyy-MM-dd");
-      const res = await fetch(`/api/bookings/check-availability?date=${dateStr}`);
+      const res = await fetch(
+        `/api/bookings/check-availability?date=${dateStr}`
+      );
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Failed to load slots");
 
@@ -104,7 +71,9 @@ const BookingSection = () => {
     } catch (err) {
       console.error("Failed to fetch slots", err);
       setAvailableSlots(timeSlotsFallback);
-      setAvailabilityError("Could not verify availability. Showing default slots.");
+      setAvailabilityError(
+        "Could not verify availability. Showing default slots."
+      );
       setAvailabilityState("error");
     }
   };
@@ -153,9 +122,11 @@ const BookingSection = () => {
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || "Booking failed");
       setBookingSuccess(true);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Booking error:", error);
-      setBookingError("Failed to book appointment. Please try again or call us.");
+      setBookingError(
+        "Failed to book appointment. Please try again or call us."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -170,7 +141,10 @@ const BookingSection = () => {
       >
         <div className="text-center max-w-2xl mx-auto">
           <div className="mb-8 flex justify-center">
-            <CheckCircle2 className="w-24 h-24 text-silver-metallic" strokeWidth={1.5} />
+            <CheckCircle2
+              className="w-24 h-24 text-silver-metallic"
+              strokeWidth={1.5}
+            />
           </div>
           <h2 className="font-serif text-5xl md:text-6xl text-white mb-6">
             Booking Confirmed
@@ -193,31 +167,36 @@ const BookingSection = () => {
   return (
     <section
       id="booking"
-      className="relative min-h-[80vh] bg-black text-platinum py-24 md:py-32 px-4 md:px-10 overflow-hidden"
+      className="relative min-h-[100dvh] bg-black text-platinum py-24 md:py-32 px-6 overflow-hidden"
     >
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neutral-900/80 to-neutral-900 opacity-100" />
-      </div>
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.05) 100%)",
+        }}
+      />
 
       <div className="max-w-5xl mx-auto relative z-10 space-y-16">
         <div className="space-y-4 text-center">
           <span className="block text-silver-mid text-xs tracking-[0.35em] uppercase">
             Concierge Booking
           </span>
-          <h2 className="font-serif text-4xl md:text-5xl text-white leading-tight">
+          <h2 className="font-serif text-5xl md:text-6xl font-light text-white leading-tight">
             <span className="inline-block">Schedule</span>{" "}
             <span className="inline-block text-silver-metallic italic">
               Appointment
             </span>
           </h2>
           <p className="text-neutral-400 text-lg leading-relaxed max-w-3xl mx-auto">
-            Reserve mobile notarization, apostille handling, or executive witnessing with the same polish as our philosophy section.
+            Secure your appointment. Mobile notarization, apostille services,
+            and executive witnessing—executed flawlessly.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-[1fr_0.9fr] gap-16 items-start">
           {/* Calendar + Slots */}
-          <div className="space-y-10 rounded-3xl bg-neutral-950/60 ring-1 ring-white/10 p-10 md:p-12 backdrop-blur">
+          <div className="space-y-10 rounded-2xl bg-neutral-950/60 ring-1 ring-white/10 p-10 md:p-12 backdrop-blur">
             {/* Month Navigation */}
             <div className="flex items-center justify-between">
               <button
@@ -249,22 +228,23 @@ const BookingSection = () => {
                 ))}
               </div>
               <div className="grid grid-cols-7 gap-px bg-neutral-900">
-                {monthDays.map((date, idx) => {
+                {monthDays.map((date) => {
                   const isDisabled = isBefore(date, today) || isSunday(date);
                   const isSelected =
                     selectedDate &&
-                    format(date, "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd");
+                    format(date, "yyyy-MM-dd") ===
+                      format(selectedDate, "yyyy-MM-dd");
                   return (
                     <button
-                      key={idx}
+                      key={date.toString()}
                       onClick={() => handleDateSelect(date)}
                       disabled={isDisabled}
                       className={`bg-black aspect-square flex items-center justify-center text-sm transition-all ${
                         isDisabled
                           ? "text-gray-800 cursor-not-allowed opacity-30"
                           : isSelected
-                            ? "bg-silver-mid text-black font-medium"
-                            : "text-white hover:bg-white/5"
+                          ? "bg-silver-mid text-black font-medium"
+                          : "text-white hover:bg-white/5"
                       }`}
                       aria-label={`Select ${format(date, "MMMM d, yyyy")}`}
                     >
@@ -273,7 +253,7 @@ const BookingSection = () => {
                   );
                 })}
               </div>
-              <p className="text-xs text-gray-600 mt-3 px-2">
+              <p className="text-xs text-gray-500 mt-3 px-2">
                 Sundays reserved for emergency appointments only.
               </p>
             </div>
@@ -282,11 +262,13 @@ const BookingSection = () => {
             {selectedDate && (
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <h4 className="text-xs uppercase tracking-widest text-gray-600">
+                  <h4 className="text-xs uppercase tracking-widest text-gray-500">
                     Select Time
                   </h4>
                   {availabilityState === "loading" && (
-                    <span className="text-xs text-gray-500">Checking availability…</span>
+                    <span className="text-xs text-gray-500">
+                      Checking availability…
+                    </span>
                   )}
                   {availabilityError && (
                     <span className="text-xs text-amber-400 flex items-center gap-1">
@@ -303,7 +285,7 @@ const BookingSection = () => {
                         />
                       ))
                     : availableSlots
-                  ).map((slot, idx) =>
+                  ).map((slot) =>
                     typeof slot === "string" ? (
                       <button
                         key={slot}
@@ -324,7 +306,7 @@ const BookingSection = () => {
                 </div>
                 <button
                   onClick={resetBooking}
-                  className="text-sm text-gray-600 hover:text-white uppercase tracking-widest"
+                  className="text-sm text-gray-500 hover:text-white uppercase tracking-widest"
                 >
                   Start over
                 </button>
@@ -339,53 +321,58 @@ const BookingSection = () => {
                     <AlertCircle size={16} /> {bookingError}
                   </div>
                 )}
-                <form onSubmit={handleSubmit} className="space-y-6" aria-label="Booking form">
+                <form
+                  onSubmit={handleSubmit}
+                  className="space-y-6"
+                  aria-label="Booking form"
+                >
                   <div className="grid md:grid-cols-2 gap-6">
                     <input
                       name="customerName"
                       type="text"
                       placeholder="Full Name *"
                       required
-                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-700 focus:border-silver-mid focus:outline-none"
+                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none"
                     />
                     <input
                       name="customerPhone"
                       type="tel"
                       placeholder="Phone Number *"
                       required
-                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-700 focus:border-silver-mid focus:outline-none"
+                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none"
                     />
                     <input
                       name="customerEmail"
                       type="email"
                       placeholder="Email Address *"
                       required
-                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-700 focus:border-silver-mid focus:outline-none"
+                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none"
                     />
                     <input
                       name="address"
                       type="text"
                       placeholder="Appointment Address *"
                       required
-                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-700 focus:border-silver-mid focus:outline-none"
+                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none"
                     />
                   </div>
                   <textarea
                     name="notes"
                     placeholder="Additional details (optional)"
                     rows={3}
-                    className="w-full bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-700 focus:border-silver-mid focus:outline-none resize-none"
+                    className="w-full bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none resize-none"
                   />
                   <label className="flex items-start gap-3 text-sm text-gray-500">
                     <input type="checkbox" required className="mt-1" />
                     <span>
-                      I will provide valid, government-issued identification for all signers.
+                      I will provide valid, government-issued identification for
+                      all signers.
                     </span>
                   </label>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full px-12 py-4 ring-1 ring-neutral-700 text-white uppercase tracking-[0.2em] text-sm hover:ring-silver-mid hover:text-silver-mid transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-12 py-4 bg-white/10 border border-white/20 backdrop-blur-md text-white uppercase tracking-widest text-sm font-medium rounded-full hover:bg-white/20 hover:scale-[1.02] transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? "Processing..." : "Confirm Appointment"}
                   </button>
@@ -418,10 +405,11 @@ const BookingSection = () => {
 
             <div className="p-6 rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur">
               <h4 className="text-xs uppercase tracking-widest text-gray-500 mb-3">
-                Need Assistance?
+                Complex Arrangement?
               </h4>
-              <p className="text-sm text-gray-300 mb-4">
-                Concierge team available for complex packages, hospital signings, and multi-signer coordination.
+              <p className="text-sm text-gray-400 mb-4">
+                Our concierge handles hospital signings, multi-party closings,
+                and arrangements others decline.
               </p>
               <a
                 href="tel:+12673099000"

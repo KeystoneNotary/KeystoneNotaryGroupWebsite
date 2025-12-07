@@ -54,5 +54,6 @@
   "editor.pasteAs.default": "text.plain",
   "codium.codeCompletion.enable": true,
   "claudeCode.environmentVariables": [],
-  "claudeCode.preferredLocation": "sidebar"
+  "claudeCode.preferredLocation": "sidebar",
+  "geminicodeassist.project": "ai-voice-receptionist-470022 "
 }

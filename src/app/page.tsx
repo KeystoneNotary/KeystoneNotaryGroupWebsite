@@ -23,9 +23,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <div
-        className="bg-black min-h-screen relative overflow-x-hidden"
-      >
+      <div className="bg-black min-h-screen relative overflow-x-hidden">
         <Header />
         <main className="relative z-10">
           <Hero />
@@ -33,7 +31,7 @@ export default function Home() {
           <HorizontalServices />
 
           {/* Standard Vertical Sections for Utility */}
-          <div className="relative z-20 bg-black">
+          <div className="relative z-20 bg-neutral-900">
             <BookingSection />
             <FAQ />
             <Contact />

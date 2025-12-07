@@ -1,3 +1,6 @@
 {
-  "recommendations": ["amazonwebservices.amazon-q-vscode"]
+  "recommendations": [
+    "amazonwebservices.amazon-q-vscode",
+    "saoudrizwan.claude-dev"
+  ]
 }

@@ -5,7 +5,7 @@ import {
   sendBookingConfirmation,
   sendNotaryNotification,
 } from "./email";
-import type { BookingDetails } from "./google-calendar";
+import type { BookingDetails } from "@/types";
 
 const sendEmailMock = jest.fn();
 
@@ -44,13 +44,12 @@ describe("email utilities", () => {
 
   afterAll(() => {
     process.env = ORIGINAL_ENV;
-    (global as typeof globalThis & { window?: unknown }).window = ORIGINAL_WINDOW;
+    (global as typeof globalThis & { window?: unknown }).window =
+      ORIGINAL_WINDOW;
   });
 
   it("throws when RESEND_API_KEY is missing", () => {
-    expect(() => createResendClient()).toThrow(
-      /RESEND_API_KEY is required/i
-    );
+    expect(() => createResendClient()).toThrow(/RESEND_API_KEY is required/i);
   });
 
   it.each([
@@ -80,8 +79,12 @@ describe("email utilities", () => {
 
   it("prevents createResendClient from running in the browser", () => {
     process.env.RESEND_API_KEY = "re_test_live_key_abc";
-    process.env.NODE_ENV = "production";
-    (global as typeof globalThis & { window?: unknown }).window = {} as Window;
+    Object.defineProperty(process.env, "NODE_ENV", {
+      value: "production",
+      writable: true,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (global as any).window = {};
 
     expect(() => createResendClient()).toThrow(/server/i);
   });
@@ -96,10 +99,12 @@ describe("email utilities", () => {
     const payload = sendEmailMock.mock.calls[0][0];
 
     expect(payload.to).toBe(booking.customerEmail);
-    expect(payload.html).toContain("&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;");
+    expect(payload.html).toContain(
+      "&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;"
+    );
     expect(payload.html).not.toContain(booking.customerName);
     expect(payload.html).not.toContain(booking.address);
-    expect(payload.html).not.toContain("alert(\"id\")");
+    expect(payload.html).not.toContain('alert("id")');
   });
 
   it("escapes user input when notifying the notary", async () => {
@@ -114,7 +119,9 @@ describe("email utilities", () => {
     expect(payload.to).toBeDefined();
     expect(payload.subject).not.toContain(booking.customerName);
     expect(payload.html).not.toContain(booking.customerEmail);
-    expect(payload.html).toContain("&lt;script&gt;alert(&quot;address&quot;)&lt;/script&gt;");
+    expect(payload.html).toContain(
+      "&lt;script&gt;alert(&quot;address&quot;)&lt;/script&gt;"
+    );
   });
 
   it("attaches the root cause when email sending fails", async () => {

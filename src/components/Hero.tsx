@@ -34,8 +34,8 @@ const Hero = () => {
         if (!cancelled) setShouldLoadVideo(true);
       };
 
-      const idleCb = (window as any).requestIdleCallback;
-      const cancelIdleCb = (window as any).cancelIdleCallback;
+      const idleCb = (window as unknown as { requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number }).requestIdleCallback;
+      const cancelIdleCb = (window as unknown as { cancelIdleCallback?: (handle: number) => void }).cancelIdleCallback;
 
       if (typeof idleCb === "function") {
         const id = idleCb(run, { timeout: 500 });

@@ -1,8 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { supabase } from "@/lib/supabase";
-import { createCalendarEvent, BookingDetails } from "@/lib/google-calendar";
+import { supabaseAdmin as supabase } from "@/lib/supabase-admin";
+import { createCalendarEvent } from "@/lib/google-calendar";
 import { sendBookingConfirmation, sendNotaryNotification } from "@/lib/email";
+import { rateLimitMiddleware } from "@/middleware/rate-limit";
 
 export const dynamic = "force-dynamic";
 
@@ -19,8 +20,16 @@ const bookingSchema = z.object({
   notes: z.string().optional(),
 });
 
+// ... existing imports ...
+
 export async function POST(request: Request) {
   try {
+    // Apply rate limiting
+    const rateLimitResponse = await rateLimitMiddleware(request as NextRequest);
+    if (rateLimitResponse) {
+      return rateLimitResponse;
+    }
+
     const body = await request.json();
 
     // 1. Validate Input
@@ -86,7 +95,7 @@ export async function POST(request: Request) {
     console.error("Booking Error:", error);
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Validation failed", details: (error as any).errors },
+        { error: "Validation failed", details: error.issues },
         { status: 400 }
       );
     }

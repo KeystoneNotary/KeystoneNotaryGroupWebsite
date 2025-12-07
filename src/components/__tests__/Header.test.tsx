@@ -2,6 +2,7 @@ jest.mock("next/image", () => ({
   __esModule: true,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   default: (props: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { priority: _priority, ...rest } = props;
     // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
     return <img {...rest} />;
@@ -37,7 +38,7 @@ jest.mock("../../lib/usePrefersReducedMotion", () => ({
 import { render, screen, fireEvent } from "@testing-library/react";
 import Header from "../Header";
 import { usePrefersReducedMotion } from "../../lib/usePrefersReducedMotion";
-import { useGSAP } from "@gsap/react";
+// import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 describe("Header", () => {

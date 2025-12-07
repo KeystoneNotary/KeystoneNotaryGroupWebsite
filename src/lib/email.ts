@@ -1,7 +1,44 @@
 import { Resend } from "resend";
 import { BookingDetails } from "./google-calendar";
 
-const getResend = () => new Resend(process.env.RESEND_API_KEY || "re_123");
+const RESEND_PLACEHOLDER_PATTERNS = [
+  /^re_123/i,
+  /^re-test-key/i,
+  /^your_resend/i,
+  /^placeholder/i,
+  /^test_key/i,
+];
+
+const escapeHtml = (text: string): string => text.replace(/[<>&"']/g, (char) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#x27;' })[char] || char);
+
+const resolveResendApiKey = (): string => {
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+
+  if (!apiKey) {
+    throw new Error("RESEND_API_KEY is required to send transactional emails.");
+  }
+
+  const usesPlaceholder = RESEND_PLACEHOLDER_PATTERNS.some((pattern) =>
+    pattern.test(apiKey)
+  );
+
+  if (usesPlaceholder) {
+    throw new Error(
+      "RESEND_API_KEY is using a placeholder value. Provide a real API key via environment configuration."
+    );
+  }
+
+  return apiKey;
+};
+
+export const createResendClient = (): Resend => {
+  const apiKey = resolveResendApiKey();
+  if (typeof window !== "undefined") {
+    throw new Error("createResendClient must only be used on the server.");
+  }
+  return new Resend(apiKey);
+};
+
 const NOTARY_EMAIL =
   process.env.NOTARY_EMAIL || "contact@keystonenotarygroup.com";
 
@@ -10,7 +47,7 @@ export async function sendBookingConfirmation(
   bookingId: string
 ) {
   try {
-    const resend = getResend();
+    const resend = createResendClient();
     await resend.emails.send({
       from: "Keystone Notary Group <bookings@keystonenotarygroup.com>",
       to: booking.customerEmail,
@@ -18,7 +55,7 @@ export async function sendBookingConfirmation(
       html: `
         <h1>Appointment Confirmed</h1>
         <p>Dear ${booking.customerName},</p>
-        <p>Your appointment has been successfully scheduled.</p>
+        <p>Dear ${escapeHtml(booking.customerName)},</p>
         
         <h3>Details:</h3>
         <ul>
@@ -26,7 +63,7 @@ export async function sendBookingConfirmation(
           <li><strong>Time:</strong> ${booking.appointmentTime}</li>
           <li><strong>Location:</strong> ${booking.address}</li>
           <li><strong>Service:</strong> ${booking.serviceType}</li>
-          <li><strong>Estimated Price:</strong> $${booking.price}</li>
+          <li><strong>Service:</strong> ${escapeHtml(booking.serviceType)}</li>
         </ul>
         
         <p><strong>Booking ID:</strong> ${bookingId}</p>
@@ -40,7 +77,8 @@ export async function sendBookingConfirmation(
     });
   } catch (error) {
     console.error("Error sending confirmation email:", error);
-  }
+    console.error("Failed to send booking confirmation email.");
+    throw new Error("Failed to send booking confirmation email.", { cause: error as unknown });
 }
 
 export async function sendNotaryNotification(
@@ -48,18 +86,18 @@ export async function sendNotaryNotification(
   bookingId: string
 ) {
   try {
-    const resend = getResend();
+    const resend = createResendClient();
     await resend.emails.send({
       from: "Keystone System <system@keystonenotarygroup.com>",
       to: NOTARY_EMAIL,
-      subject: `NEW BOOKING: ${booking.customerName} - ${booking.appointmentDate}`,
+      subject: `NEW BOOKING: ${escapeHtml(booking.customerName)} - ${booking.appointmentDate}`,
       html: `
         <h1>New Booking Received</h1>
         
         <h3>Customer:</h3>
         <ul>
-          <li><strong>Name:</strong> ${booking.customerName}</li>
-          <li><strong>Email:</strong> ${booking.customerEmail}</li>
+          <li><strong>Name:</strong> ${escapeHtml(booking.customerName)}</li>
+          <li><strong>Email:</strong> ${escapeHtml(booking.customerEmail)}</li>
           <li><strong>Phone:</strong> ${booking.customerPhone}</li>
         </ul>
         
@@ -68,15 +106,16 @@ export async function sendNotaryNotification(
           <li><strong>Date:</strong> ${booking.appointmentDate}</li>
           <li><strong>Time:</strong> ${booking.appointmentTime}</li>
           <li><strong>Location:</strong> ${booking.address}</li>
-          <li><strong>Service:</strong> ${booking.serviceType}</li>
+          <li><strong>Service:</strong> ${escapeHtml(booking.serviceType)}</li>
           <li><strong>Price:</strong> $${booking.price}</li>
         </ul>
         
-        <p><strong>Notes:</strong> ${booking.notes || "None"}</p>
+        <p><strong>Notes:</strong> ${escapeHtml(booking.notes || "None")}</p>
         <p><strong>Booking ID:</strong> ${bookingId}</p>
       `,
     });
   } catch (error) {
-    console.error("Error sending notary notification:", error);
+    console.error("Failed to send notary notification email.");
+    throw new Error("Failed to send notary notification email.", { cause: error as unknown });
   }
 }

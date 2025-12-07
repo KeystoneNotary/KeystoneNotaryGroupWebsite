@@ -33,7 +33,7 @@
     "huggingface": {
       "url": "https://huggingface.co/mcp",
       "headers": {
-        "Authorization": "Bearer <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>"
+        "Authorization": "Bearer <your_huggingface_token>"
       }
     }
   },

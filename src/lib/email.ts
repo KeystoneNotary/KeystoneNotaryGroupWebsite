@@ -1,7 +1,36 @@
 import { Resend } from "resend";
 import { BookingDetails } from "./google-calendar";
 
-const getResend = () => new Resend(process.env.RESEND_API_KEY || "re_123");
+const RESEND_PLACEHOLDER_PATTERNS = [
+  /^re_123/i,
+  /^re-test-key/i,
+];
+
+const resolveResendApiKey = (): string => {
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+
+  if (!apiKey) {
+    throw new Error("RESEND_API_KEY is required to send transactional emails.");
+  }
+
+  const usesPlaceholder = RESEND_PLACEHOLDER_PATTERNS.some((pattern) =>
+    pattern.test(apiKey)
+  );
+
+  if (usesPlaceholder) {
+    throw new Error(
+      "RESEND_API_KEY is using a placeholder value. Provide a real API key via environment configuration."
+    );
+  }
+
+  return apiKey;
+};
+
+export const createResendClient = (): Resend => {
+  const apiKey = resolveResendApiKey();
+  return new Resend(apiKey);
+};
+
 const NOTARY_EMAIL =
   process.env.NOTARY_EMAIL || "contact@keystonenotarygroup.com";
 
@@ -10,7 +39,7 @@ export async function sendBookingConfirmation(
   bookingId: string
 ) {
   try {
-    const resend = getResend();
+    const resend = createResendClient();
     await resend.emails.send({
       from: "Keystone Notary Group <bookings@keystonenotarygroup.com>",
       to: booking.customerEmail,
@@ -40,6 +69,7 @@ export async function sendBookingConfirmation(
     });
   } catch (error) {
     console.error("Error sending confirmation email:", error);
+    throw new Error("Failed to send booking confirmation email.");
   }
 }
 
@@ -48,7 +78,7 @@ export async function sendNotaryNotification(
   bookingId: string
 ) {
   try {
-    const resend = getResend();
+    const resend = createResendClient();
     await resend.emails.send({
       from: "Keystone System <system@keystonenotarygroup.com>",
       to: NOTARY_EMAIL,
@@ -78,5 +108,6 @@ export async function sendNotaryNotification(
     });
   } catch (error) {
     console.error("Error sending notary notification:", error);
+    throw new Error("Failed to send notary notification email.");
   }
 }

@@ -34,9 +34,6 @@ const Contact: React.FC = () => {
   // STATE & REFS
   // ========================================================================
 
-  const [formStatus, setFormStatus] = useState<"idle" | "success" | "error">(
-    "idle"
-  );
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -60,14 +57,8 @@ const Contact: React.FC = () => {
     // TODO: Integrate with backend
     console.log("Contact form submitted:", formData);
 
-    // Simulate success
-    setFormStatus("success");
-
     // Reset form
     setFormData({ name: "", email: "", message: "" });
-
-    // Clear success message after 5 seconds
-    setTimeout(() => setFormStatus("idle"), 5000);
   };
 
   const handleChange = (

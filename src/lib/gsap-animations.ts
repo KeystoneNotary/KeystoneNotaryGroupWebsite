@@ -80,7 +80,7 @@ export const parallaxBackgroundText = (
     endOpacity = 0.03,
     startRotation = 0,
     endRotation = 0,
-    startBlur = 30,
+    // startBlur = 30, // unused
     endBlur = 0,
     startScale = 0.95,
     endScale = 1,
@@ -631,7 +631,7 @@ export const completeSectionReveal = (config: {
   return masterTl;
 };
 
-export default {
+const gsapAnimations = {
   // Background effects
   parallaxBackgroundText,
   backgroundTextReveal,
@@ -662,3 +662,5 @@ export default {
   // Presets
   completeSectionReveal,
 };
+
+export default gsapAnimations;

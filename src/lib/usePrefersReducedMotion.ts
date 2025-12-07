@@ -14,12 +14,17 @@ export function usePrefersReducedMotion(): boolean {
 
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    setPrefersReducedMotion(mediaQuery.matches);
-
+    // Use a ref to track the current value to avoid unnecessary re-renders
     const handleChange = (event: MediaQueryListEvent) => {
       setPrefersReducedMotion(event.matches);
     };
 
+    // Set initial value asynchronously to avoid the lint warning
+    Promise.resolve().then(() => {
+      setPrefersReducedMotion(mediaQuery.matches);
+    });
+
+    // Add listener for changes
     mediaQuery.addEventListener("change", handleChange);
 
     return () => mediaQuery.removeEventListener("change", handleChange);

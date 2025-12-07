@@ -14,47 +14,16 @@ import {
 } from "date-fns";
 import { CheckCircle2, AlertCircle } from "lucide-react";
 import CompactCalculator from "./CompactCalculator";
+import {
+  timeSlotsFallback,
+  weekdayLabels,
+  formatApiSlots,
+  convertTo24Hour,
+} from "@/lib/utils/booking";
 
 type AvailabilityState = "idle" | "loading" | "error" | "loaded";
 
-const timeSlotsFallback = [
-  "9:00 AM",
-  "10:00 AM",
-  "11:00 AM",
-  "12:00 PM",
-  "1:00 PM",
-  "2:00 PM",
-  "3:00 PM",
-  "4:00 PM",
-  "5:00 PM",
-];
-
-const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-const formatApiSlots = (slots: string[]) =>
-  slots.map((slot) => {
-    const [hour, min] = slot.split(":");
-    const h = parseInt(hour, 10);
-    const ampm = h >= 12 ? "PM" : "AM";
-    const h12 = h % 12 || 12;
-    return `${h12}:${min} ${ampm}`;
-  });
-
-const convertTo24Hour = (time12h: string): string => {
-  const [time, modifier] = time12h.split(" ");
-  const [hours, minutes] = time.split(":");
-  let hoursNum = hours;
-  if (hoursNum === "12") {
-    hoursNum = modifier === "AM" ? "00" : "12";
-  } else {
-    hoursNum =
-      modifier === "PM" ? String(parseInt(hoursNum, 10) + 12) : hoursNum;
-  }
-  return `${hoursNum.padStart(2, "0")}:${minutes}`;
-};
-
 const BookingSection = () => {
-
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -87,7 +56,9 @@ const BookingSection = () => {
 
     try {
       const dateStr = format(date, "yyyy-MM-dd");
-      const res = await fetch(`/api/bookings/check-availability?date=${dateStr}`);
+      const res = await fetch(
+        `/api/bookings/check-availability?date=${dateStr}`
+      );
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Failed to load slots");
 
@@ -100,7 +71,9 @@ const BookingSection = () => {
     } catch (err) {
       console.error("Failed to fetch slots", err);
       setAvailableSlots(timeSlotsFallback);
-      setAvailabilityError("Could not verify availability. Showing default slots.");
+      setAvailabilityError(
+        "Could not verify availability. Showing default slots."
+      );
       setAvailabilityState("error");
     }
   };
@@ -151,7 +124,9 @@ const BookingSection = () => {
       setBookingSuccess(true);
     } catch (error: unknown) {
       console.error("Booking error:", error);
-      setBookingError("Failed to book appointment. Please try again or call us.");
+      setBookingError(
+        "Failed to book appointment. Please try again or call us."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -166,7 +141,10 @@ const BookingSection = () => {
       >
         <div className="text-center max-w-2xl mx-auto">
           <div className="mb-8 flex justify-center">
-            <CheckCircle2 className="w-24 h-24 text-silver-metallic" strokeWidth={1.5} />
+            <CheckCircle2
+              className="w-24 h-24 text-silver-metallic"
+              strokeWidth={1.5}
+            />
           </div>
           <h2 className="font-serif text-5xl md:text-6xl text-white mb-6">
             Booking Confirmed
@@ -211,7 +189,8 @@ const BookingSection = () => {
             </span>
           </h2>
           <p className="text-neutral-400 text-lg leading-relaxed max-w-3xl mx-auto">
-            Secure your appointment. Mobile notarization, apostille services, and executive witnessing—executed flawlessly.
+            Secure your appointment. Mobile notarization, apostille services,
+            and executive witnessing—executed flawlessly.
           </p>
         </div>
 
@@ -253,7 +232,8 @@ const BookingSection = () => {
                   const isDisabled = isBefore(date, today) || isSunday(date);
                   const isSelected =
                     selectedDate &&
-                    format(date, "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd");
+                    format(date, "yyyy-MM-dd") ===
+                      format(selectedDate, "yyyy-MM-dd");
                   return (
                     <button
                       key={date.toString()}
@@ -263,8 +243,8 @@ const BookingSection = () => {
                         isDisabled
                           ? "text-gray-800 cursor-not-allowed opacity-30"
                           : isSelected
-                            ? "bg-silver-mid text-black font-medium"
-                            : "text-white hover:bg-white/5"
+                          ? "bg-silver-mid text-black font-medium"
+                          : "text-white hover:bg-white/5"
                       }`}
                       aria-label={`Select ${format(date, "MMMM d, yyyy")}`}
                     >
@@ -286,7 +266,9 @@ const BookingSection = () => {
                     Select Time
                   </h4>
                   {availabilityState === "loading" && (
-                    <span className="text-xs text-gray-500">Checking availability…</span>
+                    <span className="text-xs text-gray-500">
+                      Checking availability…
+                    </span>
                   )}
                   {availabilityError && (
                     <span className="text-xs text-amber-400 flex items-center gap-1">
@@ -339,7 +321,11 @@ const BookingSection = () => {
                     <AlertCircle size={16} /> {bookingError}
                   </div>
                 )}
-                <form onSubmit={handleSubmit} className="space-y-6" aria-label="Booking form">
+                <form
+                  onSubmit={handleSubmit}
+                  className="space-y-6"
+                  aria-label="Booking form"
+                >
                   <div className="grid md:grid-cols-2 gap-6">
                     <input
                       name="customerName"
@@ -379,7 +365,8 @@ const BookingSection = () => {
                   <label className="flex items-start gap-3 text-sm text-gray-500">
                     <input type="checkbox" required className="mt-1" />
                     <span>
-                      I will provide valid, government-issued identification for all signers.
+                      I will provide valid, government-issued identification for
+                      all signers.
                     </span>
                   </label>
                   <button
@@ -421,7 +408,8 @@ const BookingSection = () => {
                 Complex Arrangement?
               </h4>
               <p className="text-sm text-gray-400 mb-4">
-                Our concierge handles hospital signings, multi-party closings, and arrangements others decline.
+                Our concierge handles hospital signings, multi-party closings,
+                and arrangements others decline.
               </p>
               <a
                 href="tel:+12673099000"

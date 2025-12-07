@@ -1,10 +1,10 @@
 # Session Context
 
 ## Current Session
-- **Date:** 2025-12-01
-- **Goal:** Project Onboarding & Audit
-- **Status:** Audit in progress.
+
+- **Date:** 2025-12-07
+- **Goal:** Fix specific user-reported bugs.
+- **Status:** Active.
 - **Key Findings:**
-    - Project is a Vite + Vanilla JS app.
-    - Backend is planned but not implemented.
-    - `memory/` directory was missing and is being restored.
+  - Project is a Next.js (TypeScript) app.
+  - `memory/` directory exists and is active.

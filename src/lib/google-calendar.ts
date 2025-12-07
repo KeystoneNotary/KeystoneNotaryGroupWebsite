@@ -1,5 +1,6 @@
 import { google } from "googleapis";
 import { addMinutes, parseISO } from "date-fns";
+import { BookingDetails, CalendarEvent } from "@/types";
 
 // Initialize Google Auth Lazily
 const getCalendar = () => {
@@ -15,26 +16,16 @@ const getCalendar = () => {
 
 const CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID || "primary";
 
-export interface BookingDetails {
-  customerName: string;
-  customerEmail: string;
-  customerPhone: string;
-  appointmentDate: string; // YYYY-MM-DD
-  appointmentTime: string; // HH:MM (24h)
-  address: string;
-  serviceType: string;
-  price: number;
-  notes?: string;
-}
-
-export async function createCalendarEvent(booking: BookingDetails) {
+export async function createCalendarEvent(
+  booking: BookingDetails
+): Promise<string | null> {
   try {
     const startDateTime = `${booking.appointmentDate}T${booking.appointmentTime}:00`;
     // Assuming 60 min duration for now
     const startDate = parseISO(startDateTime);
     const endDate = addMinutes(startDate, 60);
 
-    const event = {
+    const event: CalendarEvent = {
       summary: `Notary: ${booking.customerName} - ${booking.serviceType}`,
       description: `
         Customer: ${booking.customerName}
@@ -56,8 +47,10 @@ export async function createCalendarEvent(booking: BookingDetails) {
       },
       attendees: [
         { email: booking.customerEmail },
-        { email: process.env.NOTARY_EMAIL },
-      ],
+        { email: process.env.NOTARY_EMAIL || "" },
+      ].filter((attendee) => attendee.email && attendee.email !== "") as Array<{
+        email: string;
+      }>,
       reminders: {
         useDefault: false,
         overrides: [
@@ -73,7 +66,7 @@ export async function createCalendarEvent(booking: BookingDetails) {
       requestBody: event,
     });
 
-    return response.data.id;
+    return response.data.id || null;
   } catch (error) {
     console.error("Error creating calendar event:", error);
     throw error;

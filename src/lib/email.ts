@@ -1,5 +1,5 @@
 import { Resend } from "resend";
-import { BookingDetails } from "./google-calendar";
+import { BookingDetails } from "@/types";
 
 const RESEND_PLACEHOLDER_PATTERNS = [
   /^re_123/i,

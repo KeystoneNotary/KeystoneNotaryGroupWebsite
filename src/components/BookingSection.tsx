@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import {
   format,
   addMonths,
@@ -14,8 +14,6 @@ import {
 } from "date-fns";
 import { CheckCircle2, AlertCircle } from "lucide-react";
 import CompactCalculator from "./CompactCalculator";
-import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
-import { useDeferredInit } from "@/lib/useDeferredInit";
 
 type AvailabilityState = "idle" | "loading" | "error" | "loaded";
 
@@ -56,8 +54,6 @@ const convertTo24Hour = (time12h: string): string => {
 };
 
 const BookingSection = () => {
-  const prefersReducedMotion = usePrefersReducedMotion();
-  const shouldInit = useDeferredInit();
 
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -153,7 +149,7 @@ const BookingSection = () => {
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || "Booking failed");
       setBookingSuccess(true);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Booking error:", error);
       setBookingError("Failed to book appointment. Please try again or call us.");
     } finally {
@@ -253,14 +249,14 @@ const BookingSection = () => {
                 ))}
               </div>
               <div className="grid grid-cols-7 gap-px bg-neutral-900">
-                {monthDays.map((date, idx) => {
+                {monthDays.map((date) => {
                   const isDisabled = isBefore(date, today) || isSunday(date);
                   const isSelected =
                     selectedDate &&
                     format(date, "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd");
                   return (
                     <button
-                      key={idx}
+                      key={date.toString()}
                       onClick={() => handleDateSelect(date)}
                       disabled={isDisabled}
                       className={`bg-black aspect-square flex items-center justify-center text-sm transition-all ${
@@ -307,7 +303,7 @@ const BookingSection = () => {
                         />
                       ))
                     : availableSlots
-                  ).map((slot, idx) =>
+                  ).map((slot) =>
                     typeof slot === "string" ? (
                       <button
                         key={slot}

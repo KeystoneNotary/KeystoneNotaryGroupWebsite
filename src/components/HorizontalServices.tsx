@@ -107,7 +107,7 @@ const HorizontalServices = () => {
       // Kinetic Typography Animation
       const sections = gsap.utils.toArray(".service-section") as HTMLElement[];
 
-      sections.forEach((section, i) => {
+      sections.forEach((section) => {
         const title = section.querySelector(".service-title");
         const number = section.querySelector(".service-number");
         const desc = section.querySelector(".service-desc");

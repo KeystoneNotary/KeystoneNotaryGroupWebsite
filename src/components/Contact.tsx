@@ -185,10 +185,10 @@ const Contact: React.FC = () => {
 
       <div className="grid lg:grid-cols-2 min-h-screen relative z-10">
         {/* Left Side: Form */}
-        <div className="flex flex-col justify-center p-10 md:p-16 gap-6 rounded-3xl bg-neutral-950/60 backdrop-blur ring-1 ring-white/10 mx-4 md:mx-8 lg:mx-12">
+        <div className="flex flex-col justify-center p-10 md:p-16 gap-6 rounded-3xl bg-neutral-950/80 backdrop-blur ring-1 ring-white/15 mx-4 md:mx-8 lg:mx-12">
           <span
             ref={labelRef}
-            className="text-sm uppercase tracking-[0.3em] text-gray-600 mb-8 will-change-transform"
+            className="text-sm uppercase tracking-[0.3em] text-gray-500 mb-8 will-change-transform"
           >
             Contact
           </span>
@@ -216,7 +216,7 @@ const Contact: React.FC = () => {
                 onChange={handleChange}
                 placeholder="Name *"
                 required
-                className="w-full bg-transparent border-b border-neutral-800 py-4 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none transition-colors"
+                className="w-full bg-transparent border-b border-neutral-700 py-4 text-white placeholder:text-gray-500 focus:border-silver-mid focus:outline-none transition-colors"
               />
             </div>
 
@@ -228,7 +228,7 @@ const Contact: React.FC = () => {
                 onChange={handleChange}
                 placeholder="Email *"
                 required
-                className="w-full bg-transparent border-b border-neutral-800 py-4 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none transition-colors"
+                className="w-full bg-transparent border-b border-neutral-700 py-4 text-white placeholder:text-gray-500 focus:border-silver-mid focus:outline-none transition-colors"
               />
             </div>
 
@@ -240,18 +240,18 @@ const Contact: React.FC = () => {
                 placeholder="How can we help? *"
                 required
                 rows={4}
-                className="w-full bg-transparent border-b border-neutral-800 py-4 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none transition-colors resize-none"
+                className="w-full bg-transparent border-b border-neutral-700 py-4 text-white placeholder:text-gray-500 focus:border-silver-mid focus:outline-none transition-colors resize-none"
               />
             </div>
 
             <button
               type="submit"
-              className="contact-field submit-button px-12 py-4 border border-neutral-700 text-white uppercase tracking-[0.2em] text-sm hover:border-silver-mid hover:text-silver-mid transition-all duration-300 will-change-transform"
+              className="contact-field submit-button px-12 py-4 border border-neutral-600 text-white uppercase tracking-[0.2em] text-sm hover:border-silver-mid hover:text-silver-mid transition-all duration-300 will-change-transform"
             >
               Send Message
             </button>
 
-            <p className="text-xs text-gray-600 mt-4">
+            <p className="text-xs text-gray-400 mt-4">
               By submitting, you agree to receive scheduling communications from
               Keystone Notary Group LLC.
             </p>
@@ -259,14 +259,14 @@ const Contact: React.FC = () => {
         </div>
 
         {/* Right Side: Concierge Info */}
-        <div className="flex flex-col justify-center p-10 md:p-16 bg-neutral-950/70 border-l border-neutral-900/60 backdrop-blur">
-          <h3 className="text-sm uppercase tracking-[0.3em] text-gray-600 mb-10">
+        <div className="flex flex-col justify-center p-10 md:p-16 bg-neutral-950/80 border-l border-neutral-900/60 backdrop-blur">
+          <h3 className="text-sm uppercase tracking-[0.3em] text-gray-500 mb-10">
             Concierge Scheduling
           </h3>
 
           <div className="grid gap-8">
-            <div className="contact-card ring-1 ring-white/10 rounded-2xl p-6 bg-white/5 will-change-transform">
-              <p className="text-xs uppercase tracking-widest text-gray-600 mb-3">
+            <div className="contact-card ring-1 ring-white/15 rounded-2xl p-6 bg-white/8 will-change-transform">
+              <p className="text-xs uppercase tracking-widest text-gray-500 mb-3">
                 Phone
               </p>
               <a
@@ -275,11 +275,11 @@ const Contact: React.FC = () => {
               >
                 (267) 309-9000
               </a>
-              <p className="text-sm text-gray-500 mt-2">Daily 7am – 9pm</p>
+              <p className="text-sm text-gray-400 mt-2">Daily 7am – 9pm</p>
             </div>
 
-            <div className="contact-card ring-1 ring-white/10 rounded-2xl p-6 bg-white/5 will-change-transform">
-              <p className="text-xs uppercase tracking-widest text-gray-600 mb-3">
+            <div className="contact-card ring-1 ring-white/15 rounded-2xl p-6 bg-white/8 will-change-transform">
+              <p className="text-xs uppercase tracking-widest text-gray-500 mb-3">
                 Email
               </p>
               <a
@@ -288,13 +288,13 @@ const Contact: React.FC = () => {
               >
                 contact@keystonenotarygroup.com
               </a>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-gray-400 mt-2">
                 Responses within 12 hours
               </p>
             </div>
 
-            <div className="contact-card ring-1 ring-white/10 rounded-2xl p-6 bg-white/5 will-change-transform">
-              <p className="text-xs uppercase tracking-widest text-gray-600 mb-3">
+            <div className="contact-card ring-1 ring-white/15 rounded-2xl p-6 bg-white/8 will-change-transform">
+              <p className="text-xs uppercase tracking-widest text-gray-500 mb-3">
                 Service Area
               </p>
               <p className="text-lg text-white">
@@ -304,11 +304,11 @@ const Contact: React.FC = () => {
           </div>
 
           <div className="contact-card mt-12 pt-10 border-t border-neutral-900/60 will-change-transform">
-            <p className="text-gray-400 leading-relaxed">
+            <p className="text-gray-300 leading-relaxed">
               All appointments include document prep guidance, ID verification,
               and sequence checks for multi-signer packages.
             </p>
-            <p className="text-sm text-gray-600 mt-4">
+            <p className="text-sm text-gray-400 mt-4">
               Prefer video consultations? Request a secure virtual session in
               your message.
             </p>

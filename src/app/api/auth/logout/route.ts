@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { destroySession } from "@/lib/session";
 
 export async function POST() {
-  const cookieStore = await cookies();
-  cookieStore.delete("admin_session");
-  return NextResponse.json({ success: true });
+  try {
+    await destroySession();
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Logout error:", error);
+    // Even if session destruction fails, return success to ensure user is logged out on client
+    return NextResponse.json({ success: true });
+  }
 }

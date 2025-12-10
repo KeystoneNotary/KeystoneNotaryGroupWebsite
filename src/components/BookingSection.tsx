@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useRef } from "react";
 import {
   format,
   addMonths,
@@ -20,8 +20,17 @@ import {
   formatApiSlots,
   convertTo24Hour,
 } from "@/lib/utils/booking";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { headerExplodedAssembly } from "@/lib/gsap-animations";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { useDeferredInit } from "@/lib/useDeferredInit";
 
 type AvailabilityState = "idle" | "loading" | "error" | "loaded";
+
+// Register plugins
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const BookingSection = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -37,6 +46,65 @@ const BookingSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [bookingError, setBookingError] = useState<string | null>(null);
+
+  // Animation refs
+  const containerRef = useRef<HTMLElement>(null);
+  const labelRef = useRef<HTMLSpanElement>(null);
+  const titleMainRef = useRef<HTMLSpanElement>(null);
+  const titleAccentRef = useRef<HTMLSpanElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+
+  // Check reduced motion preference
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldInit = useDeferredInit();
+
+  useGSAP(
+    () => {
+      // Skip animation if user prefers reduced motion or not ready
+      if (prefersReducedMotion || !shouldInit) {
+        if (prefersReducedMotion) {
+          gsap.set(
+            [
+              labelRef.current,
+              titleMainRef.current,
+              titleAccentRef.current,
+              subtitleRef.current,
+            ],
+            {
+              opacity: 1,
+              y: 0,
+              x: 0,
+              rotation: 0,
+              filter: "none",
+              letterSpacing: "0.35em",
+            }
+          );
+        }
+        return;
+      }
+
+      if (labelRef.current && titleMainRef.current && titleAccentRef.current) {
+        const tl = headerExplodedAssembly(
+          labelRef.current,
+          titleMainRef.current,
+          titleAccentRef.current,
+          subtitleRef.current || undefined
+        );
+
+        // Pause the timeline so ScrollTrigger can control it
+        tl.pause();
+
+        // Add ScrollTrigger to play the timeline when scrolling into view
+        ScrollTrigger.create({
+          trigger: containerRef.current,
+          start: "top 60%",
+          once: true,
+          onEnter: () => tl.play(),
+        });
+      }
+    },
+    { scope: containerRef, dependencies: [prefersReducedMotion, shouldInit] }
+  );
 
   const monthDays = useMemo(() => {
     const start = startOfMonth(currentMonth);
@@ -166,6 +234,7 @@ const BookingSection = () => {
 
   return (
     <section
+      ref={containerRef}
       id="booking"
       className="relative min-h-[100dvh] bg-black text-platinum py-24 md:py-32 px-6 overflow-hidden"
     >
@@ -179,16 +248,27 @@ const BookingSection = () => {
 
       <div className="max-w-5xl mx-auto relative z-10 space-y-16">
         <div className="space-y-4 text-center">
-          <span className="block text-silver-mid text-xs tracking-[0.35em] uppercase">
+          <span
+            ref={labelRef}
+            className="block text-silver-mid text-xs tracking-[0.35em] uppercase"
+          >
             Concierge Booking
           </span>
           <h2 className="font-serif text-5xl md:text-6xl font-light text-white leading-tight">
-            <span className="inline-block">Schedule</span>{" "}
-            <span className="inline-block text-silver-metallic italic">
+            <span ref={titleMainRef} className="inline-block">
+              Schedule
+            </span>{" "}
+            <span
+              ref={titleAccentRef}
+              className="inline-block text-silver-metallic italic"
+            >
               Appointment
             </span>
           </h2>
-          <p className="text-neutral-400 text-lg leading-relaxed max-w-3xl mx-auto">
+          <p
+            ref={subtitleRef}
+            className="text-neutral-400 text-lg leading-relaxed max-w-3xl mx-auto"
+          >
             Secure your appointment. Mobile notarization, apostille services,
             and executive witnessing—executed flawlessly.
           </p>

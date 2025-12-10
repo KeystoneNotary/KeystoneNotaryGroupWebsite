@@ -34,8 +34,17 @@ const Hero = () => {
         if (!cancelled) setShouldLoadVideo(true);
       };
 
-      const idleCb = (window as unknown as { requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number }).requestIdleCallback;
-      const cancelIdleCb = (window as unknown as { cancelIdleCallback?: (handle: number) => void }).cancelIdleCallback;
+      const idleCb = (
+        window as unknown as {
+          requestIdleCallback?: (
+            callback: () => void,
+            options?: { timeout: number }
+          ) => number;
+        }
+      ).requestIdleCallback;
+      const cancelIdleCb = (
+        window as unknown as { cancelIdleCallback?: (handle: number) => void }
+      ).cancelIdleCallback;
 
       if (typeof idleCb === "function") {
         const id = idleCb(run, { timeout: 500 });
@@ -60,11 +69,9 @@ const Hero = () => {
 
     // Kick off playback after the source is attached.
     video.load();
-    video
-      .play()
-      .catch(() => {
-        // Ignore autoplay blocking; user interaction will start playback.
-      });
+    video.play().catch(() => {
+      // Ignore autoplay blocking; user interaction will start playback.
+    });
   }, [shouldLoadVideo, prefersReducedMotion]);
 
   useGSAP(
@@ -78,7 +85,7 @@ const Hero = () => {
       tl.fromTo(
         videoRef.current,
         { opacity: 0 },
-        { opacity: 0.4, duration: 1.5, ease: "power2.out" },
+        { opacity: 0.4, duration: 1.8, ease: "power2.out" },
         0
       );
 
@@ -89,38 +96,55 @@ const Hero = () => {
         {
           scale: 1,
           opacity: 1,
-          duration: 1,
+          duration: 1.2,
           ease: "back.out(1.5)",
           force3D: true,
         },
         0.3
       );
 
-      // Title: Slide up + fade
+      // Title: Slide up + fade with blur
       tl.fromTo(
         titleRef.current,
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: "power2.out", force3D: true },
+        { y: 80, opacity: 0, filter: "blur(15px)", rotation: -2 },
+        {
+          y: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          rotation: 0,
+          duration: 1.0,
+          ease: "power2.out",
+          force3D: true,
+        },
         0.6
       );
 
-      // Subtitle: Slide up + fade
+      // Subtitle: Slide up + fade with blur
       tl.fromTo(
         subtitleRef.current,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: "power2.out", force3D: true },
+        { y: 50, opacity: 0, filter: "blur(10px)", rotation: 1 },
+        {
+          y: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          rotation: 0,
+          duration: 1.0,
+          ease: "power2.out",
+          force3D: true,
+        },
         0.9
       );
 
-      // CTA: Pop in
+      // CTA: Pop in with enhanced bounce
       tl.fromTo(
         ctaRef.current,
-        { scale: 0.9, opacity: 0 },
+        { scale: 0.8, opacity: 0, filter: "blur(8px)" },
         {
           scale: 1,
           opacity: 1,
-          duration: 0.6,
-          ease: "back.out(1.5)",
+          filter: "blur(0px)",
+          duration: 0.8,
+          ease: "back.out(2)",
           force3D: true,
         },
         1.2

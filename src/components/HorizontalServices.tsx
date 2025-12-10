@@ -9,6 +9,8 @@ import { useDeferredInit } from "@/lib/useDeferredInit";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
+import { headerExplodedAssembly } from "@/lib/gsap-animations";
+
 /**
  * HorizontalServices Component
  *
@@ -62,6 +64,10 @@ const HorizontalServices = () => {
   const shouldInit = useDeferredInit();
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLSpanElement>(null);
+  const titleMainRef = useRef<HTMLSpanElement>(null);
+  const titleAccentRef = useRef<HTMLSpanElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
 
   useGSAP(
     () => {
@@ -70,39 +76,21 @@ const HorizontalServices = () => {
       if (!track || !containerRef.current) return;
 
       // Intro headline lift-in
-      const headerTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 85%",
-          end: "top 40%",
-          scrub: 1,
-        },
-      });
-
-      headerTl
-        .from(".services-kicker", {
-          y: 20,
-          opacity: 0,
-          letterSpacing: "0.4em",
-        })
-        .from(
-          ".services-headline",
-          {
-            y: 40,
-            opacity: 0,
-            filter: "blur(10px)",
-          },
-          "-=0.1"
-        )
-        .from(
-          ".services-subhead",
-          {
-            y: 20,
-            opacity: 0,
-            filter: "blur(12px)",
-          },
-          "-=0.05"
+      // Header exploded assembly
+      if (labelRef.current && titleMainRef.current && titleAccentRef.current) {
+        const headerTl = headerExplodedAssembly(
+          labelRef.current,
+          titleMainRef.current,
+          titleAccentRef.current,
+          subtitleRef.current || undefined
         );
+
+        ScrollTrigger.create({
+          trigger: containerRef.current,
+          start: "top 65%",
+          animation: headerTl,
+        });
+      }
 
       // Kinetic Typography Animation
       const sections = gsap.utils.toArray(".service-section") as HTMLElement[];
@@ -114,28 +102,28 @@ const HorizontalServices = () => {
 
         // Initial State with Enhanced Effects
         gsap.set(title, {
-          y: 100,
+          y: 120,
           opacity: 0,
-          scale: 0.95,
-          x: -20,
-          filter: "blur(6px)",
+          scale: 0.9,
+          x: -30,
+          filter: "blur(12px)",
         });
         gsap.set(number, {
-          x: -100,
+          x: -120,
           opacity: 0,
-          rotation: -10,
-          filter: "blur(5px)",
+          rotation: -15,
+          filter: "blur(15px)",
         });
         gsap.set(desc, {
-          y: 20,
+          y: 30,
           opacity: 0,
-          filter: "blur(8px)",
+          filter: "blur(12px)",
         });
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            start: "top 80%",
+            start: "top 65%",
             end: "center center",
             scrub: 1,
             toggleActions: "play reverse play reverse",
@@ -148,7 +136,7 @@ const HorizontalServices = () => {
           opacity: 0.2,
           rotation: 0,
           filter: "blur(0px)",
-          duration: 1,
+          duration: 1.2,
           ease: "power2.out",
           force3D: true,
         })
@@ -161,7 +149,7 @@ const HorizontalServices = () => {
               scale: 1,
               x: 0,
               filter: "blur(0px)",
-              duration: 1,
+              duration: 1.2,
               ease: "power2.out",
               force3D: true,
             },
@@ -174,7 +162,7 @@ const HorizontalServices = () => {
               y: 0,
               opacity: 1,
               filter: "blur(0px)",
-              duration: 0.8,
+              duration: 1.0,
               ease: "power2.out",
               force3D: true,
             },
@@ -202,21 +190,36 @@ const HorizontalServices = () => {
       <div className="relative max-w-5xl mx-auto space-y-20 px-6 md:px-12">
         {/* Section Header */}
         <div className="space-y-4 text-center">
-          <span className="services-kicker text-xs uppercase tracking-[0.4em] text-silver-mid">
+          <span
+            ref={labelRef}
+            className="text-xs uppercase tracking-[0.4em] text-silver-mid will-change-transform"
+          >
             Signature Services
           </span>
-          <h2 className="services-headline font-serif text-5xl md:text-6xl font-light text-white leading-tight">
-            Precision <span className="text-silver-metallic italic">in motion.</span>
+          <h2 className="font-serif text-5xl md:text-6xl font-light text-white leading-tight">
+            <span
+              ref={titleMainRef}
+              className="inline-block will-change-transform"
+            >
+              Precision
+            </span>{" "}
+            <span
+              ref={titleAccentRef}
+              className="inline-block text-silver-metallic italic will-change-transform"
+            >
+              in motion.
+            </span>
           </h2>
-          <p className="services-subhead text-neutral-400 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
-            The same discipline as our philosophy piece—applied to estate, executive mobility, apostille, and corporate work.
+          <p
+            ref={subtitleRef}
+            className="text-neutral-400 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto will-change-transform"
+          >
+            The same discipline as our philosophy piece—applied to estate,
+            executive mobility, apostille, and corporate work.
           </p>
         </div>
 
-        <div
-          ref={trackRef}
-          className="flex flex-col gap-16 md:gap-24"
-        >
+        <div ref={trackRef} className="flex flex-col gap-16 md:gap-24">
           {services.map((service) => (
             <div key={service.id} className="service-section relative group">
               {/* Massive Background Number */}

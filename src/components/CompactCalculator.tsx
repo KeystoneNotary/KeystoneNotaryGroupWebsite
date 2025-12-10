@@ -10,7 +10,11 @@ import {
   PRICING_CONFIG,
 } from "@/lib/pricing";
 
-const CompactCalculator = () => {
+interface CompactCalculatorProps {
+  embedded?: boolean;
+}
+
+const CompactCalculator = ({ embedded = false }: CompactCalculatorProps) => {
   const [distance, setDistance] = useState<string>("");
   const [serviceType, setServiceType] = useState<ServiceType>("standard");
   const [urgency, setUrgency] = useState<UrgencyType>("standard");
@@ -25,11 +29,12 @@ const CompactCalculator = () => {
 
   const total = Math.round(breakdown.total);
 
+  const containerClasses = embedded
+    ? "w-full"
+    : "bg-neutral-950/70 backdrop-blur-md ring-1 ring-white/10 rounded-2xl p-6 w-full max-w-sm";
+
   return (
-    <div
-      id="calculator-widget"
-      className="bg-neutral-950/70 backdrop-blur-md ring-1 ring-white/10 rounded-2xl p-6 w-full max-w-sm"
-    >
+    <div id="calculator-widget" className={containerClasses}>
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-white/5 rounded-lg ring-1 ring-white/10">

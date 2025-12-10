@@ -1,5 +1,5 @@
 {
-  "name": "temp_app",
+  "name": "keystone-notary-group",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "jest"
+    "test": "jest",
+    "hash-password": "npx ts-node scripts/hash-password.ts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -22,6 +23,7 @@
     "framer-motion": "^12.23.25",
     "googleapis": "^167.0.0",
     "gsap": "^3.13.0",
+    "iron-session": "^8.0.4",
     "lucide-react": "^0.556.0",
     "next": "16.0.7",
     "react": "19.2.1",

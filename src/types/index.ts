@@ -1,16 +1,22 @@
 // Type definitions for the Keystone Notary Group LLC Website
 
+import type { ServiceType, UrgencyType } from "@/lib/pricing";
+
 export interface BookingDetails {
   customerName: string;
   customerEmail: string;
   customerPhone: string;
-  appointmentDate: string; // YYYY-MM-DD
-  appointmentTime: string; // HH:MM (24h)
+  appointmentDate: string; // YYYY-MM-DD format
+  appointmentTime: string; // HH:MM format (24-hour)
   address: string;
-  serviceType: string;
+  serviceType: ServiceType | string; // ServiceType preferred, string for backwards compatibility
   price: number;
   notes?: string;
+  urgency?: UrgencyType;
 }
+
+// Re-export pricing types for convenience
+export type { ServiceType, UrgencyType } from "@/lib/pricing";
 
 export interface APIResponse<T = unknown> {
   success: boolean;

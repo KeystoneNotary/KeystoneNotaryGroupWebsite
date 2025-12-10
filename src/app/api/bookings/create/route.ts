@@ -4,6 +4,7 @@ import { supabaseAdmin as supabase } from "@/lib/supabase-admin";
 import { createCalendarEvent } from "@/lib/google-calendar";
 import { sendBookingConfirmation, sendNotaryNotification } from "@/lib/email";
 import { rateLimitMiddleware } from "@/middleware/rate-limit";
+import { csrfMiddleware } from "@/lib/csrf";
 
 export const dynamic = "force-dynamic";
 
@@ -20,10 +21,14 @@ const bookingSchema = z.object({
   notes: z.string().optional(),
 });
 
-// ... existing imports ...
-
 export async function POST(request: Request) {
   try {
+    // Apply CSRF validation
+    const csrfError = await csrfMiddleware(request);
+    if (csrfError) {
+      return csrfError;
+    }
+
     // Apply rate limiting
     const rateLimitResponse = await rateLimitMiddleware(request as NextRequest);
     if (rateLimitResponse) {
@@ -35,21 +40,8 @@ export async function POST(request: Request) {
     // 1. Validate Input
     const validatedData = bookingSchema.parse(body);
 
-    // 2. Create Google Calendar Event
-    let googleEventId = null;
-    try {
-      // Only attempt if credentials exist, otherwise skip (for dev/demo)
-      if (process.env.GOOGLE_CLIENT_EMAIL) {
-        googleEventId = await createCalendarEvent(validatedData);
-      } else {
-        console.warn("Skipping Google Calendar: No credentials");
-      }
-    } catch (calError) {
-      console.error("Google Calendar Error:", calError);
-      // Continue even if calendar fails, but log it
-    }
-
-    // 3. Save to Supabase
+    // 2. Save to Supabase FIRST (source of truth)
+    // This ensures we don't create orphaned calendar events
     const { data: booking, error: dbError } = await supabase
       .from("bookings")
       .insert([
@@ -63,7 +55,6 @@ export async function POST(request: Request) {
           service_type: validatedData.serviceType,
           price: validatedData.price,
           notes: validatedData.notes,
-          google_event_id: googleEventId,
           status: "confirmed",
         },
       ])
@@ -72,13 +63,31 @@ export async function POST(request: Request) {
 
     if (dbError) {
       console.error("Database Error:", dbError);
-      // If DB fails, we should probably fail the request
-      // But for now, let's return error
       throw new Error("Failed to save booking");
     }
 
-    // 4. Send Emails
-    // Fire and forget - don't block response
+    // 3. Create Google Calendar Event (best effort, after DB success)
+    let googleEventId = null;
+    try {
+      if (process.env.GOOGLE_CLIENT_EMAIL) {
+        googleEventId = await createCalendarEvent(validatedData);
+
+        // Update booking with calendar event ID
+        if (googleEventId) {
+          await supabase
+            .from("bookings")
+            .update({ google_event_id: googleEventId })
+            .eq("id", booking.id);
+        }
+      } else {
+        console.warn("Skipping Google Calendar: No credentials configured");
+      }
+    } catch (calError) {
+      // Log but don't fail - booking is already saved
+      console.error("Google Calendar Error (non-blocking):", calError);
+    }
+
+    // 4. Send Emails (fire and forget - don't block response)
     if (process.env.RESEND_API_KEY) {
       Promise.all([
         sendBookingConfirmation(validatedData, booking.id),

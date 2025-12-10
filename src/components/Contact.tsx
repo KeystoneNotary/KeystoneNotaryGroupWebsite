@@ -82,7 +82,7 @@ const Contact: React.FC = () => {
       if (labelRef.current && titleMainRef.current && titleAccentRef.current) {
         const headerTl = createScrollTimeline(containerRef.current, {
           trigger: containerRef.current,
-          start: "top 70%",
+          start: "top 60%",
           end: "center center",
           scrub: 1,
         });
@@ -103,7 +103,7 @@ const Contact: React.FC = () => {
       if (formFields.length > 0) {
         const formTl = createScrollTimeline(formFields[0], {
           trigger: formFields[0],
-          start: "top 75%",
+          start: "top 60%",
           end: "center center",
           scrub: 1,
         });
@@ -113,11 +113,12 @@ const Contact: React.FC = () => {
           formTl.from(
             field as Element,
             {
-              x: fromLeft ? -60 : 60,
-              y: 30,
+              x: fromLeft ? -80 : 80,
+              y: 40,
               opacity: 0,
-              scale: 0.95,
-              rotation: fromLeft ? -2 : 2,
+              scale: 0.92,
+              rotation: fromLeft ? -3 : 3,
+              filter: "blur(10px)",
               ease: "power2.out",
               force3D: true,
             },
@@ -131,7 +132,7 @@ const Contact: React.FC = () => {
       if (infoCards.length > 0) {
         const cardTl = createScrollTimeline(infoCards[0], {
           trigger: infoCards[0],
-          start: "top 75%",
+          start: "top 60%",
           end: "center center",
           scrub: 1,
         });
@@ -140,11 +141,12 @@ const Contact: React.FC = () => {
           cardTl.from(
             card as Element,
             {
-              y: 40,
+              y: 50,
               opacity: 0,
-              scale: 0.9,
-              rotation: 2,
-              ease: "back.out(1.5)",
+              scale: 0.88,
+              rotation: 3,
+              filter: "blur(12px)",
+              ease: "back.out(1.8)",
               force3D: true,
             },
             i * 0.1

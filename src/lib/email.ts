@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { BookingDetails } from "@/types";
+import { escapeValue, formatPrice } from "./sanitize";
 
 const RESEND_PLACEHOLDER_PATTERNS = [
   /^re_123/i,
@@ -8,30 +9,6 @@ const RESEND_PLACEHOLDER_PATTERNS = [
   /^placeholder/i,
   /^test_key/i,
 ];
-
-const escapeHtml = (text: string): string =>
-  text.replace(
-    /[<>&"']/g,
-    (char) =>
-      ({
-        "<": "&lt;",
-        ">": "&gt;",
-        "&": "&amp;",
-        '"': "&quot;",
-        "'": "&#x27;",
-      }[char] || char)
-  );
-
-const escapeValue = (value: string | number | null | undefined): string =>
-  escapeHtml(String(value ?? ""));
-
-const formatPrice = (price: number): string => {
-  if (!Number.isFinite(price)) {
-    return "N/A";
-  }
-
-  return price.toFixed(2);
-};
 
 const resolveResendApiKey = (): string => {
   const apiKey = process.env.RESEND_API_KEY?.trim();

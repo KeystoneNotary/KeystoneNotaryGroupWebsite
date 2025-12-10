@@ -29,7 +29,8 @@ describe("BookingSection", () => {
 
   it("loads availability after selecting a valid date", async () => {
     render(<BookingSection />);
-    const dayButton = screen.getAllByRole("button", { name: /Select .*2024/ })
+    const dayButton = screen
+      .getAllByRole("button", { name: /Select .*2024/ })
       .find((btn) => !btn.hasAttribute("disabled"));
     expect(dayButton).toBeTruthy();
     if (!dayButton) return;
@@ -45,7 +46,8 @@ describe("BookingSection", () => {
 
   it("reveals the form after picking a slot", async () => {
     render(<BookingSection />);
-    const dayButton = screen.getAllByRole("button", { name: /Select .*2024/ })
+    const dayButton = screen
+      .getAllByRole("button", { name: /Select .*2024/ })
       .find((btn) => !btn.hasAttribute("disabled"));
     if (!dayButton) return;
     fireEvent.click(dayButton);

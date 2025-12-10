@@ -80,7 +80,7 @@ export const parallaxBackgroundText = (
     endOpacity = 0.03,
     startRotation = 0,
     endRotation = 0,
-    // startBlur = 30, // unused
+    startBlur = 30,
     endBlur = 0,
     startScale = 0.95,
     endScale = 1,
@@ -93,6 +93,7 @@ export const parallaxBackgroundText = (
       opacity: startOpacity,
       rotation: startRotation,
       scale: startScale,
+      filter: `blur(${startBlur}px)`,
     },
     {
       y: endY,

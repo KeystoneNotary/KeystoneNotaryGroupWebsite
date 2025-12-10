@@ -38,7 +38,7 @@ const TheFirm = () => {
           ease: "power2.out",
           scrollTrigger: {
             trigger: containerRef.current,
-            start: "top 80%",
+            start: "top 60%",
             end: "center center",
             scrub: 1,
           },
@@ -55,7 +55,7 @@ const TheFirm = () => {
           ease: "power2.out",
           scrollTrigger: {
             trigger: containerRef.current,
-            start: "top 70%",
+            start: "top 60%",
             end: "center center",
             scrub: 1,
           },
@@ -66,7 +66,7 @@ const TheFirm = () => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top 70%",
+          start: "top 60%",
           end: "center center",
           scrub: 1,
         },
@@ -81,49 +81,49 @@ const TheFirm = () => {
       tl.from(
         headlineTopRef.current,
         {
-          x: -100,
-          y: -50,
+          x: -120,
+          y: -60,
           opacity: 0,
-          filter: "blur(20px)",
-          rotation: -5,
+          filter: "blur(25px)",
+          rotation: -8,
         },
-        0.15
+        0.25
       );
 
       tl.from(
         headlineBottomRef.current,
         {
-          x: 100,
-          y: 50,
+          x: 120,
+          y: 60,
           opacity: 0,
-          filter: "blur(20px)",
-          rotation: 5,
-        },
-        0.3
-      );
-
-      tl.from(
-        paraLeftRef.current,
-        {
-          x: -50,
-          y: 100,
-          opacity: 0,
-          rotation: -2,
-          filter: "blur(10px)",
+          filter: "blur(25px)",
+          rotation: 8,
         },
         0.45
       );
 
       tl.from(
-        paraRightRef.current,
+        paraLeftRef.current,
         {
-          x: 50,
+          x: -60,
           y: 100,
           opacity: 0,
-          rotation: 2,
-          filter: "blur(10px)",
+          rotation: -3,
+          filter: "blur(15px)",
         },
-        0.6
+        0.65
+      );
+
+      tl.from(
+        paraRightRef.current,
+        {
+          x: 60,
+          y: 100,
+          opacity: 0,
+          rotation: 3,
+          filter: "blur(15px)",
+        },
+        0.85
       );
     },
     { scope: containerRef, dependencies: [prefersReducedMotion, shouldInit] }

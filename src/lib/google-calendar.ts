@@ -1,6 +1,7 @@
 import { google } from "googleapis";
 import { addMinutes, parseISO } from "date-fns";
 import { BookingDetails, CalendarEvent } from "@/types";
+import { sanitizeText, formatPrice } from "./sanitize";
 
 // Initialize Google Auth Lazily
 const getCalendar = () => {
@@ -25,18 +26,27 @@ export async function createCalendarEvent(
     const startDate = parseISO(startDateTime);
     const endDate = addMinutes(startDate, 60);
 
+    // Sanitize all user-provided content
+    const customerName = sanitizeText(booking.customerName);
+    const customerPhone = sanitizeText(booking.customerPhone);
+    const customerEmail = sanitizeText(booking.customerEmail);
+    const serviceType = sanitizeText(booking.serviceType);
+    const address = sanitizeText(booking.address);
+    const notes = sanitizeText(booking.notes) || "None";
+    const price = formatPrice(booking.price);
+
     const event: CalendarEvent = {
-      summary: `Notary: ${booking.customerName} - ${booking.serviceType}`,
+      summary: `Notary: ${customerName} - ${serviceType}`,
       description: `
-        Customer: ${booking.customerName}
-        Phone: ${booking.customerPhone}
-        Email: ${booking.customerEmail}
-        Service: ${booking.serviceType}
-        Price: $${booking.price}
-        Address: ${booking.address}
-        Notes: ${booking.notes || "None"}
-      `,
-      location: booking.address,
+Customer: ${customerName}
+Phone: ${customerPhone}
+Email: ${customerEmail}
+Service: ${serviceType}
+Price: $${price}
+Address: ${address}
+Notes: ${notes}
+      `.trim(),
+      location: address,
       start: {
         dateTime: startDateTime,
         timeZone: "America/New_York",
@@ -45,12 +55,8 @@ export async function createCalendarEvent(
         dateTime: endDate.toISOString(),
         timeZone: "America/New_York",
       },
-      attendees: [
-        { email: booking.customerEmail },
-        { email: process.env.NOTARY_EMAIL || "" },
-      ].filter((attendee) => attendee.email && attendee.email !== "") as Array<{
-        email: string;
-      }>,
+      // Note: Service accounts cannot add attendees without Domain-Wide Delegation
+      // All customer info is included in the description above
       reminders: {
         useDefault: false,
         overrides: [
@@ -73,7 +79,12 @@ export async function createCalendarEvent(
   }
 }
 
-export async function getAvailableSlots(date: string) {
+/**
+ * Gets available time slots for a given date
+ * @param date - Date string in YYYY-MM-DD format
+ * @returns Array of available time slots (HH:MM format), empty array on error
+ */
+export async function getAvailableSlots(date: string): Promise<string[]> {
   try {
     const timeMin = `${date}T08:00:00-05:00`; // 8 AM EST
     const timeMax = `${date}T20:00:00-05:00`; // 8 PM EST

@@ -181,9 +181,10 @@ const Hero = () => {
         <video
           ref={videoRef}
           data-testid="hero-video"
-          className={`absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto object-cover -translate-x-1/2 -translate-y-1/2 z-0 brightness-100 contrast-125 saturate-125 transition-opacity duration-500 ${
+          className={`absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto object-cover -translate-x-1/2 -translate-y-1/2 z-0 transition-opacity duration-500 ${
             videoReady ? "opacity-40" : "opacity-0"
           }`}
+          style={{ willChange: "transform, opacity" }}
           autoPlay
           muted
           loop
@@ -212,7 +213,7 @@ const Hero = () => {
         <div
           ref={logoRef}
           id="hero-logo"
-          className="w-[120px] md:w-[220px] mb-4 md:mb-8 will-change-transform"
+          className="w-[120px] md:w-[220px] mb-4 md:mb-8"
         >
           <Image
             src="/assets/images/logo-silver-metallic.webp"
@@ -226,14 +227,14 @@ const Hero = () => {
 
         <h1
           ref={titleRef}
-          className="font-serif text-3xl md:text-6xl text-silver-metallic font-light tracking-tight leading-tight drop-shadow-lg will-change-transform"
+          className="font-serif text-3xl md:text-6xl text-silver-metallic font-light tracking-tight leading-tight drop-shadow-lg"
         >
           Professional Notary Services
         </h1>
 
         <p
           ref={subtitleRef}
-          className="font-sans text-lg md:text-2xl text-gray-300 font-light tracking-[0.2em] uppercase mb-8 will-change-transform"
+          className="font-sans text-lg md:text-2xl text-gray-300 font-light tracking-[0.2em] uppercase mb-8"
         >
           Trusted. Certified. Available.
         </p>
@@ -241,7 +242,7 @@ const Hero = () => {
         <a
           ref={ctaRef}
           href="#booking"
-          className="inline-flex items-center justify-center px-8 py-4 bg-white/10 border border-white/20 backdrop-blur-md text-white uppercase tracking-widest text-xs md:text-sm font-medium rounded-full hover:bg-white/20 hover:scale-105 transition-all duration-300 shadow-lg will-change-transform"
+          className="inline-flex items-center justify-center px-8 py-4 bg-white/10 border border-white/20 backdrop-blur-md text-white uppercase tracking-widest text-xs md:text-sm font-medium rounded-full hover:bg-white/20 hover:scale-105 transition-all duration-300 shadow-lg"
         >
           Schedule Appointment
         </a>
@@ -249,7 +250,7 @@ const Hero = () => {
         {/* Scroll Indicator */}
         <div
           ref={scrollIndicatorRef}
-          className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 will-change-transform"
+          className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         >
           <span className="text-[10px] md:text-xs text-gray-400 uppercase tracking-widest">
             Scroll

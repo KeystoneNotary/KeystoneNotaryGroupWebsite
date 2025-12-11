@@ -1,22 +1,24 @@
 "use client";
 
-import React, { useMemo, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import {
   format,
   addMonths,
   subMonths,
-  startOfMonth,
-  endOfMonth,
-  eachDayOfInterval,
   isBefore,
   startOfToday,
   isSunday,
 } from "date-fns";
-import { CheckCircle2, AlertCircle } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import CompactCalculator from "./CompactCalculator";
 import {
+  CalendarView,
+  TimeSlotPicker,
+  BookingForm,
+  type AvailabilityState,
+} from "./booking";
+import {
   timeSlotsFallback,
-  weekdayLabels,
   formatApiSlots,
   convertTo24Hour,
 } from "@/lib/utils/booking";
@@ -27,12 +29,22 @@ import { headerExplodedAssembly } from "@/lib/gsap-animations";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import { useDeferredInit } from "@/lib/useDeferredInit";
 
-type AvailabilityState = "idle" | "loading" | "error" | "loaded";
-
 // Register plugins
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
+/**
+ * BookingSection Component
+ *
+ * Main booking section that orchestrates the booking flow:
+ * 1. Calendar date selection
+ * 2. Time slot selection
+ * 3. Customer information form
+ * 4. Booking confirmation
+ *
+ * Uses extracted sub-components for better maintainability.
+ */
 const BookingSection = () => {
+  // Booking state
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -106,13 +118,16 @@ const BookingSection = () => {
     { scope: containerRef, dependencies: [prefersReducedMotion, shouldInit] }
   );
 
-  const monthDays = useMemo(() => {
-    const start = startOfMonth(currentMonth);
-    const end = endOfMonth(currentMonth);
-    return eachDayOfInterval({ start, end });
-  }, [currentMonth]);
-
   const today = startOfToday();
+
+  // Event handlers
+  const handleMonthChange = (direction: "prev" | "next") => {
+    setCurrentMonth(
+      direction === "prev"
+        ? subMonths(currentMonth, 1)
+        : addMonths(currentMonth, 1)
+    );
+  };
 
   const handleDateSelect = async (date: Date) => {
     if (isBefore(date, today) || isSunday(date)) return;
@@ -247,6 +262,7 @@ const BookingSection = () => {
       />
 
       <div className="max-w-5xl mx-auto relative z-10 space-y-16">
+        {/* Section Header */}
         <div className="space-y-4 text-center">
           <span
             ref={labelRef}
@@ -275,194 +291,44 @@ const BookingSection = () => {
         </div>
 
         <div className="grid lg:grid-cols-[1fr_0.9fr] gap-16 items-start">
-          {/* Calendar + Slots */}
+          {/* Main Booking Flow */}
           <div className="space-y-10 rounded-2xl bg-neutral-950/60 ring-1 ring-white/10 p-10 md:p-12 backdrop-blur">
-            {/* Month Navigation */}
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-                className="text-gray-500 hover:text-white transition-colors text-sm uppercase tracking-[0.2em]"
-                aria-label="Previous month"
-              >
-                ← Prev
-              </button>
-              <h3 className="font-serif text-4xl text-white">
-                {format(currentMonth, "MMMM yyyy")}
-              </h3>
-              <button
-                onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-                className="text-gray-500 hover:text-white transition-colors text-sm uppercase tracking-[0.2em]"
-                aria-label="Next month"
-              >
-                Next →
-              </button>
-            </div>
+            {/* Calendar */}
+            <CalendarView
+              currentMonth={currentMonth}
+              selectedDate={selectedDate}
+              onDateSelect={handleDateSelect}
+              onMonthChange={handleMonthChange}
+            />
 
-            {/* Calendar Grid */}
-            <div className="rounded-xl ring-1 ring-neutral-900 overflow-hidden">
-              <div className="grid grid-cols-7 bg-neutral-900 text-xs uppercase tracking-wider text-gray-500">
-                {weekdayLabels.map((day) => (
-                  <div key={day} className="py-3 text-center">
-                    {day}
-                  </div>
-                ))}
-              </div>
-              <div className="grid grid-cols-7 gap-px bg-neutral-900">
-                {monthDays.map((date) => {
-                  const isDisabled = isBefore(date, today) || isSunday(date);
-                  const isSelected =
-                    selectedDate &&
-                    format(date, "yyyy-MM-dd") ===
-                      format(selectedDate, "yyyy-MM-dd");
-                  return (
-                    <button
-                      key={date.toString()}
-                      onClick={() => handleDateSelect(date)}
-                      disabled={isDisabled}
-                      className={`bg-black aspect-square flex items-center justify-center text-sm transition-all ${
-                        isDisabled
-                          ? "text-gray-800 cursor-not-allowed opacity-30"
-                          : isSelected
-                          ? "bg-silver-mid text-black font-medium"
-                          : "text-white hover:bg-white/5"
-                      }`}
-                      aria-label={`Select ${format(date, "MMMM d, yyyy")}`}
-                    >
-                      {format(date, "d")}
-                    </button>
-                  );
-                })}
-              </div>
-              <p className="text-xs text-gray-500 mt-3 px-2">
-                Sundays reserved for emergency appointments only.
-              </p>
-            </div>
-
-            {/* Slots */}
+            {/* Time Slots */}
             {selectedDate && (
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <h4 className="text-xs uppercase tracking-widest text-gray-500">
-                    Select Time
-                  </h4>
-                  {availabilityState === "loading" && (
-                    <span className="text-xs text-gray-500">
-                      Checking availability…
-                    </span>
-                  )}
-                  {availabilityError && (
-                    <span className="text-xs text-amber-400 flex items-center gap-1">
-                      <AlertCircle size={14} /> {availabilityError}
-                    </span>
-                  )}
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
-                  {(availabilityState === "loading"
-                    ? Array.from({ length: 10 }).map((_, idx) => (
-                        <div
-                          key={idx}
-                          className="animate-pulse bg-neutral-900 h-12 rounded ring-1 ring-neutral-800"
-                        />
-                      ))
-                    : availableSlots
-                  ).map((slot) =>
-                    typeof slot === "string" ? (
-                      <button
-                        key={slot}
-                        onClick={() => handleTimeSelect(slot)}
-                        className={`py-3 text-sm transition-all ring-1 ${
-                          selectedTime === slot
-                            ? "bg-silver-mid text-black ring-silver-mid"
-                            : "bg-transparent text-white ring-neutral-800 hover:ring-silver-mid"
-                        }`}
-                        aria-label={`Select ${slot}`}
-                      >
-                        {slot}
-                      </button>
-                    ) : (
-                      slot
-                    )
-                  )}
-                </div>
-                <button
-                  onClick={resetBooking}
-                  className="text-sm text-gray-500 hover:text-white uppercase tracking-widest"
-                >
-                  Start over
-                </button>
-              </div>
+              <TimeSlotPicker
+                selectedDate={selectedDate}
+                selectedTime={selectedTime}
+                availableSlots={availableSlots}
+                availabilityState={availabilityState}
+                availabilityError={availabilityError}
+                onTimeSelect={handleTimeSelect}
+                onReset={resetBooking}
+              />
             )}
 
-            {/* Form */}
-            {showForm && (
-              <div className="space-y-6 border-t border-neutral-900 pt-10">
-                {bookingError && (
-                  <div className="flex items-center gap-2 text-sm text-amber-400">
-                    <AlertCircle size={16} /> {bookingError}
-                  </div>
-                )}
-                <form
-                  onSubmit={handleSubmit}
-                  className="space-y-6"
-                  aria-label="Booking form"
-                >
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <input
-                      name="customerName"
-                      type="text"
-                      placeholder="Full Name *"
-                      required
-                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none"
-                    />
-                    <input
-                      name="customerPhone"
-                      type="tel"
-                      placeholder="Phone Number *"
-                      required
-                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none"
-                    />
-                    <input
-                      name="customerEmail"
-                      type="email"
-                      placeholder="Email Address *"
-                      required
-                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none"
-                    />
-                    <input
-                      name="address"
-                      type="text"
-                      placeholder="Appointment Address *"
-                      required
-                      className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none"
-                    />
-                  </div>
-                  <textarea
-                    name="notes"
-                    placeholder="Additional details (optional)"
-                    rows={3}
-                    className="w-full bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none resize-none"
-                  />
-                  <label className="flex items-start gap-3 text-sm text-gray-500">
-                    <input type="checkbox" required className="mt-1" />
-                    <span>
-                      I will provide valid, government-issued identification for
-                      all signers.
-                    </span>
-                  </label>
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full px-12 py-4 bg-white/10 border border-white/20 backdrop-blur-md text-white uppercase tracking-widest text-sm font-medium rounded-full hover:bg-white/20 hover:scale-[1.02] transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? "Processing..." : "Confirm Appointment"}
-                  </button>
-                </form>
-              </div>
+            {/* Booking Form */}
+            {showForm && selectedDate && selectedTime && (
+              <BookingForm
+                selectedDate={selectedDate}
+                selectedTime={selectedTime}
+                isSubmitting={isSubmitting}
+                bookingError={bookingError}
+                onSubmit={handleSubmit}
+              />
             )}
           </div>
 
           {/* Sidebar */}
           <div className="sticky top-16 space-y-8">
+            {/* Appointment Summary */}
             <div className="bg-neutral-900/70 ring-1 ring-neutral-800 rounded-2xl p-6 backdrop-blur">
               <h4 className="text-xs uppercase tracking-widest text-gray-500 mb-4">
                 Appointment Summary
@@ -481,8 +347,10 @@ const BookingSection = () => {
               </div>
             </div>
 
+            {/* Calculator Widget */}
             <CompactCalculator />
 
+            {/* Contact Card */}
             <div className="p-6 rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur">
               <h4 className="text-xs uppercase tracking-widest text-gray-500 mb-3">
                 Complex Arrangement?

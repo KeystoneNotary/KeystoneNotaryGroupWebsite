@@ -56,5 +56,6 @@
   "claudeCode.environmentVariables": [],
   "claudeCode.preferredLocation": "sidebar",
   "geminicodeassist.project": "ai-voice-receptionist-470022 ",
-  "geminicodeassist.agentDebugMode": true
+  "geminicodeassist.agentDebugMode": true,
+  "geminicodeassist.enableTelemetry": false
 }

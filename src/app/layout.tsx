@@ -14,9 +14,12 @@ const inter = Inter({
   display: "swap",
 });
 
+// Base metadata - more specific metadata in page.tsx via metadata.ts
 export const metadata: Metadata = {
-  title: "Keystone Notary Group | Executive Notary Services",
-  description: "Precision is our currency. Executive mobile notary facilitation for estate closings, legal signings, and international authentication.",
+  title: {
+    template: "%s | Keystone Notary Group",
+    default: "Keystone Notary Group | Executive Notary Services",
+  },
 };
 
 export default function RootLayout({

@@ -34,12 +34,21 @@ const buildUnsafeBooking = (): BookingDetails => ({
 });
 
 describe("email utilities", () => {
+  // Suppress console.error for expected error scenarios
+  let consoleErrorSpy: jest.SpyInstance;
+
   beforeEach(() => {
     jest.clearAllMocks();
     sendEmailMock.mockReset();
     sendEmailMock.mockResolvedValue({ id: "mocked" });
     process.env = { ...ORIGINAL_ENV };
     delete process.env.RESEND_API_KEY;
+    // Suppress console.error for cleaner test output
+    consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
   });
 
   afterAll(() => {

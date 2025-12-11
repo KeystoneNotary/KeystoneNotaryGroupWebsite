@@ -22,6 +22,7 @@ import {
   formatApiSlots,
   convertTo24Hour,
 } from "@/lib/utils/booking";
+import { PRICING_CONFIG } from "@/lib/pricing";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -58,6 +59,12 @@ const BookingSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [bookingError, setBookingError] = useState<string | null>(null);
+  const [isCalculatingDistance, setIsCalculatingDistance] = useState(false);
+  const [calculatedPrice, setCalculatedPrice] = useState<number | null>(null);
+  const [distanceInfo, setDistanceInfo] = useState<{
+    distance: number;
+    duration: number;
+  } | null>(null);
 
   // Animation refs
   const containerRef = useRef<HTMLElement>(null);
@@ -174,6 +181,58 @@ const BookingSection = () => {
     setBookingError(null);
     setAvailabilityState("idle");
     setAvailabilityError(null);
+    setCalculatedPrice(null);
+    setDistanceInfo(null);
+  };
+
+  const calculateDistanceAndPrice = async (
+    address: string,
+    city: string,
+    state: string
+  ) => {
+    if (!address || !city || !state) return;
+
+    setIsCalculatingDistance(true);
+    setBookingError(null);
+
+    try {
+      const res = await fetch("/api/calculate-distance", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          address,
+          city,
+          state,
+          serviceType: "standard",
+          urgency: "standard",
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.warn("Distance calculation failed:", data.message);
+        // Fallback to estimated price
+        setCalculatedPrice(null);
+        setDistanceInfo(null);
+        return;
+      }
+
+      if (data.success) {
+        setCalculatedPrice(Math.round(data.breakdown.total));
+        setDistanceInfo({
+          distance: data.distance,
+          duration: data.duration,
+        });
+      }
+    } catch (error) {
+      console.error("Distance calculation error:", error);
+      // Silent fallback - don't block user
+      setCalculatedPrice(null);
+      setDistanceInfo(null);
+    } finally {
+      setIsCalculatingDistance(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -184,15 +243,62 @@ const BookingSection = () => {
     setBookingError(null);
 
     const formData = new FormData(e.target as HTMLFormElement);
+    const address = formData.get("address") as string;
+    const city = formData.get("city") as string;
+    const state = formData.get("state") as string || "Pennsylvania";
+
+    // Use calculated price if available, otherwise use estimated price
+    let finalPrice = calculatedPrice;
+
+    // If distance calculation wasn't performed or failed, calculate it now
+    if (!finalPrice) {
+      try {
+        const res = await fetch("/api/calculate-distance", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            address,
+            city,
+            state,
+            serviceType: "standard",
+            urgency: "standard",
+          }),
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          finalPrice = Math.round(data.breakdown.total);
+        } else {
+          // Fallback to estimated price
+          finalPrice = Math.round(
+            PRICING_CONFIG.NOTARY_FEE +
+            (PRICING_CONFIG.FREE_MILEAGE * PRICING_CONFIG.MILEAGE_RATE) +
+            PRICING_CONFIG.SERVICE_FEES.standard
+          );
+        }
+      } catch (error) {
+        console.error("Distance calculation failed during submit:", error);
+        // Fallback to estimated price
+        finalPrice = Math.round(
+          PRICING_CONFIG.NOTARY_FEE +
+          (PRICING_CONFIG.FREE_MILEAGE * PRICING_CONFIG.MILEAGE_RATE) +
+          PRICING_CONFIG.SERVICE_FEES.standard
+        );
+      }
+    }
+
     const bookingData = {
       customerName: formData.get("customerName"),
       customerEmail: formData.get("customerEmail"),
       customerPhone: formData.get("customerPhone"),
-      address: formData.get("address"),
+      address,
+      city,
+      state,
       appointmentDate: format(selectedDate, "yyyy-MM-dd"),
       appointmentTime: convertTo24Hour(selectedTime),
       serviceType: "General Notary Work",
-      price: 75,
+      price: finalPrice,
       notes: formData.get("notes"),
     };
 
@@ -232,10 +338,15 @@ const BookingSection = () => {
           <h2 className="font-serif text-5xl md:text-6xl text-white mb-6">
             Booking Confirmed
           </h2>
-          <p className="text-gray-400 text-lg leading-relaxed">
+          <p className="text-gray-400 text-lg leading-relaxed mb-6">
             Thank you! Your appointment has been scheduled.
             <br />A confirmation email has been sent to you.
           </p>
+          <div className="max-w-lg mx-auto p-4 bg-amber-900/20 border border-amber-900/40 rounded-lg">
+            <p className="text-sm text-amber-400/90 leading-relaxed">
+              <strong>Note:</strong> Final pricing will be confirmed after we calculate the actual driving distance from our Hellertown office (18055) to your service location. We'll contact you with the final quote before your appointment.
+            </p>
+          </div>
           <button
             onClick={resetBooking}
             className="mt-12 px-8 py-3 bg-silver-mid text-black uppercase tracking-widest text-sm font-medium rounded-full hover:bg-silver-metallic transition-colors"
@@ -322,6 +433,7 @@ const BookingSection = () => {
                 isSubmitting={isSubmitting}
                 bookingError={bookingError}
                 onSubmit={handleSubmit}
+                onAddressChange={calculateDistanceAndPrice}
               />
             )}
           </div>
@@ -344,6 +456,29 @@ const BookingSection = () => {
                   <span className="text-gray-500">Time</span>
                   <span className="text-white">{selectedTime || "—"}</span>
                 </div>
+                {distanceInfo && (
+                  <>
+                    <div className="flex justify-between border-b border-neutral-800 pb-3">
+                      <span className="text-gray-500">Distance</span>
+                      <span className="text-white">{distanceInfo.distance} mi</span>
+                    </div>
+                    <div className="flex justify-between border-b border-neutral-800 pb-3">
+                      <span className="text-gray-500">Travel Time</span>
+                      <span className="text-white">~{distanceInfo.duration} min</span>
+                    </div>
+                  </>
+                )}
+                {calculatedPrice !== null && (
+                  <div className="flex justify-between pt-2">
+                    <span className="text-white font-medium">Estimated Total*</span>
+                    <span className="text-white font-medium text-lg">${calculatedPrice}</span>
+                  </div>
+                )}
+                {isCalculatingDistance && (
+                  <div className="text-xs text-gray-500 italic pt-2">
+                    Calculating distance...
+                  </div>
+                )}
               </div>
             </div>
 

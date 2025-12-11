@@ -83,8 +83,11 @@ const HolographicCalculator = () => {
 
                 {/* Total Display */}
                 <div className="mb-8 p-6 bg-black/40 rounded-xl border border-silver-mid/20">
-                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">Estimated Total</p>
+                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">Estimated Total*</p>
                   <p className="text-5xl font-serif text-white">${total}</p>
+                  <p className="text-xs text-amber-400/80 mt-3 leading-relaxed">
+                    * Estimate only. Final price calculated from Hellertown, PA (18055) to your location.
+                  </p>
                 </div>
 
                 {/* Input Fields */}
@@ -146,21 +149,31 @@ const HolographicCalculator = () => {
                 {/* Breakdown */}
                 <div className="pt-4 border-t border-neutral-800 space-y-2 text-sm">
                   <div className="flex justify-between text-gray-400">
-                    <span>Base Rate</span>
-                    <span className="text-white">${breakdown.baseRate}</span>
+                    <span>Notarization Fee</span>
+                    <span className="text-white">${breakdown.notaryFee}</span>
                   </div>
-                  <div className="flex justify-between text-gray-400">
-                    <span>Mileage Fee</span>
-                    <span className="text-white">${breakdown.mileageFee.toFixed(2)}</span>
+                  <div className="pt-2 border-t border-neutral-900 space-y-2">
+                    <p className="text-xs text-gray-600 uppercase tracking-wider">Travel & Service Fees</p>
+                    <div className="flex justify-between text-gray-400">
+                      <span>Travel/Mileage</span>
+                      <span className="text-white">${breakdown.mileageFee.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between text-gray-400">
+                      <span>Service Type</span>
+                      <span className="text-white">${breakdown.serviceFee}</span>
+                    </div>
+                    <div className="flex justify-between text-gray-400">
+                      <span>Time/Urgency</span>
+                      <span className="text-white">${breakdown.urgencyFee}</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between text-gray-400">
-                    <span>Service Fee</span>
-                    <span className="text-white">${breakdown.serviceFee}</span>
-                  </div>
-                  <div className="flex justify-between text-gray-400">
-                    <span>Urgency Fee</span>
-                    <span className="text-white">${breakdown.urgencyFee}</span>
-                  </div>
+                </div>
+
+                {/* Disclaimer */}
+                <div className="mt-4 p-3 bg-amber-900/10 border border-amber-900/30 rounded-lg">
+                  <p className="text-xs text-amber-400/90 leading-relaxed">
+                    <strong>Note:</strong> This is an estimate. Final pricing will be confirmed after calculating actual driving distance from our Hellertown office (18055) to your service location.
+                  </p>
                 </div>
 
                 {/* CTA */}

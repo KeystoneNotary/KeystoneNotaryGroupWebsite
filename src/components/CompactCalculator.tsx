@@ -35,28 +35,33 @@ const CompactCalculator = ({ embedded = false }: CompactCalculatorProps) => {
 
   return (
     <div id="calculator-widget" className={containerClasses}>
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-white/5 rounded-lg ring-1 ring-white/10">
-            <Calculator className="w-4 h-4 text-silver-mid" />
+      <div className="space-y-3 mb-5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-white/5 rounded-lg ring-1 ring-white/10">
+              <Calculator className="w-4 h-4 text-silver-mid" />
+            </div>
+            <div>
+              <h3 className="text-sm font-medium text-white uppercase tracking-widest">
+                Estimate Cost*
+              </h3>
+            </div>
           </div>
-          <div>
-            <h3 className="text-sm font-medium text-white uppercase tracking-widest">
-              Estimate Cost
-            </h3>
-          </div>
-        </div>
-        <div className="text-right">
-          <span className="block text-xs text-gray-500 uppercase tracking-wider">
-            Total
-          </span>
-          <div className="flex items-baseline gap-2 justify-end">
-            <span className="text-3xl font-serif text-white">${total}</span>
-            <span className="text-[10px] uppercase text-gray-500 tracking-[0.2em]">
-              usd
+          <div className="text-right">
+            <span className="block text-xs text-gray-500 uppercase tracking-wider">
+              Total
             </span>
+            <div className="flex items-baseline gap-2 justify-end">
+              <span className="text-3xl font-serif text-white">${total}</span>
+              <span className="text-[10px] uppercase text-gray-500 tracking-[0.2em]">
+                usd
+              </span>
+            </div>
           </div>
         </div>
+        <p className="text-[10px] text-amber-400/80 leading-relaxed">
+          * Estimate only. Final price calculated from Hellertown, PA (18055).
+        </p>
       </div>
 
       <div className="space-y-4">
@@ -135,13 +140,19 @@ const CompactCalculator = ({ embedded = false }: CompactCalculatorProps) => {
         </div>
       </div>
 
+      <div className="mt-4 p-2 bg-amber-900/10 border border-amber-900/30 rounded-lg">
+        <p className="text-[10px] text-amber-400/90 leading-relaxed">
+          <strong>Note:</strong> Estimate only. Final pricing confirmed after calculating distance from Hellertown office.
+        </p>
+      </div>
+
       <button
         onClick={() => setIsExpanded(!isExpanded)}
         aria-label={
           isExpanded ? "Hide price breakdown" : "Show price breakdown"
         }
         aria-expanded={isExpanded}
-        className="w-full mt-6 flex items-center justify-center gap-2 text-xs text-gray-400 hover:text-white transition-colors uppercase tracking-widest"
+        className="w-full mt-4 flex items-center justify-center gap-2 text-xs text-gray-400 hover:text-white transition-colors uppercase tracking-widest"
       >
         {isExpanded ? "Hide Breakdown" : "View Breakdown"}
         {isExpanded ? (
@@ -161,22 +172,25 @@ const CompactCalculator = ({ embedded = false }: CompactCalculatorProps) => {
           >
             <div className="pt-4 mt-4 border-t border-neutral-800 space-y-2 text-xs">
               <div className="flex justify-between text-gray-500">
-                <span>Base Rate</span>
-                <span className="text-gray-300">${breakdown.baseRate}</span>
+                <span>Notarization Fee</span>
+                <span className="text-gray-300">${breakdown.notaryFee}</span>
               </div>
-              <div className="flex justify-between text-gray-500">
-                <span>Mileage Fee</span>
-                <span className="text-gray-300">
-                  ${breakdown.mileageFee.toFixed(2)}
-                </span>
-              </div>
-              <div className="flex justify-between text-gray-500">
-                <span>Service Fee</span>
-                <span className="text-gray-300">${breakdown.serviceFee}</span>
-              </div>
-              <div className="flex justify-between text-gray-500">
-                <span>Urgency Fee</span>
-                <span className="text-gray-300">${breakdown.urgencyFee}</span>
+              <div className="pt-2 border-t border-neutral-900 space-y-2">
+                <p className="text-[10px] text-gray-600 uppercase tracking-wider">Travel & Service Fees</p>
+                <div className="flex justify-between text-gray-500">
+                  <span>Travel/Mileage</span>
+                  <span className="text-gray-300">
+                    ${breakdown.mileageFee.toFixed(2)}
+                  </span>
+                </div>
+                <div className="flex justify-between text-gray-500">
+                  <span>Service Type</span>
+                  <span className="text-gray-300">${breakdown.serviceFee}</span>
+                </div>
+                <div className="flex justify-between text-gray-500">
+                  <span>Time/Urgency</span>
+                  <span className="text-gray-300">${breakdown.urgencyFee}</span>
+                </div>
               </div>
               <div className="flex justify-between text-white font-medium pt-2 border-t border-neutral-800">
                 <span>Total</span>

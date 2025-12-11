@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { AlertCircle } from "lucide-react";
 import type { BookingFormProps } from "./types";
 
@@ -14,7 +14,32 @@ const BookingForm: React.FC<BookingFormProps> = ({
   isSubmitting,
   bookingError,
   onSubmit,
+  onAddressChange,
 }) => {
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Debounced address change handler
+  useEffect(() => {
+    if (!onAddressChange || !address || !city) return;
+
+    // Clear existing timer
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    // Set new timer - wait 1 second after user stops typing
+    debounceTimerRef.current = setTimeout(() => {
+      onAddressChange(address, city, "Pennsylvania");
+    }, 1000);
+
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, [address, city, onAddressChange]);
   return (
     <div className="space-y-6 border-t border-neutral-900 pt-10">
       {bookingError && (
@@ -46,12 +71,36 @@ const BookingForm: React.FC<BookingFormProps> = ({
             className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none"
           />
           <input
-            name="address"
+            name="city"
             type="text"
-            placeholder="Appointment Address *"
+            placeholder="City *"
             required
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
             className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none"
           />
+        </div>
+        <div className="grid md:grid-cols-2 gap-6">
+          <input
+            name="address"
+            type="text"
+            placeholder="Street Address *"
+            required
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            className="bg-transparent border-b border-neutral-800 py-3 text-white placeholder:text-gray-600 focus:border-silver-mid focus:outline-none"
+          />
+          <div className="relative">
+            <input
+              name="state"
+              type="text"
+              value="Pennsylvania"
+              readOnly
+              className="bg-neutral-900/50 border-b border-neutral-800 py-3 text-gray-400 cursor-not-allowed w-full"
+              title="Notary services available in Pennsylvania only"
+            />
+            <p className="text-xs text-gray-600 mt-1">Services available in PA only</p>
+          </div>
         </div>
         <textarea
           name="notes"

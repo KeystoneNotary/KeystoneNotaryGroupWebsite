@@ -28,4 +28,5 @@ export interface BookingFormProps {
   isSubmitting: boolean;
   bookingError: string | null;
   onSubmit: (e: React.FormEvent) => void;
+  onAddressChange?: (address: string, city: string, state: string) => void;
 }

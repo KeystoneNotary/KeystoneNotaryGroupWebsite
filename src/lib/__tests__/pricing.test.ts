@@ -12,13 +12,13 @@ import {
 
 describe("Pricing Calculator", () => {
   describe("calculateNotaryPrice", () => {
-    it("should return base rate for 0 distance with standard service", () => {
+    it("should return notary fee for 0 distance with standard service", () => {
       const price = calculateNotaryPrice({
         distance: 0,
         serviceType: "standard",
         urgency: "standard",
       });
-      expect(price).toBe(PRICING_CONFIG.BASE_RATE);
+      expect(price).toBe(PRICING_CONFIG.NOTARY_FEE);
     });
 
     it("should not charge mileage for distances under free mileage limit", () => {
@@ -27,7 +27,7 @@ describe("Pricing Calculator", () => {
         serviceType: "standard",
         urgency: "standard",
       });
-      expect(price).toBe(PRICING_CONFIG.BASE_RATE);
+      expect(price).toBe(PRICING_CONFIG.NOTARY_FEE);
     });
 
     it("should not charge mileage at exactly the free mileage limit", () => {
@@ -36,7 +36,7 @@ describe("Pricing Calculator", () => {
         serviceType: "standard",
         urgency: "standard",
       });
-      expect(price).toBe(PRICING_CONFIG.BASE_RATE);
+      expect(price).toBe(PRICING_CONFIG.NOTARY_FEE);
     });
 
     it("should charge mileage for distances over the free limit", () => {
@@ -47,7 +47,7 @@ describe("Pricing Calculator", () => {
         serviceType: "standard",
         urgency: "standard",
       });
-      expect(price).toBe(Math.round(PRICING_CONFIG.BASE_RATE + expectedMileage));
+      expect(price).toBe(Math.round(PRICING_CONFIG.NOTARY_FEE + expectedMileage));
     });
 
     it("should add loan-signing service fee", () => {
@@ -56,7 +56,7 @@ describe("Pricing Calculator", () => {
         serviceType: "loan-signing",
         urgency: "standard",
       });
-      expect(price).toBe(PRICING_CONFIG.BASE_RATE + PRICING_CONFIG.SERVICE_FEES["loan-signing"]);
+      expect(price).toBe(PRICING_CONFIG.NOTARY_FEE + PRICING_CONFIG.SERVICE_FEES["loan-signing"]);
     });
 
     it("should add apostille service fee", () => {
@@ -65,7 +65,7 @@ describe("Pricing Calculator", () => {
         serviceType: "apostille",
         urgency: "standard",
       });
-      expect(price).toBe(PRICING_CONFIG.BASE_RATE + PRICING_CONFIG.SERVICE_FEES.apostille);
+      expect(price).toBe(PRICING_CONFIG.NOTARY_FEE + PRICING_CONFIG.SERVICE_FEES.apostille);
     });
 
     it("should add estate service fee", () => {
@@ -74,7 +74,7 @@ describe("Pricing Calculator", () => {
         serviceType: "estate",
         urgency: "standard",
       });
-      expect(price).toBe(PRICING_CONFIG.BASE_RATE + PRICING_CONFIG.SERVICE_FEES.estate);
+      expect(price).toBe(PRICING_CONFIG.NOTARY_FEE + PRICING_CONFIG.SERVICE_FEES.estate);
     });
 
     it("should add same-day urgency fee", () => {
@@ -83,7 +83,7 @@ describe("Pricing Calculator", () => {
         serviceType: "standard",
         urgency: "same-day",
       });
-      expect(price).toBe(PRICING_CONFIG.BASE_RATE + PRICING_CONFIG.URGENCY_FEES["same-day"]);
+      expect(price).toBe(PRICING_CONFIG.NOTARY_FEE + PRICING_CONFIG.URGENCY_FEES["same-day"]);
     });
 
     it("should add after-hours urgency fee", () => {
@@ -92,7 +92,7 @@ describe("Pricing Calculator", () => {
         serviceType: "standard",
         urgency: "after-hours",
       });
-      expect(price).toBe(PRICING_CONFIG.BASE_RATE + PRICING_CONFIG.URGENCY_FEES["after-hours"]);
+      expect(price).toBe(PRICING_CONFIG.NOTARY_FEE + PRICING_CONFIG.URGENCY_FEES["after-hours"]);
     });
 
     it("should combine all fees correctly", () => {
@@ -104,7 +104,7 @@ describe("Pricing Calculator", () => {
         urgency: "same-day",
       });
       const expected =
-        PRICING_CONFIG.BASE_RATE +
+        PRICING_CONFIG.NOTARY_FEE +
         expectedMileage +
         PRICING_CONFIG.SERVICE_FEES["loan-signing"] +
         PRICING_CONFIG.URGENCY_FEES["same-day"];
@@ -117,7 +117,7 @@ describe("Pricing Calculator", () => {
         serviceType: "standard",
         urgency: "standard",
       });
-      expect(price).toBe(PRICING_CONFIG.BASE_RATE);
+      expect(price).toBe(PRICING_CONFIG.NOTARY_FEE);
     });
 
     it("should handle NaN distance as 0", () => {
@@ -126,7 +126,7 @@ describe("Pricing Calculator", () => {
         serviceType: "standard",
         urgency: "standard",
       });
-      expect(price).toBe(PRICING_CONFIG.BASE_RATE);
+      expect(price).toBe(PRICING_CONFIG.NOTARY_FEE);
     });
 
     it("should return rounded values", () => {
@@ -149,7 +149,7 @@ describe("Pricing Calculator", () => {
         urgency: "standard",
       });
 
-      expect(breakdown).toHaveProperty("baseRate");
+      expect(breakdown).toHaveProperty("notaryFee");
       expect(breakdown).toHaveProperty("mileageFee");
       expect(breakdown).toHaveProperty("serviceFee");
       expect(breakdown).toHaveProperty("urgencyFee");
@@ -164,14 +164,14 @@ describe("Pricing Calculator", () => {
         urgency: "after-hours",
       });
 
-      expect(breakdown.baseRate).toBe(PRICING_CONFIG.BASE_RATE);
+      expect(breakdown.notaryFee).toBe(PRICING_CONFIG.NOTARY_FEE);
       expect(breakdown.mileageFee).toBe(
         (distance - PRICING_CONFIG.FREE_MILEAGE) * PRICING_CONFIG.MILEAGE_RATE
       );
       expect(breakdown.serviceFee).toBe(PRICING_CONFIG.SERVICE_FEES["loan-signing"]);
       expect(breakdown.urgencyFee).toBe(PRICING_CONFIG.URGENCY_FEES["after-hours"]);
       expect(breakdown.total).toBe(
-        breakdown.baseRate +
+        breakdown.notaryFee +
           breakdown.mileageFee +
           breakdown.serviceFee +
           breakdown.urgencyFee
@@ -210,8 +210,8 @@ describe("Pricing Calculator", () => {
   });
 
   describe("PRICING_CONFIG", () => {
-    it("should have correct base rate", () => {
-      expect(PRICING_CONFIG.BASE_RATE).toBe(15);
+    it("should have correct notary fee (PA statutory maximum)", () => {
+      expect(PRICING_CONFIG.NOTARY_FEE).toBe(5);
     });
 
     it("should have correct free mileage", () => {

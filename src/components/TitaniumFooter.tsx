@@ -154,15 +154,9 @@ const TitaniumFooter = () => {
         </a>
 
         {/* Coverage Area */}
-        <div className="flex flex-col md:flex-row gap-4 md:gap-6 text-neutral-500 text-xs tracking-[0.3em] uppercase">
-          <span className="coverage-item rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10 will-change-transform">
-            Pennsylvania
-          </span>
-          <span className="coverage-item rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10 will-change-transform">
-            New Jersey
-          </span>
-          <span className="coverage-item rounded-full px-4 py-2 bg-white/5 ring-1 ring-white/10 will-change-transform">
-            Delaware
+        <div className="flex justify-center text-neutral-500 text-xs tracking-[0.3em] uppercase">
+          <span className="coverage-item rounded-full px-6 py-2 bg-white/5 ring-1 ring-white/10 will-change-transform">
+            Pennsylvania Only
           </span>
         </div>
 

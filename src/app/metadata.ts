@@ -37,11 +37,9 @@ export const structuredData = {
   },
   areaServed: [
     { '@type': 'State', name: 'Pennsylvania' },
-    { '@type': 'State', name: 'New Jersey' },
-    { '@type': 'State', name: 'Delaware' },
   ],
   priceRange: '$$',
   url: 'https://keystonenotarygroup.com',
-  description: 'Professional mobile notary services serving the Lehigh Valley region and surrounding areas with a 50-mile service radius.',
+  description: 'Professional mobile notary services serving Pennsylvania, based in Hellertown (Lehigh Valley). Licensed, bonded, and insured.',
   serviceType: ['Notary Public', 'Mobile Notary', 'Loan Signing', 'Estate Planning', 'Real Estate Closing'],
 };

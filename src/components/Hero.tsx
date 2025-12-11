@@ -250,7 +250,7 @@ const Hero = () => {
         {/* Scroll Indicator */}
         <div
           ref={scrollIndicatorRef}
-          className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          className="flex flex-col items-center gap-2 mt-12"
         >
           <span className="text-[10px] md:text-xs text-gray-400 uppercase tracking-widest">
             Scroll

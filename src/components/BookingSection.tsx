@@ -245,7 +245,7 @@ const BookingSection = () => {
     const formData = new FormData(e.target as HTMLFormElement);
     const address = formData.get("address") as string;
     const city = formData.get("city") as string;
-    const state = formData.get("state") as string || "Pennsylvania";
+    const state = (formData.get("state") as string) || "Pennsylvania";
 
     // Use calculated price if available, otherwise use estimated price
     let finalPrice = calculatedPrice;
@@ -273,8 +273,8 @@ const BookingSection = () => {
           // Fallback to estimated price
           finalPrice = Math.round(
             PRICING_CONFIG.NOTARY_FEE +
-            (PRICING_CONFIG.FREE_MILEAGE * PRICING_CONFIG.MILEAGE_RATE) +
-            PRICING_CONFIG.SERVICE_FEES.standard
+              PRICING_CONFIG.FREE_MILEAGE * PRICING_CONFIG.MILEAGE_RATE +
+              PRICING_CONFIG.SERVICE_FEES.standard
           );
         }
       } catch (error) {
@@ -282,8 +282,8 @@ const BookingSection = () => {
         // Fallback to estimated price
         finalPrice = Math.round(
           PRICING_CONFIG.NOTARY_FEE +
-          (PRICING_CONFIG.FREE_MILEAGE * PRICING_CONFIG.MILEAGE_RATE) +
-          PRICING_CONFIG.SERVICE_FEES.standard
+            PRICING_CONFIG.FREE_MILEAGE * PRICING_CONFIG.MILEAGE_RATE +
+            PRICING_CONFIG.SERVICE_FEES.standard
         );
       }
     }
@@ -344,7 +344,10 @@ const BookingSection = () => {
           </p>
           <div className="max-w-lg mx-auto p-4 bg-amber-900/20 border border-amber-900/40 rounded-lg">
             <p className="text-sm text-amber-400/90 leading-relaxed">
-              <strong>Note:</strong> Final pricing will be confirmed after we calculate the actual driving distance from our Hellertown office (18055) to your service location. We'll contact you with the final quote before your appointment.
+              <strong>Note:</strong> Final pricing will be confirmed after we
+              calculate the actual driving distance from our Hellertown office
+              (18055) to your service location. We'll contact you with the final
+              quote before your appointment.
             </p>
           </div>
           <button
@@ -407,36 +410,56 @@ const BookingSection = () => {
             <div className="flex flex-wrap items-center justify-between gap-6">
               <div className="flex flex-wrap items-center gap-8 text-sm">
                 <div className="flex items-center gap-3">
-                  <span className="text-gray-500 text-xs uppercase tracking-wider">Date</span>
+                  <span className="text-gray-500 text-xs uppercase tracking-wider">
+                    Date
+                  </span>
                   <span className="text-white font-medium">
                     {selectedDate ? format(selectedDate, "MMM d, yyyy") : "—"}
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-gray-500 text-xs uppercase tracking-wider">Time</span>
-                  <span className="text-white font-medium">{selectedTime || "—"}</span>
+                  <span className="text-gray-500 text-xs uppercase tracking-wider">
+                    Time
+                  </span>
+                  <span className="text-white font-medium">
+                    {selectedTime || "—"}
+                  </span>
                 </div>
                 {distanceInfo && (
                   <>
                     <div className="flex items-center gap-3">
-                      <span className="text-gray-500 text-xs uppercase tracking-wider">Distance</span>
-                      <span className="text-white font-medium">{distanceInfo.distance} mi</span>
+                      <span className="text-gray-500 text-xs uppercase tracking-wider">
+                        Distance
+                      </span>
+                      <span className="text-white font-medium">
+                        {distanceInfo.distance} mi
+                      </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-gray-500 text-xs uppercase tracking-wider">Drive</span>
-                      <span className="text-white font-medium">~{distanceInfo.duration} min</span>
+                      <span className="text-gray-500 text-xs uppercase tracking-wider">
+                        Drive
+                      </span>
+                      <span className="text-white font-medium">
+                        ~{distanceInfo.duration} min
+                      </span>
                     </div>
                   </>
                 )}
               </div>
               {calculatedPrice !== null && (
                 <div className="flex items-center gap-3">
-                  <span className="text-gray-500 text-xs uppercase tracking-wider">Estimated Total*</span>
-                  <span className="text-white font-serif text-2xl">${calculatedPrice}</span>
+                  <span className="text-gray-500 text-xs uppercase tracking-wider">
+                    Estimated Total*
+                  </span>
+                  <span className="text-white font-serif text-2xl">
+                    ${calculatedPrice}
+                  </span>
                 </div>
               )}
               {isCalculatingDistance && (
-                <span className="text-xs text-gray-500 italic">Calculating distance...</span>
+                <span className="text-xs text-gray-500 italic">
+                  Calculating distance...
+                </span>
               )}
             </div>
           </div>
@@ -492,13 +515,13 @@ const BookingSection = () => {
           </div>
 
           {/* Contact Card */}
-          <div className="rounded-2xl bg-neutral-950/60 ring-1 ring-white/10 p-8 backdrop-blur flex flex-col justify-center">
-            <h4 className="text-xs uppercase tracking-widest text-gray-500 mb-4">
+          <div className="rounded-2xl bg-neutral-950/60 ring-1 ring-white/10 p-8 backdrop-blur flex flex-col justify-center items-center text-center space-y-6">
+            <h4 className="text-xs uppercase tracking-widest text-gray-500">
               Complex Arrangement?
             </h4>
-            <p className="text-sm text-gray-400 mb-6 leading-relaxed">
-              Our concierge handles hospital signings, multi-party closings,
-              and arrangements others decline.
+            <p className="text-sm text-gray-400 leading-relaxed max-w-xs">
+              Our concierge handles hospital signings, multi-party closings, and
+              arrangements others decline.
             </p>
             <a
               href="tel:+12673099000"

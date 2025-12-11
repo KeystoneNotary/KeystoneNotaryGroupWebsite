@@ -106,7 +106,6 @@ const TitaniumFooter = () => {
           {
             scale: 0,
             opacity: 0,
-            rotation: -180,
             filter: "blur(8px)",
             ease: "back.out(2.5)",
             force3D: true,
@@ -152,6 +151,25 @@ const TitaniumFooter = () => {
         >
           Secure Your Appointment
         </a>
+
+        {/* Contact Information */}
+        <div className="space-y-4 text-neutral-400">
+          <a
+            href="tel:+12673099000"
+            className="block text-2xl md:text-3xl font-serif text-silver-metallic hover:text-silver-mid transition-colors"
+          >
+            (267) 309-9000
+          </a>
+          <a
+            href="mailto:contact@keystonenotarygroup.com"
+            className="block text-sm hover:text-silver-mid transition-colors"
+          >
+            contact@keystonenotarygroup.com
+          </a>
+          <p className="text-xs text-neutral-600 tracking-wide">
+            Serving Pennsylvania | Mobile Services Available
+          </p>
+        </div>
 
         {/* Coverage Area */}
         <div className="flex justify-center text-neutral-500 text-xs tracking-[0.3em] uppercase">

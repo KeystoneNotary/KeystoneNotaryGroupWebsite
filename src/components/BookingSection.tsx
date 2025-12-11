@@ -401,19 +401,62 @@ const BookingSection = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-[1fr_0.9fr] gap-16 items-start">
-          {/* Main Booking Flow */}
-          <div className="space-y-10 rounded-2xl bg-neutral-950/60 ring-1 ring-white/10 p-10 md:p-12 backdrop-blur">
-            {/* Calendar */}
+        {/* Appointment Summary Bar - Always visible */}
+        {(selectedDate || selectedTime) && (
+          <div className="bg-neutral-900/70 ring-1 ring-neutral-800 rounded-2xl p-6 backdrop-blur">
+            <div className="flex flex-wrap items-center justify-between gap-6">
+              <div className="flex flex-wrap items-center gap-8 text-sm">
+                <div className="flex items-center gap-3">
+                  <span className="text-gray-500 text-xs uppercase tracking-wider">Date</span>
+                  <span className="text-white font-medium">
+                    {selectedDate ? format(selectedDate, "MMM d, yyyy") : "—"}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-gray-500 text-xs uppercase tracking-wider">Time</span>
+                  <span className="text-white font-medium">{selectedTime || "—"}</span>
+                </div>
+                {distanceInfo && (
+                  <>
+                    <div className="flex items-center gap-3">
+                      <span className="text-gray-500 text-xs uppercase tracking-wider">Distance</span>
+                      <span className="text-white font-medium">{distanceInfo.distance} mi</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-gray-500 text-xs uppercase tracking-wider">Drive</span>
+                      <span className="text-white font-medium">~{distanceInfo.duration} min</span>
+                    </div>
+                  </>
+                )}
+              </div>
+              {calculatedPrice !== null && (
+                <div className="flex items-center gap-3">
+                  <span className="text-gray-500 text-xs uppercase tracking-wider">Estimated Total*</span>
+                  <span className="text-white font-serif text-2xl">${calculatedPrice}</span>
+                </div>
+              )}
+              {isCalculatingDistance && (
+                <span className="text-xs text-gray-500 italic">Calculating distance...</span>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Main Booking Flow - Clean single column */}
+        <div className="max-w-4xl mx-auto space-y-10">
+          {/* Calendar */}
+          <div className="rounded-2xl bg-neutral-950/60 ring-1 ring-white/10 p-10 md:p-12 backdrop-blur">
             <CalendarView
               currentMonth={currentMonth}
               selectedDate={selectedDate}
               onDateSelect={handleDateSelect}
               onMonthChange={handleMonthChange}
             />
+          </div>
 
-            {/* Time Slots */}
-            {selectedDate && (
+          {/* Time Slots */}
+          {selectedDate && (
+            <div className="rounded-2xl bg-neutral-950/60 ring-1 ring-white/10 p-10 md:p-12 backdrop-blur">
               <TimeSlotPicker
                 selectedDate={selectedDate}
                 selectedTime={selectedTime}
@@ -423,10 +466,12 @@ const BookingSection = () => {
                 onTimeSelect={handleTimeSelect}
                 onReset={resetBooking}
               />
-            )}
+            </div>
+          )}
 
-            {/* Booking Form */}
-            {showForm && selectedDate && selectedTime && (
+          {/* Booking Form */}
+          {showForm && selectedDate && selectedTime && (
+            <div className="rounded-2xl bg-neutral-950/60 ring-1 ring-white/10 p-10 md:p-12 backdrop-blur">
               <BookingForm
                 selectedDate={selectedDate}
                 selectedTime={selectedTime}
@@ -435,72 +480,32 @@ const BookingSection = () => {
                 onSubmit={handleSubmit}
                 onAddressChange={calculateDistanceAndPrice}
               />
-            )}
+            </div>
+          )}
+        </div>
+
+        {/* Bottom Section - Calculator & Contact */}
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Calculator Widget */}
+          <div className="rounded-2xl bg-neutral-950/60 ring-1 ring-white/10 p-8 backdrop-blur">
+            <CompactCalculator embedded />
           </div>
 
-          {/* Sidebar */}
-          <div className="sticky top-16 space-y-8">
-            {/* Appointment Summary */}
-            <div className="bg-neutral-900/70 ring-1 ring-neutral-800 rounded-2xl p-6 backdrop-blur">
-              <h4 className="text-xs uppercase tracking-widest text-gray-500 mb-4">
-                Appointment Summary
-              </h4>
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between border-b border-neutral-800 pb-3">
-                  <span className="text-gray-500">Date</span>
-                  <span className="text-white">
-                    {selectedDate ? format(selectedDate, "MMM d, yyyy") : "—"}
-                  </span>
-                </div>
-                <div className="flex justify-between border-b border-neutral-800 pb-3">
-                  <span className="text-gray-500">Time</span>
-                  <span className="text-white">{selectedTime || "—"}</span>
-                </div>
-                {distanceInfo && (
-                  <>
-                    <div className="flex justify-between border-b border-neutral-800 pb-3">
-                      <span className="text-gray-500">Distance</span>
-                      <span className="text-white">{distanceInfo.distance} mi</span>
-                    </div>
-                    <div className="flex justify-between border-b border-neutral-800 pb-3">
-                      <span className="text-gray-500">Travel Time</span>
-                      <span className="text-white">~{distanceInfo.duration} min</span>
-                    </div>
-                  </>
-                )}
-                {calculatedPrice !== null && (
-                  <div className="flex justify-between pt-2">
-                    <span className="text-white font-medium">Estimated Total*</span>
-                    <span className="text-white font-medium text-lg">${calculatedPrice}</span>
-                  </div>
-                )}
-                {isCalculatingDistance && (
-                  <div className="text-xs text-gray-500 italic pt-2">
-                    Calculating distance...
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Calculator Widget */}
-            <CompactCalculator />
-
-            {/* Contact Card */}
-            <div className="p-6 rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur">
-              <h4 className="text-xs uppercase tracking-widest text-gray-500 mb-3">
-                Complex Arrangement?
-              </h4>
-              <p className="text-sm text-gray-400 mb-4">
-                Our concierge handles hospital signings, multi-party closings,
-                and arrangements others decline.
-              </p>
-              <a
-                href="tel:+12673099000"
-                className="text-white hover:text-silver-mid transition-colors text-lg font-serif"
-              >
-                (267) 309-9000
-              </a>
-            </div>
+          {/* Contact Card */}
+          <div className="rounded-2xl bg-neutral-950/60 ring-1 ring-white/10 p-8 backdrop-blur flex flex-col justify-center">
+            <h4 className="text-xs uppercase tracking-widest text-gray-500 mb-4">
+              Complex Arrangement?
+            </h4>
+            <p className="text-sm text-gray-400 mb-6 leading-relaxed">
+              Our concierge handles hospital signings, multi-party closings,
+              and arrangements others decline.
+            </p>
+            <a
+              href="tel:+12673099000"
+              className="text-white hover:text-silver-mid transition-colors text-2xl font-serif"
+            >
+              (267) 309-9000
+            </a>
           </div>
         </div>
       </div>

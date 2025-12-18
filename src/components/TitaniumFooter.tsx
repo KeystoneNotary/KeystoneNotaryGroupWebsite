@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { Mail, Linkedin } from "lucide-react";
+import { Mail, Linkedin, Facebook } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -185,6 +185,14 @@ const TitaniumFooter = () => {
             className="social-link text-neutral-600 hover:text-silver-metallic transition-colors duration-300 will-change-transform"
           >
             <Mail size={20} />
+          </a>
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-link text-neutral-600 hover:text-silver-metallic transition-colors duration-300 will-change-transform"
+          >
+            <Facebook size={20} />
           </a>
           <a
             href="https://linkedin.com"

@@ -346,8 +346,8 @@ const BookingSection = () => {
             <p className="text-sm text-amber-400/90 leading-relaxed">
               <strong>Note:</strong> Final pricing will be confirmed after we
               calculate the actual driving distance from our Hellertown office
-              (18055) to your service location. We'll contact you with the final
-              quote before your appointment.
+              (18055) to your service location. We{"'"}ll contact you with the
+              final quote before your appointment.
             </p>
           </div>
           <button

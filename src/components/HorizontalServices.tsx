@@ -78,25 +78,75 @@ const HorizontalServices = () => {
       // Intro headline lift-in
       // Header exploded assembly
       if (labelRef.current && titleMainRef.current && titleAccentRef.current) {
-        const headerTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 65%",
-            end: "center center",
-            scrub: 1,
-            toggleActions: "play reverse play reverse",
-          },
-        });
-
-        headerTl.add(
-          headerExplodedAssembly(
+        // Set initial hidden state for header elements
+        gsap.set(
+          [
             labelRef.current,
             titleMainRef.current,
             titleAccentRef.current,
-            subtitleRef.current || undefined
-          ),
-          0
+            subtitleRef.current,
+          ].filter(Boolean),
+          {
+            opacity: 0,
+            y: 50,
+            filter: "blur(10px)",
+          }
         );
+
+        // Animate header elements in on scroll
+        gsap.to(labelRef.current, {
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 80%",
+            end: "top 40%",
+            scrub: 1,
+          },
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 1,
+        });
+
+        gsap.to(titleMainRef.current, {
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 75%",
+            end: "top 35%",
+            scrub: 1,
+          },
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 1,
+        });
+
+        gsap.to(titleAccentRef.current, {
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 70%",
+            end: "top 30%",
+            scrub: 1,
+          },
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 1,
+        });
+
+        if (subtitleRef.current) {
+          gsap.to(subtitleRef.current, {
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top 65%",
+              end: "top 25%",
+              scrub: 1,
+            },
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 1,
+          });
+        }
       }
 
       // Kinetic Typography Animation

@@ -103,25 +103,75 @@ const BookingSection = () => {
       }
 
       if (labelRef.current && titleMainRef.current && titleAccentRef.current) {
-        const headerTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 60%",
-            end: "center center",
-            scrub: 1,
-            toggleActions: "play reverse play reverse",
-          },
-        });
-
-        headerTl.add(
-          headerExplodedAssembly(
+        // Set initial hidden state for header elements
+        gsap.set(
+          [
             labelRef.current,
             titleMainRef.current,
             titleAccentRef.current,
-            subtitleRef.current || undefined
-          ),
-          0
+            subtitleRef.current,
+          ].filter(Boolean),
+          {
+            opacity: 0,
+            y: 50,
+            filter: "blur(10px)",
+          }
         );
+
+        // Animate header elements in on scroll
+        gsap.to(labelRef.current, {
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 80%",
+            end: "top 40%",
+            scrub: 1,
+          },
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 1,
+        });
+
+        gsap.to(titleMainRef.current, {
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 75%",
+            end: "top 35%",
+            scrub: 1,
+          },
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 1,
+        });
+
+        gsap.to(titleAccentRef.current, {
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 70%",
+            end: "top 30%",
+            scrub: 1,
+          },
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 1,
+        });
+
+        if (subtitleRef.current) {
+          gsap.to(subtitleRef.current, {
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top 65%",
+              end: "top 25%",
+              scrub: 1,
+            },
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 1,
+          });
+        }
       }
     },
     { scope: containerRef, dependencies: [prefersReducedMotion, shouldInit] }
@@ -469,8 +519,8 @@ const BookingSection = () => {
 
         {/* Main Booking Flow - Clean single column */}
         <div className="max-w-4xl mx-auto space-y-10">
-          {/* Calendar */}
-          <div className="rounded-2xl bg-neutral-950/60 ring-1 ring-white/10 p-6 md:p-8 backdrop-blur">
+          {/* Calendar - Refined luxury sizing */}
+          <div className="max-w-xl mx-auto rounded-2xl bg-neutral-950/60 ring-1 ring-white/10 p-6 md:p-8 backdrop-blur">
             <CalendarView
               currentMonth={currentMonth}
               selectedDate={selectedDate}

@@ -103,23 +103,25 @@ const BookingSection = () => {
       }
 
       if (labelRef.current && titleMainRef.current && titleAccentRef.current) {
-        const tl = headerExplodedAssembly(
-          labelRef.current,
-          titleMainRef.current,
-          titleAccentRef.current,
-          subtitleRef.current || undefined
-        );
-
-        // Pause the timeline so ScrollTrigger can control it
-        tl.pause();
-
-        // Add ScrollTrigger to play the timeline when scrolling into view
-        ScrollTrigger.create({
-          trigger: containerRef.current,
-          start: "top 60%",
-          once: true,
-          onEnter: () => tl.play(),
+        const headerTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 60%",
+            end: "center center",
+            scrub: 1,
+            toggleActions: "play reverse play reverse",
+          },
         });
+
+        headerTl.add(
+          headerExplodedAssembly(
+            labelRef.current,
+            titleMainRef.current,
+            titleAccentRef.current,
+            subtitleRef.current || undefined
+          ),
+          0
+        );
       }
     },
     { scope: containerRef, dependencies: [prefersReducedMotion, shouldInit] }
@@ -468,7 +470,7 @@ const BookingSection = () => {
         {/* Main Booking Flow - Clean single column */}
         <div className="max-w-4xl mx-auto space-y-10">
           {/* Calendar */}
-          <div className="rounded-2xl bg-neutral-950/60 ring-1 ring-white/10 p-10 md:p-12 backdrop-blur">
+          <div className="rounded-2xl bg-neutral-950/60 ring-1 ring-white/10 p-6 md:p-8 backdrop-blur">
             <CalendarView
               currentMonth={currentMonth}
               selectedDate={selectedDate}

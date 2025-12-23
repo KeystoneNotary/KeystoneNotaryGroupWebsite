@@ -234,7 +234,7 @@ const Hero = () => {
 
         <p
           ref={subtitleRef}
-          className="font-sans text-lg md:text-2xl text-gray-300 font-light tracking-[0.2em] uppercase mb-8"
+          className="font-sans text-lg md:text-2xl text-gray-300 font-light tracking-[0.2em] uppercase mb-8 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
         >
           Trusted. Certified. Available.
         </p>

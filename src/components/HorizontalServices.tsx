@@ -78,18 +78,25 @@ const HorizontalServices = () => {
       // Intro headline lift-in
       // Header exploded assembly
       if (labelRef.current && titleMainRef.current && titleAccentRef.current) {
-        const headerTl = headerExplodedAssembly(
-          labelRef.current,
-          titleMainRef.current,
-          titleAccentRef.current,
-          subtitleRef.current || undefined
-        );
-
-        ScrollTrigger.create({
-          trigger: containerRef.current,
-          start: "top 65%",
-          animation: headerTl,
+        const headerTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 65%",
+            end: "center center",
+            scrub: 1,
+            toggleActions: "play reverse play reverse",
+          },
         });
+
+        headerTl.add(
+          headerExplodedAssembly(
+            labelRef.current,
+            titleMainRef.current,
+            titleAccentRef.current,
+            subtitleRef.current || undefined
+          ),
+          0
+        );
       }
 
       // Kinetic Typography Animation
@@ -123,7 +130,7 @@ const HorizontalServices = () => {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            start: "top 65%",
+            start: "top 75%",
             end: "center center",
             scrub: 1,
             toggleActions: "play reverse play reverse",
@@ -223,7 +230,7 @@ const HorizontalServices = () => {
           {services.map((service) => (
             <div key={service.id} className="service-section relative group">
               {/* Massive Background Number */}
-              <div className="service-number absolute -top-10 -left-4 md:-left-10 text-[12vw] md:text-[10vw] font-serif text-white/10 leading-none select-none pointer-events-none opacity-0 z-0 will-change-transform">
+              <div className="service-number absolute -top-10 -left-4 md:-left-10 text-[12vw] md:text-[10vw] font-serif text-white/[0.15] leading-none select-none pointer-events-none opacity-0 z-0 will-change-transform">
                 {service.number}
               </div>
 

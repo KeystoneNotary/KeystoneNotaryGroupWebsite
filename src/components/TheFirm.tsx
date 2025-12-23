@@ -147,6 +147,7 @@ const TheFirm = () => {
       <h2
         ref={textLayer1Ref}
         className="absolute top-1/4 left-0 w-full text-[18vw] md:text-[15vw] font-serif text-neutral-900 leading-none opacity-50 select-none z-0 pointer-events-none whitespace-nowrap"
+        style={{ WebkitTextStroke: "1px rgba(255, 255, 255, 0.08)" }}
       >
         PRECISION
       </h2>
@@ -155,6 +156,7 @@ const TheFirm = () => {
       <h2
         ref={textLayer2Ref}
         className="absolute bottom-1/4 right-0 w-full text-right text-[18vw] md:text-[15vw] font-serif text-neutral-800 leading-none opacity-30 select-none z-0 pointer-events-none whitespace-nowrap"
+        style={{ WebkitTextStroke: "1px rgba(255, 255, 255, 0.08)" }}
       >
         NOTARIZED
       </h2>

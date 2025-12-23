@@ -242,7 +242,7 @@ const Contact: React.FC = () => {
 
             <button
               type="submit"
-              className="contact-field submit-button px-12 py-4 border border-neutral-500 text-white uppercase tracking-[0.2em] text-sm hover:border-silver-mid hover:text-silver-mid transition-all duration-300 will-change-transform"
+              className="contact-field submit-button w-fit px-12 py-4 border border-neutral-500 text-white uppercase tracking-[0.2em] text-sm hover:border-silver-mid hover:text-silver-mid transition-all duration-300 will-change-transform"
             >
               Send Message
             </button>

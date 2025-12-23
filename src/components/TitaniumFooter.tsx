@@ -136,11 +136,18 @@ const TitaniumFooter = () => {
           id="footer-logo"
           className="footer-logo space-y-4 will-change-transform"
         >
+          <div className="flex justify-center mb-4">
+            <img
+              src="/assets/images/logo-silver-metallic.webp"
+              alt="Keystone Notary Group LLC"
+              className="w-16 h-16 md:w-20 md:h-20"
+            />
+          </div>
           <h2 className="font-serif text-3xl md:text-4xl text-silver-metallic tracking-wide">
             Keystone Notary Group, LLC
           </h2>
           <p className="text-neutral-500 text-sm tracking-[0.2em] uppercase">
-            EST. 2024
+            EST. 2025
           </p>
         </div>
 
@@ -206,7 +213,7 @@ const TitaniumFooter = () => {
 
         {/* Copyright & Legal */}
         <div className="space-y-4">
-          <p className="text-neutral-800 text-[10px] tracking-widest uppercase">
+          <p className="text-neutral-600 text-[10px] tracking-widest uppercase">
             © {new Date().getFullYear()} Keystone Notary Group, LLC. All Rights
             Reserved.
           </p>

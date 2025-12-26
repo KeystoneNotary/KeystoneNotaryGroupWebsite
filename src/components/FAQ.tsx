@@ -254,7 +254,7 @@ const FAQ = () => {
           >
             Common Questions
           </span>
-          <h2 className="font-serif text-5xl md:text-7xl text-white leading-tight">
+          <h2 className="font-serif text-5xl md:text-7xl text-white leading-tight will-change-transform">
             <span ref={titleMainRef} className="inline-block will-change-transform">
               Answers
             </span>{' '}

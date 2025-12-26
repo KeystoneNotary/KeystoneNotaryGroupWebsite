@@ -6,6 +6,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import { useDeferredInit } from "@/lib/useDeferredInit";
+import {
+  createScrollTimeline,
+  headerExplodedAssembly,
+} from "@/lib/gsap-animations";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -25,7 +29,42 @@ const TheFirm = () => {
 
   useGSAP(
     () => {
-      if (prefersReducedMotion || !shouldInit) return;
+      const label = labelRef.current;
+      const topLine = headlineTopRef.current;
+      const bottomLine = headlineBottomRef.current;
+      const leftPara = paraLeftRef.current;
+      const rightPara = paraRightRef.current;
+      const container = containerRef.current;
+
+      if (
+        prefersReducedMotion ||
+        !shouldInit ||
+        !container ||
+        !label ||
+        !topLine ||
+        !bottomLine ||
+        !leftPara ||
+        !rightPara
+      ) {
+        gsap.set(
+          [
+            labelRef.current,
+            headlineTopRef.current,
+            headlineBottomRef.current,
+            paraLeftRef.current,
+            paraRightRef.current,
+          ],
+          {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            rotation: 0,
+            filter: "none",
+            letterSpacing: "0.35em",
+          }
+        );
+        return;
+      }
 
       // 1. Background Parallax & Slide In
       gsap.fromTo(
@@ -37,7 +76,7 @@ const TheFirm = () => {
           opacity: 0.5,
           ease: "power2.out",
           scrollTrigger: {
-            trigger: containerRef.current,
+            trigger: container,
             start: "top 60%",
             end: "center center",
             scrub: 1,
@@ -54,7 +93,7 @@ const TheFirm = () => {
           opacity: 0.3,
           ease: "power2.out",
           scrollTrigger: {
-            trigger: containerRef.current,
+            trigger: container,
             start: "top 60%",
             end: "center center",
             scrub: 1,
@@ -62,69 +101,46 @@ const TheFirm = () => {
         }
       );
 
-      // 2. Exploded Assembly Animation
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 60%",
-          end: "center center",
-          scrub: 1,
-        },
+      // 2. Exploded Assembly + Paragraphs via shared timeline helper
+      const headerTl = createScrollTimeline(container, {
+        trigger: container,
+        start: "top 60%",
+        end: "center center",
+        scrub: 1,
       });
 
-      tl.from(
-        labelRef.current,
-        { y: -50, opacity: 0, letterSpacing: "1em" },
+      headerTl.add(
+        headerExplodedAssembly(label, topLine, bottomLine),
         0
       );
 
-      tl.from(
-        headlineTopRef.current,
-        {
-          x: -120,
-          y: -60,
-          opacity: 0,
-          filter: "blur(25px)",
-          rotation: -8,
-        },
-        0.25
-      );
-
-      tl.from(
-        headlineBottomRef.current,
-        {
-          x: 120,
-          y: 60,
-          opacity: 0,
-          filter: "blur(25px)",
-          rotation: 8,
-        },
-        0.45
-      );
-
-      tl.from(
-        paraLeftRef.current,
-        {
-          x: -60,
-          y: 100,
-          opacity: 0,
-          rotation: -3,
-          filter: "blur(15px)",
-        },
-        0.65
-      );
-
-      tl.from(
-        paraRightRef.current,
-        {
-          x: 60,
-          y: 100,
-          opacity: 0,
-          rotation: 3,
-          filter: "blur(15px)",
-        },
-        0.85
-      );
+      headerTl
+        .from(
+          leftPara,
+          {
+            x: -60,
+            y: 100,
+            opacity: 0,
+            rotation: -3,
+            filter: "blur(15px)",
+            ease: "power2.out",
+            force3D: true,
+          },
+          0.6
+        )
+        .from(
+          rightPara,
+          {
+            x: 60,
+            y: 100,
+            opacity: 0,
+            rotation: 3,
+            filter: "blur(15px)",
+            ease: "power2.out",
+            force3D: true,
+          },
+          0.8
+        );
     },
     { scope: containerRef, dependencies: [prefersReducedMotion, shouldInit] }
   );
@@ -172,18 +188,21 @@ const TheFirm = () => {
         <div className="mb-12">
           <span
             ref={labelRef}
-            className="block text-silver-mid text-xs tracking-[0.4em] uppercase mb-4"
+            className="block text-silver-mid text-xs tracking-[0.4em] uppercase mb-4 will-change-transform"
           >
             The Philosophy
           </span>
           <h3 className="font-serif text-5xl md:text-7xl text-white leading-tight">
-            <span ref={headlineTopRef} className="inline-block">
+            <span
+              ref={headlineTopRef}
+              className="inline-block font-serif will-change-transform"
+            >
               We don&apos;t just sign.
             </span>{" "}
             <br />
             <span
               ref={headlineBottomRef}
-              className="inline-block text-silver-metallic italic"
+              className="inline-block font-serif text-silver-metallic italic will-change-transform"
             >
               We certify trust.
             </span>
@@ -193,7 +212,7 @@ const TheFirm = () => {
         <div className="grid md:grid-cols-2 gap-12 text-left">
           <p
             ref={paraLeftRef}
-            className="font-sans text-gray-400 text-lg leading-relaxed"
+            className="font-sans text-gray-400 text-lg leading-relaxed will-change-transform"
           >
             In a world of digital noise, the physical seal remains the ultimate
             anchor of truth. Keystone Notary Group represents the gold standard
@@ -201,7 +220,7 @@ const TheFirm = () => {
           </p>
           <p
             ref={paraRightRef}
-            className="font-sans text-gray-400 text-lg leading-relaxed"
+            className="font-sans text-gray-400 text-lg leading-relaxed will-change-transform"
           >
             From multi-million dollar real estate closings to sensitive estate
             planning, our presence ensures your transaction is unassailable.

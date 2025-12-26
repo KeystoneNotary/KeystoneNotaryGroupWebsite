@@ -187,7 +187,7 @@ const Contact: React.FC = () => {
           >
             Contact
           </span>
-          <h2 className="font-serif text-3xl md:text-4xl text-white mb-6">
+          <h2 className="font-serif text-3xl md:text-4xl text-white mb-6 will-change-transform">
             <span
               ref={titleMainRef}
               className="inline-block will-change-transform"

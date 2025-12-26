@@ -18,7 +18,7 @@ const inter = localFont({
   variable: "--font-inter",
   src: [
     {
-      path: "../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2",
+      path: "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2",
       weight: "100 900",
       style: "normal",
     },

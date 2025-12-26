@@ -6,8 +6,8 @@ const playfair = localFont({
   variable: "--font-playfair",
   src: [
     {
-      path: playfairWoff2,
-      path: "./fonts/playfair-display-variable.woff2",
+      path: "../../node_modules/@fontsource-variable/playfair-display/files/playfair-display-latin-wght-normal.woff2",
+      weight: "400 900",
       style: "normal",
     },
   ],
@@ -18,9 +18,9 @@ const inter = localFont({
   variable: "--font-inter",
   src: [
     {
-      path: interWoff2,
+      path: "../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2",
       weight: "100 900",
-      path: "./fonts/inter-variable.woff2",
+      style: "normal",
     },
   ],
   display: "swap",

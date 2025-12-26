@@ -27,7 +27,7 @@ describe("RootLayout typography", () => {
           display: "swap",
           src: expect.arrayContaining([
             expect.objectContaining({
-              path: expect.stringContaining("inter"),
+              path: expect.stringContaining("@fontsource-variable/inter"),
               style: "normal",
             }),
           ]),
@@ -37,7 +37,7 @@ describe("RootLayout typography", () => {
           display: "swap",
           src: expect.arrayContaining([
             expect.objectContaining({
-              path: expect.stringContaining("playfair"),
+              path: expect.stringContaining("@fontsource-variable/playfair-display"),
               style: "normal",
             }),
           ]),

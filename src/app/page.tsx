@@ -8,7 +8,6 @@ import TitaniumFooter from "@/components/TitaniumFooter";
 import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
 import LazyHolographicCalculator from "@/components/LazyHolographicCalculator";
-import AnimationSpeedController from "@/components/AnimationSpeedController";
 import { metadata as metadataConfig, structuredData } from "./metadata";
 
 export const metadata = metadataConfig;
@@ -16,7 +15,6 @@ export const metadata = metadataConfig;
 export default function Home() {
   return (
     <>
-      <AnimationSpeedController />
       {/* Structured Data */}
       <script
         type="application/ld+json"

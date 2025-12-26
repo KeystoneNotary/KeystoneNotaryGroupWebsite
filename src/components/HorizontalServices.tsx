@@ -9,8 +9,6 @@ import { useDeferredInit } from "@/lib/useDeferredInit";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-import { headerExplodedAssembly } from "@/lib/gsap-animations";
-
 /**
  * HorizontalServices Component
  *

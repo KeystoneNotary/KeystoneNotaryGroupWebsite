@@ -26,7 +26,6 @@ import { PRICING_CONFIG } from "@/lib/pricing";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { headerExplodedAssembly } from "@/lib/gsap-animations";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import { useDeferredInit } from "@/lib/useDeferredInit";
 

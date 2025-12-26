@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
+import Image from "next/image";
 import { Mail, Linkedin, Facebook } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -137,9 +138,11 @@ const TitaniumFooter = () => {
           className="footer-logo space-y-4 will-change-transform"
         >
           <div className="flex justify-center mb-4">
-            <img
+            <Image
               src="/assets/images/logo-silver-metallic.webp"
               alt="Keystone Notary Group LLC"
+              width={80}
+              height={80}
               className="w-16 h-16 md:w-20 md:h-20"
             />
           </div>

@@ -55,7 +55,6 @@ const Contact: React.FC = () => {
     e.preventDefault();
 
     // TODO: Integrate with backend
-    console.log("Contact form submitted:", formData);
 
     // Reset form
     setFormData({ name: "", email: "", message: "" });

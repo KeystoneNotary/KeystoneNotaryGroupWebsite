@@ -26,7 +26,10 @@ import { PRICING_CONFIG } from "@/lib/pricing";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { headerExplodedAssembly } from "@/lib/gsap-animations";
+import {
+  createScrollTimeline,
+  headerExplodedAssembly,
+} from "@/lib/gsap-animations";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import { useDeferredInit } from "@/lib/useDeferredInit";
 
@@ -102,76 +105,28 @@ const BookingSection = () => {
         return;
       }
 
-      if (labelRef.current && titleMainRef.current && titleAccentRef.current) {
-        // Set initial hidden state for header elements
-        gsap.set(
-          [
+      if (
+        containerRef.current &&
+        labelRef.current &&
+        titleMainRef.current &&
+        titleAccentRef.current
+      ) {
+        const headerTl = createScrollTimeline(containerRef.current, {
+          trigger: containerRef.current,
+          start: "top 75%",
+          end: "center center",
+          scrub: 1,
+        });
+
+        headerTl.add(
+          headerExplodedAssembly(
             labelRef.current,
             titleMainRef.current,
             titleAccentRef.current,
-            subtitleRef.current,
-          ].filter(Boolean),
-          {
-            opacity: 0,
-            y: 50,
-            filter: "blur(10px)",
-          }
+            subtitleRef.current || undefined
+          ),
+          0
         );
-
-        // Animate header elements in on scroll
-        gsap.to(labelRef.current, {
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 80%",
-            end: "top 40%",
-            scrub: 1,
-          },
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 1,
-        });
-
-        gsap.to(titleMainRef.current, {
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 75%",
-            end: "top 35%",
-            scrub: 1,
-          },
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 1,
-        });
-
-        gsap.to(titleAccentRef.current, {
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 70%",
-            end: "top 30%",
-            scrub: 1,
-          },
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 1,
-        });
-
-        if (subtitleRef.current) {
-          gsap.to(subtitleRef.current, {
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: "top 65%",
-              end: "top 25%",
-              scrub: 1,
-            },
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 1,
-          });
-        }
       }
     },
     { scope: containerRef, dependencies: [prefersReducedMotion, shouldInit] }
@@ -432,24 +387,24 @@ const BookingSection = () => {
         <div className="space-y-4 text-center">
           <span
             ref={labelRef}
-            className="block text-silver-mid text-xs tracking-[0.35em] uppercase"
+            className="block text-silver-mid text-xs tracking-[0.35em] uppercase will-change-transform"
           >
             Concierge Booking
           </span>
-          <h2 className="font-serif text-5xl md:text-6xl font-light text-white leading-tight">
-            <span ref={titleMainRef} className="inline-block">
+          <h2 className="font-serif text-5xl md:text-6xl font-light text-white leading-tight will-change-transform">
+            <span ref={titleMainRef} className="inline-block will-change-transform">
               Schedule
             </span>{" "}
             <span
               ref={titleAccentRef}
-              className="inline-block text-silver-metallic italic"
+              className="inline-block text-silver-metallic italic will-change-transform"
             >
               Appointment
             </span>
           </h2>
           <p
             ref={subtitleRef}
-            className="text-neutral-400 text-lg leading-relaxed max-w-3xl mx-auto"
+            className="text-neutral-400 text-lg leading-relaxed max-w-3xl mx-auto will-change-transform"
           >
             Secure your appointment. Mobile notarization, apostille services,
             and executive witnessing—executed flawlessly.

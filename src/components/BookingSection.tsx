@@ -387,24 +387,24 @@ const BookingSection = () => {
         <div className="space-y-4 text-center">
           <span
             ref={labelRef}
-            className="block text-silver-mid text-xs tracking-[0.35em] uppercase"
+            className="block text-silver-mid text-xs tracking-[0.35em] uppercase will-change-transform"
           >
             Concierge Booking
           </span>
-          <h2 className="font-serif text-5xl md:text-6xl font-light text-white leading-tight">
-            <span ref={titleMainRef} className="inline-block">
+          <h2 className="font-serif text-5xl md:text-6xl font-light text-white leading-tight will-change-transform">
+            <span ref={titleMainRef} className="inline-block will-change-transform">
               Schedule
             </span>{" "}
             <span
               ref={titleAccentRef}
-              className="inline-block text-silver-metallic italic"
+              className="inline-block text-silver-metallic italic will-change-transform"
             >
               Appointment
             </span>
           </h2>
           <p
             ref={subtitleRef}
-            className="text-neutral-400 text-lg leading-relaxed max-w-3xl mx-auto"
+            className="text-neutral-400 text-lg leading-relaxed max-w-3xl mx-auto will-change-transform"
           >
             Secure your appointment. Mobile notarization, apostille services,
             and executive witnessing—executed flawlessly.

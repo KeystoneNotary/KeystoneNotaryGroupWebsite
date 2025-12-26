@@ -225,19 +225,19 @@ const Hero = () => {
           />
         </div>
 
-        <h1
-          ref={titleRef}
-          className="font-serif text-3xl md:text-6xl text-silver-metallic font-light tracking-tight leading-tight drop-shadow-lg"
-        >
-          Professional Notary Services
-        </h1>
+      <h1
+        ref={titleRef}
+        className="font-serif text-3xl md:text-6xl text-silver-metallic font-light tracking-tight leading-tight drop-shadow-lg will-change-transform"
+      >
+        Professional Notary Services
+      </h1>
 
-        <p
-          ref={subtitleRef}
-          className="font-sans text-lg md:text-2xl text-gray-300 font-light tracking-[0.2em] uppercase mb-8 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
-        >
-          Trusted. Certified. Available.
-        </p>
+      <p
+        ref={subtitleRef}
+        className="font-sans text-lg md:text-2xl text-gray-300 font-light tracking-[0.2em] uppercase mb-8 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] will-change-transform"
+      >
+        Trusted. Certified. Available.
+      </p>
 
         <a
           ref={ctaRef}

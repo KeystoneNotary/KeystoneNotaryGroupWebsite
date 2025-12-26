@@ -201,7 +201,7 @@ const HorizontalServices = () => {
           >
             Signature Services
           </span>
-          <h2 className="font-serif text-5xl md:text-6xl font-light text-white leading-tight">
+          <h2 className="font-serif text-5xl md:text-6xl font-light text-white leading-tight will-change-transform">
             <span
               ref={titleMainRef}
               className="inline-block will-change-transform"

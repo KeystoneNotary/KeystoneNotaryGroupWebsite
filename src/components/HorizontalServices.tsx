@@ -227,7 +227,7 @@ const HorizontalServices = () => {
           {services.map((service) => (
             <div key={service.id} className="service-section relative group">
               {/* Massive Background Number */}
-              <div className="service-number absolute -top-10 -left-4 md:-left-10 text-[12vw] md:text-[10vw] font-serif text-white/15 leading-none select-none pointer-events-none opacity-0 z-0 will-change-transform">
+              <div className="service-number absolute -top-10 -left-4 md:-left-10 text-[12vw] md:text-[10vw] font-serif text-white/[0.15] leading-none select-none pointer-events-none opacity-0 z-0 will-change-transform">
                 {service.number}
               </div>
 

@@ -109,10 +109,7 @@ const TheFirm = () => {
         scrub: 1,
       });
 
-      headerTl.add(
-        headerExplodedAssembly(label, topLine, bottomLine),
-        0
-      );
+      headerTl.add(headerExplodedAssembly(label, topLine, bottomLine), 0);
 
       headerTl
         .from(
@@ -164,8 +161,8 @@ const TheFirm = () => {
         ref={textLayer1Ref}
         className="absolute top-1/4 left-0 w-full text-[18vw] md:text-[15vw] font-serif leading-none select-none z-0 pointer-events-none whitespace-nowrap"
         style={{
-          color: "rgba(60, 60, 60, 1)",
-          WebkitTextStroke: "0.5px rgba(120, 120, 120, 0.5)",
+          color: "rgba(255, 255, 255, 0.03)",
+          WebkitTextStroke: "1px rgba(255, 255, 255, 0.05)",
         }}
       >
         PRECISION
@@ -176,8 +173,8 @@ const TheFirm = () => {
         ref={textLayer2Ref}
         className="absolute bottom-1/4 right-0 w-full text-right text-[18vw] md:text-[15vw] font-serif leading-none select-none z-0 pointer-events-none whitespace-nowrap"
         style={{
-          color: "rgba(50, 50, 50, 1)",
-          WebkitTextStroke: "0.5px rgba(100, 100, 100, 0.5)",
+          color: "rgba(255, 255, 255, 0.03)",
+          WebkitTextStroke: "1px rgba(255, 255, 255, 0.05)",
         }}
       >
         NOTARIZED

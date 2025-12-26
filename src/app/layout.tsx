@@ -6,8 +6,7 @@ const playfair = localFont({
   variable: "--font-playfair",
   src: [
     {
-      path:
-        "../../node_modules/@fontsource-variable/playfair-display/files/playfair-display-latin-wght-normal.woff2",
+      path: "@fontsource-variable/playfair-display/files/playfair-display-latin-wght-normal.woff2",
       weight: "400 900",
       style: "normal",
     },

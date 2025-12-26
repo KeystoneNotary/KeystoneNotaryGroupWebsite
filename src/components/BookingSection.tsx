@@ -333,7 +333,7 @@ const BookingSection = () => {
     return (
       <section
         id="booking"
-        className="relative min-h-[100dvh] bg-black text-platinum py-24 px-6 md:px-12 overflow-hidden flex items-center justify-center"
+        className="relative min-h-\[100dvh\] bg-black text-platinum py-24 px-6 md:px-12 overflow-hidden flex items-center justify-center"
       >
         <div className="text-center max-w-2xl mx-auto">
           <div className="mb-8 flex justify-center">
@@ -372,7 +372,7 @@ const BookingSection = () => {
     <section
       ref={containerRef}
       id="booking"
-      className="relative min-h-[100dvh] bg-black text-platinum py-24 md:py-32 px-6 overflow-hidden"
+      className="relative min-h-\[100dvh\] bg-black text-platinum py-24 md:py-32 px-6 overflow-hidden"
     >
       <div
         className="absolute inset-0 pointer-events-none"

@@ -26,13 +26,10 @@ import { PRICING_CONFIG } from "@/lib/pricing";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-<<<<<<< HEAD
-=======
 import {
   createScrollTimeline,
   headerExplodedAssembly,
 } from "@/lib/gsap-animations";
->>>>>>> 2e2d9cf7c7116e8953c8cdbbb088b6e621d23cf7
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import { useDeferredInit } from "@/lib/useDeferredInit";
 
@@ -395,7 +392,10 @@ const BookingSection = () => {
             Concierge Booking
           </span>
           <h2 className="font-serif text-5xl md:text-6xl font-light text-white leading-tight will-change-transform">
-            <span ref={titleMainRef} className="inline-block will-change-transform">
+            <span
+              ref={titleMainRef}
+              className="inline-block will-change-transform"
+            >
               Schedule
             </span>{" "}
             <span

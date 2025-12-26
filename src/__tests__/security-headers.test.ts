@@ -5,10 +5,16 @@ describe("security headers", () => {
     const headerSets = (await config.headers?.()) || [];
     const globalHeaders = headerSets.find((set) => set.source === "/:path*");
     const csp = globalHeaders?.headers.find((header) => header.key === "Content-Security-Policy");
+    const cspValue =
+      typeof csp?.value === "string"
+        ? csp.value
+        : Array.isArray(csp?.value)
+          ? csp.value.join("; ")
+          : "";
 
-    expect(csp?.value).toContain("font-src 'self'");
-    expect(csp?.value).toContain("style-src 'self'");
-    expect(csp?.value).not.toMatch(/fonts\.gstatic\.com/);
-    expect(csp?.value).not.toMatch(/fonts\.googleapis\.com/);
+    expect(cspValue).toContain("font-src 'self'");
+    expect(cspValue).toContain("style-src 'self'");
+    expect(cspValue).not.toMatch(/fonts\.gstatic\.com/);
+    expect(cspValue).not.toMatch(/fonts\.googleapis\.com/);
   });
 });

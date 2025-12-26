@@ -6,7 +6,7 @@ const playfair = localFont({
   variable: "--font-playfair",
   src: [
     {
-      path: "@fontsource-variable/playfair-display/files/playfair-display-latin-wght-normal.woff2",
+      path: require.resolve("@fontsource-variable/playfair-display/files/playfair-display-variable.woff2"),
       weight: "400 900",
       style: "normal",
     },
@@ -18,7 +18,7 @@ const inter = localFont({
   variable: "--font-inter",
   src: [
     {
-      path: "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2",
+      path: require.resolve("@fontsource-variable/inter/files/inter-variable.woff2"),
       weight: "100 900",
       style: "normal",
     },

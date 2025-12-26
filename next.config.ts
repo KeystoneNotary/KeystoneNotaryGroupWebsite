@@ -60,6 +60,11 @@ const nextConfig: NextConfig = {
   // Compression
   compress: true,
 
+  // Experimental features for better performance
+  experimental: {
+    optimizePackageImports: ["gsap", "lucide-react", "framer-motion"],
+  },
+
   // Production optimizations
   productionBrowserSourceMaps: false,
   poweredByHeader: false,

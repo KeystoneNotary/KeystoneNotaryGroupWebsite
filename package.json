@@ -11,6 +11,8 @@
     "hash-password": "npx ts-node scripts/hash-password.ts"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource-variable/playfair-display": "^5.2.8",
     "@gsap/react": "^2.1.2",
     "@supabase/supabase-js": "^2.86.2",
     "@types/bcrypt": "^6.0.0",

@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import playfairWoff2 from "@fontsource-variable/playfair-display/files/playfair-display-variable.woff2";
-import interWoff2 from "@fontsource-variable/inter/files/inter-variable.woff2";
 import "./globals.css";
 
 const playfair = localFont({
@@ -9,7 +7,7 @@ const playfair = localFont({
   src: [
     {
       path: playfairWoff2,
-      weight: "400 900",
+      path: "./fonts/playfair-display-variable.woff2",
       style: "normal",
     },
   ],
@@ -22,7 +20,7 @@ const inter = localFont({
     {
       path: interWoff2,
       weight: "100 900",
-      style: "normal",
+      path: "./fonts/inter-variable.woff2",
     },
   ],
   display: "swap",

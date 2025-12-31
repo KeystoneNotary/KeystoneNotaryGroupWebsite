@@ -71,7 +71,7 @@ export default function PrivacyPolicy() {
               </li>
               <li>
                 To notify you about changes to our Website or any products or
-                services we offer or provide though it.
+                services we offer or provide through it.
               </li>
             </ul>
           </section>

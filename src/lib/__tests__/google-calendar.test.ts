@@ -54,5 +54,22 @@ describe("getAvailableSlots", () => {
     const slots = await getAvailableSlots("2024-05-10");
 
     expect(slots).toEqual([]);
+  it("excludes all slots for multi-day date-only events", async () => {
+    listMock.mockResolvedValue({
+      data: {
+        items: [
+          {
+            start: { date: "2024-05-10" },
+            end: { date: "2024-05-12" },
+          },
+        ],
+      },
+    });
+
+    const slots = await getAvailableSlots("2024-05-10");
+    expect(slots).toEqual([]);
+    
+    const slotsDay2 = await getAvailableSlots("2024-05-11");
+    expect(slotsDay2).toEqual([]);
   });
 });

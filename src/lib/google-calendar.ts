@@ -45,9 +45,8 @@ const getEventDateRange = (
   start.setHours(0, 0, 0, 0);
 
   const end = parseISO(eventEndDate);
-  if (eventEndDate !== eventStartDate) {
-    end.setDate(end.getDate() - 1);
-  }
+  const end = parseISO(eventEndDate);
+  end.setHours(23, 59, 59, 999);
   end.setHours(23, 59, 59, 999);
 
   if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {

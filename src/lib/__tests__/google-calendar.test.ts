@@ -72,4 +72,25 @@ describe("getAvailableSlots", () => {
     const slotsDay2 = await getAvailableSlots("2024-05-11");
     expect(slotsDay2).toEqual([]);
   });
-});
+  it("handles invalid event dates gracefully", async () => {
+    listMock.mockResolvedValue({
+      data: {
+        items: [
+          {
+            start: { dateTime: "invalid-date" },
+            end: { dateTime: "2024-05-10T10:30:00-05:00" },
+          },
+          {
+            start: { dateTime: "2024-05-10T14:00:00-05:00" },
+            end: { dateTime: "2024-05-10T15:00:00-05:00" },
+          },
+        ],
+      },
+    });
+
+    const slots = await getAvailableSlots("2024-05-10");
+    
+    // Should still exclude valid event but ignore invalid one
+    expect(slots).not.toContain("14:00");
+    expect(slots).toContain("09:00"); // Should be available since invalid event is ignored
+  });

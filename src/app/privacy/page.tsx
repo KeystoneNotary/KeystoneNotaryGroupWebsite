@@ -70,7 +70,7 @@ export default function PrivacyPolicy() {
                 scheduling appointments).
               </li>
               <li>
-                To notify you about changes to our Website or any products or
+                To notify you about changes to our website or any products or
                 services we offer or provide through it.
               </li>
             </ul>

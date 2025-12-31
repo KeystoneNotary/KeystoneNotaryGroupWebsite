@@ -17,6 +17,45 @@ const getCalendar = () => {
 
 const CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID || "primary";
 
+const getEventDateRange = (
+  event: CalendarEvent
+): { start: Date; end: Date } | null => {
+  const eventStartDateTime = event.start?.dateTime;
+  const eventEndDateTime = event.end?.dateTime;
+
+  if (eventStartDateTime && eventEndDateTime) {
+    const start = parseISO(eventStartDateTime);
+    const end = parseISO(eventEndDateTime);
+
+    if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+      return null;
+    }
+
+    return { start, end };
+  }
+
+  const eventStartDate = event.start?.date;
+  const eventEndDate = event.end?.date || eventStartDate;
+
+  if (!eventStartDate || !eventEndDate) {
+    return null;
+  }
+
+  const start = parseISO(eventStartDate);
+  start.setHours(0, 0, 0, 0);
+
+  const end = parseISO(eventEndDate);
+  const end = parseISO(eventEndDate);
+  end.setHours(23, 59, 59, 999);
+  end.setHours(23, 59, 59, 999);
+
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+    return null;
+  }
+
+  return { start, end };
+};
+
 export async function createCalendarEvent(
   booking: BookingDetails
 ): Promise<string | null> {
@@ -88,6 +127,7 @@ export async function getAvailableSlots(date: string): Promise<string[]> {
   try {
     const timeMin = `${date}T08:00:00-05:00`; // 8 AM EST
     const timeMax = `${date}T20:00:00-05:00`; // 8 PM EST
+    const slotOffset = "-05:00";
 
     const calendar = getCalendar();
     const response = await calendar.events.list({
@@ -115,18 +155,20 @@ export async function getAvailableSlots(date: string): Promise<string[]> {
 
     // Filter out slots that conflict with existing events
     const availableSlots = allSlots.filter((slot) => {
-      const slotStart = `${date}T${slot}:00`;
-      const slotEnd = addMinutes(parseISO(slotStart), 60).toISOString();
+      const slotStartDate = parseISO(`${date}T${slot}:00${slotOffset}`);
+      const slotEndDate = addMinutes(slotStartDate, 60);
+      const slotStartTime = slotStartDate.getTime();
+      const slotEndTime = slotEndDate.getTime();
 
       // Check if any event overlaps with this slot
       const hasConflict = events.some((event) => {
-        const eventStart = event.start?.dateTime || event.start?.date;
-        const eventEnd = event.end?.dateTime || event.end?.date;
+        const eventRange = getEventDateRange(event);
 
-        if (!eventStart || !eventEnd) return false;
+        if (!eventRange) return false;
 
         return (
-          eventStart < slotEnd && eventEnd > slotStart // Overlap logic
+          eventRange.start.getTime() < slotEndTime &&
+          eventRange.end.getTime() > slotStartTime
         );
       });
 

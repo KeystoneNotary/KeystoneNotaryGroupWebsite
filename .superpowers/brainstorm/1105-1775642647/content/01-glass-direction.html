@@ -1,0 +1,43 @@
+<h2>Glass Design Direction</h2>
+<p class="subtitle">You mentioned Apple's Liquid Glass. How deep should the glass aesthetic go?</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Glass Accents (Subtle)</h3>
+      <p>Keep the current platinum noir foundation. Add glass effects to <strong>interactive elements only</strong> — buttons, cards, booking panels, navigation. The dark background stays dominant. Glass elements float on top like premium overlays.</p>
+      <div style="margin-top: 12px; padding: 10px 16px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; font-size: 13px; color: #999;">
+        Think: Dark luxury brand site with glass card components. Like a Porsche or Rolex site with frosted panels.
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Glass Sections (Moderate)</h3>
+      <p>Alternate between dark sections and glass-panel sections. Some full sections become translucent glass containers with <strong>depth, refraction, and layered backgrounds</strong>. Creates rhythm between solid and transparent. The "wow" factor comes from entire section panels that look like frosted glass floating over a subtle gradient or pattern.</p>
+      <div style="margin-top: 12px; padding: 10px 16px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; font-size: 13px; color: #999;">
+        Think: Apple's visionOS marketing site — glass panels with depth layering over dark canvas.
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Full Glass System (Bold)</h3>
+      <p>Commit fully to a glass design language. <strong>Background gradient shifts as you scroll</strong> (dark → deep blue → charcoal), and most content lives inside glass containers with real CSS refraction effects, inner shadows, and specular highlights. Every section has glass depth. Navigation, cards, panels — all glass.</p>
+      <div style="margin-top: 12px; padding: 10px 16px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; font-size: 13px; color: #999;">
+        Think: Apple's Liquid Glass from iOS 26 / visionOS. Full commitment to the aesthetic. Highest wow-factor but also highest risk of feeling gimmicky if not executed perfectly.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top: 32px; padding: 16px 20px; background: rgba(255,255,255,0.04); border-radius: 12px; border-left: 3px solid rgba(255,255,255,0.15);">
+  <p style="font-size: 13px; color: #bbb; margin: 0;">
+    <strong style="color: #ddd;">Current state:</strong> Your site already uses subtle glass on the header (backdrop-blur-md) and booking console (bg-black/55 + backdrop-blur). Option A builds on this. Options B and C would be a bigger visual shift.
+  </p>
+</div>

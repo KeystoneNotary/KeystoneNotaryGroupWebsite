@@ -1,0 +1,66 @@
+<h2>Glass Realism: What's Actually Possible?</h2>
+<p class="subtitle">Three levels of glass fidelity — each with different performance and complexity trade-offs</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Advanced CSS Glass (No JS Required)</h3>
+      <p>Push CSS to its limits with <strong>layered techniques</strong> that go far beyond backdrop-blur:</p>
+      <ul style="margin: 8px 0; padding-left: 20px; font-size: 13px; color: #bbb; line-height: 1.7;">
+        <li><strong>Multi-layer blur stacking</strong> — 2-3 pseudo-elements at different blur radii create depth</li>
+        <li><strong>Inner highlights &amp; edge lighting</strong> — inset box-shadows + gradient borders simulate light catching glass edges</li>
+        <li><strong>Specular reflections</strong> — animated radial gradients that shift with scroll position (CSS only)</li>
+        <li><strong>Chromatic fringe</strong> — subtle color separation at edges via offset colored shadows</li>
+        <li><strong>Frosted tint layers</strong> — semi-transparent color overlays that shift based on content behind</li>
+      </ul>
+      <div style="margin-top: 8px; padding: 10px 16px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; font-size: 12px; color: #888;">
+        Performance: Excellent. Works everywhere. No JS overhead. Can look very convincing with proper layering. This is what Apple does for most of their marketing sites.
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>CSS Glass + SVG Filters (Enhanced Refraction)</h3>
+      <p>Everything from Option A, plus <strong>SVG filter effects</strong> for true optical distortion:</p>
+      <ul style="margin: 8px 0; padding-left: 20px; font-size: 13px; color: #bbb; line-height: 1.7;">
+        <li><strong>feTurbulence + feDisplacementMap</strong> — actual refraction distortion of content behind the glass</li>
+        <li><strong>feSpecularLighting</strong> — real specular highlights that respond to a virtual light source</li>
+        <li><strong>feColorMatrix</strong> — chromatic aberration at glass edges (light bending into color)</li>
+        <li><strong>Animated with GSAP</strong> — light source position shifts on scroll, specular highlights move naturally</li>
+      </ul>
+      <div style="margin-top: 8px; padding: 10px 16px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; font-size: 12px; color: #888;">
+        Performance: Good on modern browsers. SVG filters are GPU-accelerated. Adds ~5KB. The refraction distortion is what makes glass look "real" vs "just blurred." Apple uses this technique in visionOS demos.
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>WebGL/Three.js Glass Shader (Maximum Realism)</h3>
+      <p>A lightweight WebGL layer for <strong>physically-based glass rendering</strong>:</p>
+      <ul style="margin: 8px 0; padding-left: 20px; font-size: 13px; color: #bbb; line-height: 1.7;">
+        <li><strong>Real refraction shader</strong> — Snell's law, index of refraction, actual light bending</li>
+        <li><strong>Fresnel effect</strong> — edges reflect more than center (how real glass behaves)</li>
+        <li><strong>Environment mapping</strong> — glass reflects subtle ambient light from surroundings</li>
+        <li><strong>Thickness variation</strong> — thicker areas are more tinted/distorted</li>
+        <li><strong>Caustics</strong> — light patterns cast by glass (subtle, animated)</li>
+      </ul>
+      <div style="margin-top: 8px; padding: 10px 16px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; font-size: 12px; color: #888;">
+        Performance: Moderate. Adds Three.js (~150KB gzipped). Requires WebGL support (98%+ of browsers). Most "wow" factor but also most complex to integrate with a Next.js site. Could be used selectively (hero glass panel, booking console) rather than everywhere.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top: 32px; padding: 16px 20px; background: rgba(255,255,255,0.04); border-radius: 12px; border-left: 3px solid rgba(255,255,255,0.15);">
+  <p style="font-size: 13px; color: #bbb; margin: 0 0 8px 0;">
+    <strong style="color: #ddd;">My recommendation:</strong> Option B (CSS + SVG Filters) is the sweet spot. You get real refraction and specular lighting without the weight of Three.js. We can use SVG filters for the key "hero" glass elements (booking panel, section headers, nav) and advanced CSS glass for everything else. If specific panels need more realism, we can add a targeted WebGL element later without committing to Three.js site-wide.
+  </p>
+  <p style="font-size: 13px; color: #999; margin: 0;">
+    Options can also be combined — e.g., B everywhere + C for one signature element like the booking console.
+  </p>
+</div>
